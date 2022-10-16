@@ -3,8 +3,10 @@
 	"scripts": {
 		"dev": "solid-start dev",
 		"build": "solid-start build",
-		"start": "solid-start start",
-		"lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+		"preview": "solid-start start",
+		"start": "node dist/server.js",
+		"lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+		"typecheck": "node scripts/typeCheck.js"
 	},
 	"type": "module",
 	"devDependencies": {
