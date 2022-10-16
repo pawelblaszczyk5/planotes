@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-undef
 module.exports = {
 	extends: ['canonical', 'canonical/prettier'],
+	ignorePatterns: ['scripts/**/*'],
 	overrides: [
 		{
 			extends: ['canonical/typescript', 'canonical/module', 'canonical/browser', 'canonical/prettier'],
@@ -23,12 +24,8 @@ module.exports = {
 				project: './tsconfig.json',
 			},
 		},
-		{
-			extends: ['canonical/json'],
-			files: '*.json',
-		},
 	],
-	plugins: ['solid', 'import'],
+	plugins: ['solid', 'import', 'prettier'],
 	root: true,
 	rules: {
 		'canonical/filename-match-exported': 'off',
@@ -45,5 +42,6 @@ module.exports = {
 				],
 			},
 		],
+		'prettier/prettier': 'error',
 	},
 };

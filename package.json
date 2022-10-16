@@ -1,24 +1,13 @@
 {
 	"name": "planotes",
+	"type": "module",
 	"scripts": {
-		"dev": "solid-start dev",
 		"build": "solid-start build",
+		"dev": "solid-start dev",
+		"lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
 		"preview": "solid-start start",
 		"start": "node dist/server.js",
-		"lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
 		"typecheck": "node scripts/typeCheck.js"
-	},
-	"type": "module",
-	"devDependencies": {
-		"@tsconfig/strictest": "^1.0.2",
-		"eslint": "^8.25.0",
-		"eslint-config-canonical": "^37.0.3",
-		"eslint-plugin-solid": "^0.7.3",
-		"prettier": "^2.7.1",
-		"prettier-plugin-tailwindcss": "^0.1.13",
-		"solid-start-node": "^0.1.0",
-		"typescript": "^4.8.3",
-		"vite": "^3.1.0"
 	},
 	"dependencies": {
 		"@iconify/json": "^2.1.122",
@@ -29,6 +18,18 @@
 		"solid-start": "^0.1.0",
 		"undici": "^5.10.0",
 		"unocss": "^0.45.29"
+	},
+	"devDependencies": {
+		"@tsconfig/strictest": "^1.0.2",
+		"eslint": "^8.25.0",
+		"eslint-config-canonical": "^37.0.3",
+		"eslint-plugin-prettier": "^4.2.1",
+		"eslint-plugin-solid": "^0.7.3",
+		"prettier": "^2.7.1",
+		"prettier-plugin-tailwindcss": "^0.1.13",
+		"solid-start-node": "^0.1.0",
+		"typescript": "^4.8.3",
+		"vite": "^3.1.0"
 	},
 	"engines": {
 		"node": ">=16"
