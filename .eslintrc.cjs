@@ -43,5 +43,6 @@ module.exports = {
 			},
 		],
 		'prettier/prettier': 'error',
+		'unicorn/prevent-abbreviations': 'off',
 	},
 };

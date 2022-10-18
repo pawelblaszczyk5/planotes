@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: planotes
+    ports:
+      - 5432:5432
+    volumes:
+      - db:/var/lib/postgresql/planotes
+  mailhog:
+    image: mailhog/mailhog
+    logging:
+      driver: none
+    ports:
+      - 587:1025
+      - 8025:8025
+volumes:
+  db:
+    driver: local
