@@ -8,6 +8,7 @@
 		"preview": "solid-start start",
 		"start": "node dist/server.js",
 		"typecheck": "node scripts/typeCheck.js",
+		"postinstall": "pnpm run prisma:generate",
 		"prisma:dev": "prisma db push",
 		"prisma:generate": "prisma generate",
 		"prisma:migrate": "prisma migrate dev",
