@@ -5,7 +5,7 @@ import { Body, ErrorBoundary, FileRoutes, Head, Html, Meta, Routes, Scripts, Tit
 import '@unocss/reset/tailwind.css';
 import 'uno.css';
 
-export default function Root() {
+const Root = () => {
 	return (
 		<Html lang="en">
 			<Head>
@@ -25,4 +25,6 @@ export default function Root() {
 			</Body>
 		</Html>
 	);
-}
+};
+
+export default Root;
