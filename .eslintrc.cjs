@@ -10,6 +10,7 @@ module.exports = {
 				project: './tsconfig.json',
 			},
 			rules: {
+				'@typescript-eslint/no-throw-literal': 'off',
 				'@typescript-eslint/unbound-method': 'off',
 			},
 		},
@@ -27,6 +28,7 @@ module.exports = {
 				project: './tsconfig.json',
 			},
 			rules: {
+				'@typescript-eslint/no-throw-literal': 'off',
 				'jsx-a11y/label-has-associated-control': 'off',
 			},
 		},
