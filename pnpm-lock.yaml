@@ -1,9 +1,9 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@iconify/json': ^2.1.123
-  '@js-temporal/polyfill': ^0.4.2
-  '@prisma/client': ^4.4.0
+  '@iconify/json': ^2.1.124
+  '@js-temporal/polyfill': ^0.4.3
+  '@prisma/client': ^4.5.0
   '@solidjs/meta': ^0.28.0
   '@solidjs/router': ^0.5.0
   '@tsconfig/strictest': ^1.0.2
@@ -16,7 +16,7 @@ specifiers:
   nodemailer: ^6.8.0
   prettier: ^2.7.1
   prettier-plugin-tailwindcss: ^0.1.13
-  prisma: ^4.4.0
+  prisma: ^4.5.0
   solid-js: ^1.5.9
   solid-start: ^0.1.8
   solid-start-node: ^0.1.8
@@ -27,7 +27,7 @@ specifiers:
   zod: ^3.19.1
 
 dependencies:
-  '@js-temporal/polyfill': 0.4.2
+  '@js-temporal/polyfill': 0.4.3
   '@prisma/client': 4.5.0_prisma@4.5.0
   '@solidjs/meta': 0.28.0_solid-js@1.5.9
   '@solidjs/router': 0.5.0_solid-js@1.5.9
@@ -39,7 +39,7 @@ dependencies:
   zod: 3.19.1
 
 devDependencies:
-  '@iconify/json': 2.1.123
+  '@iconify/json': 2.1.124
   '@tsconfig/strictest': 1.0.2
   '@types/nodemailer': 6.4.6
   eslint: 8.25.0
@@ -1483,8 +1483,8 @@ packages:
     resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}
     dev: true
 
-  /@iconify/json/2.1.123:
-    resolution: {integrity: sha512-v5/E8mdKa+Skleb7nPnGp8BOdqSQ9nLpq8+lDdOHEPx6zKCPNpaIocJmdNmHrDvvTY67mPoLwzZnHnaZ5vJ8yQ==}
+  /@iconify/json/2.1.124:
+    resolution: {integrity: sha512-b8oQpGFiPOli65TB1deM5Pv4OGYIsN4T3+QBek85h9t+Ckae5lBg0aUVYm6lpC6FJ3iVlKU7DuPWXsqYVZdHyQ==}
     dependencies:
       '@iconify/types': 2.0.0
       pathe: 0.3.9
@@ -1552,8 +1552,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
-  /@js-temporal/polyfill/0.4.2:
-    resolution: {integrity: sha512-c85vRxyqnJaXKyf4tvYij8jwiVIZhNLYDI9C4LLuOwVEHf4HUqGg07BBn70Le71W193QT/vmKg3jPUyQxJRHKQ==}
+  /@js-temporal/polyfill/0.4.3:
+    resolution: {integrity: sha512-6Fmjo/HlkyVCmJzAPnvtEWlcbQUSRhi8qlN9EtJA/wP7FqXsevLLrlojR44kzNzrRkpf7eDJ+z7b4xQD/Ycypw==}
     engines: {node: '>=12'}
     dependencies:
       jsbi: 4.3.0
