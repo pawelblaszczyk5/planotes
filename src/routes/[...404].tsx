@@ -1,7 +1,7 @@
 import { Title } from 'solid-start';
 import { HttpStatusCode } from 'solid-start/server';
 
-const Screen = () => {
+const NotFound = () => {
 	return (
 		<main>
 			<Title>Not Found</Title>
@@ -11,4 +11,4 @@ const Screen = () => {
 	);
 };
 
-export default Screen;
+export default NotFound;

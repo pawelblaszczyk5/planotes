@@ -9,6 +9,9 @@ module.exports = {
 			parserOptions: {
 				project: './tsconfig.json',
 			},
+			rules: {
+				'@typescript-eslint/unbound-method': 'off',
+			},
 		},
 		{
 			extends: [
@@ -22,6 +25,9 @@ module.exports = {
 			files: '*.tsx',
 			parserOptions: {
 				project: './tsconfig.json',
+			},
+			rules: {
+				'jsx-a11y/label-has-associated-control': 'off',
 			},
 		},
 	],
