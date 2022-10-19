@@ -2,7 +2,7 @@ import { createServerAction$, redirect } from 'solid-start/server';
 import { sendMagicLink } from '~/utils/session';
 
 const Login = () => {
-	const [sendMagicLinkData, sendMagicLinkTrigger] = createServerAction$(async (formData: FormData) => {
+	const [, sendMagicLinkTrigger] = createServerAction$(async (formData: FormData) => {
 		// TODO: proper validation etc
 		const email = formData.get('email') as string;
 		const sessionDuration = formData.get('sessionDuration') as 'EPHEMERAL' | 'PERSISTENT';
