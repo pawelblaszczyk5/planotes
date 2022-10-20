@@ -1,4 +1,4 @@
-import { onMount } from 'solid-js';
+import { createSignal, onMount } from 'solid-js';
 import { useSearchParams } from 'solid-start';
 import { createServerAction$, redirect } from 'solid-start/server';
 import { verifyMagicToken } from '~/utils/session';
@@ -7,7 +7,7 @@ const Magic = () => {
 	// TODO: verify and parse params in routeData maybe?
 	const [params] = useSearchParams();
 
-	let form: HTMLFormElement | undefined;
+	const [formRef, setFormRef] = createSignal<HTMLFormElement>();
 
 	const [verifyMagicData, verifyMagicTrigger] = createServerAction$(async (formData: FormData, { request }) => {
 		// TODO: proper validation etc
@@ -18,11 +18,11 @@ const Magic = () => {
 	});
 
 	onMount(() => {
-		if (!verifyMagicData.error) form?.submit();
+		if (!verifyMagicData.error) formRef()?.submit();
 	});
 
 	return (
-		<verifyMagicTrigger.Form method="post" ref={elRef => (form = elRef)}>
+		<verifyMagicTrigger.Form method="post" ref={setFormRef}>
 			<input name="token" type="hidden" value={params['token'] ?? ''} />
 		</verifyMagicTrigger.Form>
 	);
