@@ -18,7 +18,7 @@ const environmentSchema = z.object({
 	SMTP_USER: withDevelopmentDefault(z.string().email(), 'magic@planotes.xyz'),
 });
 
-const result = environmentSchema.safeParse(import.meta.env);
+const result = environmentSchema.safeParse(isDevelopmentEnvironment ? import.meta.env : process.env);
 
 if (!result.success) {
 	throw new Error('❌ Invalid or missing env variables');
