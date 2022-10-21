@@ -45,6 +45,7 @@ module.exports = {
 			},
 			rules: {
 				'@typescript-eslint/no-throw-literal': 'off',
+				'@typescript-eslint/no-non-null-assertion': 'off',
 				'jsx-a11y/label-has-associated-control': 'off',
 				'canonical/filename-match-exported': 'off',
 				'canonical/filename-match-regex': 'off',
