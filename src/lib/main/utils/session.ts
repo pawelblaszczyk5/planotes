@@ -96,3 +96,10 @@ export const logout = async (request: Request) => {
 
 	return cookie;
 };
+
+export const isUserLoggedIn = async (request: Request) => {
+	const session = await getSession(request);
+	const parsedSession = sessionSchema.safeParse(session.data);
+
+	return parsedSession.success && !isDateInPast(convertEpochSecondsToDate(parsedSession.data.validUntil));
+};
