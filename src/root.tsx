@@ -23,7 +23,7 @@ const Root = () => {
 					</Show>
 				</Suspense>
 			</Head>
-			<Body class="bg-coolgray-200 dark:bg-coolgray-800">
+			<Body class="text-primary bg-primary">
 				<Suspense>
 					<ErrorBoundary>
 						<Routes>

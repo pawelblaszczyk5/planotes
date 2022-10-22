@@ -10,4 +10,8 @@ export default defineConfig({
 			},
 		}),
 	],
+	shortcuts: {
+		'bg-primary': 'bg-neutral-200 dark:bg-neutral-800',
+		'text-primary': 'text-neutral-800 dark:text-neutral-200',
+	},
 });
