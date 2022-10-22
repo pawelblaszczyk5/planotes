@@ -1,4 +1,20 @@
-export const GET = () => {
-	// TODO: implement proper logic
-	return new Response("It's fine", { status: 200 });
+import { db } from '~/lib/main/utils/db';
+import { transporter } from '~/lib/main/utils/mail';
+
+const verifySmtpConnection = async () => {
+	await transporter.verify();
+};
+
+const verifyDbConnection = async () => {
+	await db.user.findFirst();
+};
+
+export const GET = async () => {
+	try {
+		await Promise.all([verifyDbConnection(), verifySmtpConnection()]);
+	} catch {
+		return new Response(undefined, { status: 500 });
+	}
+
+	return new Response(undefined, { status: 200 });
 };
