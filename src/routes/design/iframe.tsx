@@ -5,11 +5,11 @@ const Iframe = () => {
 	const [hostRef, setHostRef] = createSignal<HTMLDivElement>();
 
 	onMount(() => {
+		if (import.meta.env.SSR) return;
+
 		const hostElementRef = hostRef();
 
-		if (!hostElementRef) return;
-
-		createApp(hostElementRef);
+		if (hostElementRef) createApp(hostElementRef);
 	});
 
 	return <div ref={setHostRef} />;
