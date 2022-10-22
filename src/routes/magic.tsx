@@ -1,7 +1,9 @@
 import { createSignal, onMount } from 'solid-js';
-import { useSearchParams } from 'solid-start';
+import { FormError, useSearchParams } from 'solid-start';
 import { createServerAction$, redirect } from 'solid-start/server';
-import { verifyMagicToken } from '~/utils/session';
+import { db } from '~/lib/main/utils/db';
+import { createSessionCookie, getMagicIdentifier } from '~/lib/main/utils/session';
+import { isDateInPast, convertEpochSecondsToDate } from '~/lib/main/utils/time';
 
 const Magic = () => {
 	// TODO: verify and parse params in routeData maybe?
@@ -11,8 +13,23 @@ const Magic = () => {
 
 	const [verifyMagicData, verifyMagicTrigger] = createServerAction$(async (formData: FormData, { request }) => {
 		// TODO: proper validation etc
-		const token = formData.get('token') as string;
-		const cookie = await verifyMagicToken(token, request);
+		const userProvidedToken = formData.get('token') as string;
+		const magicIdentifierId = await getMagicIdentifier(request);
+
+		if (!magicIdentifierId) throw new FormError('Error');
+
+		const magicLink = await db.magicLink.findUnique({
+			where: { id: magicIdentifierId },
+		});
+
+		if (!magicLink) throw new FormError('Error');
+
+		const { validUntil, token, userId, sessionDuration } = magicLink;
+
+		if (isDateInPast(convertEpochSecondsToDate(validUntil)) || userProvidedToken !== token)
+			throw new FormError('error');
+
+		const cookie = await createSessionCookie({ request, sessionDuration, userId });
 
 		return redirect('/', { headers: { 'Set-Cookie': cookie } });
 	});

@@ -3,7 +3,7 @@ import { Show, Suspense } from 'solid-js';
 import { Body, ErrorBoundary, FileRoutes, Head, Html, Meta, Routes, Scripts, Title } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
 import { ColorSchemeDetector } from '~/lib/main/components/ColorSchemeDetector';
-import { getColorScheme } from '~/utils/colorScheme';
+import { getColorScheme } from '~/lib/main/utils/colorScheme';
 
 import '@unocss/reset/tailwind.css';
 import 'uno.css';

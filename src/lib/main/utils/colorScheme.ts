@@ -1,10 +1,8 @@
 import { createCookie } from 'solid-start/session';
 import { z } from 'zod';
-import { env } from '~/utils/env';
+import { env } from '~/lib/main/utils/env';
 
 const colorScheme = z.enum(['DARK', 'LIGHT', 'SYSTEM']);
-
-export type ColorScheme = z.infer<typeof colorScheme>;
 
 const colorSchemeCookie = createCookie('csch', {
 	domain: env.COOKIE_DOMAIN,
@@ -13,6 +11,8 @@ const colorSchemeCookie = createCookie('csch', {
 	sameSite: 'strict',
 	secure: true,
 });
+
+export type ColorScheme = z.infer<typeof colorScheme>;
 
 export const getColorScheme = async (request: Request) => {
 	const cookie = await colorSchemeCookie.parse(request.headers.get('cookie'));
@@ -23,5 +23,5 @@ export const getColorScheme = async (request: Request) => {
 	return parsedColorScheme.data;
 };
 
-export const saveColorSchemePreference = async (preferedColorScheme: ColorScheme) =>
+export const createColorSchemeCookie = async (preferedColorScheme: ColorScheme) =>
 	await colorSchemeCookie.serialize(preferedColorScheme);

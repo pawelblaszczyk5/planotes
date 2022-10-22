@@ -1,6 +1,6 @@
 import { type Transporter, createTransport } from 'nodemailer';
 import type SMTPTransport from 'nodemailer/lib/smtp-transport';
-import { env } from '~/utils/env';
+import { env } from '~/lib/main/utils/env';
 
 const transporterConfig: SMTPTransport.Options = {
 	auth: {

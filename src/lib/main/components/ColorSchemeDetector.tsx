@@ -1,5 +1,5 @@
 import { Match, Switch } from 'solid-js';
-import { type ColorScheme } from '~/utils/colorScheme';
+import { type ColorScheme } from '~/lib/main/utils/colorScheme';
 
 export const ColorSchemeDetector = (props: { colorScheme: ColorScheme }) => (
 	<Switch>
