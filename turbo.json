@@ -17,7 +17,7 @@
 		"dev": {
 			"cache": false
 		},
-		"start:railway": {
+		"start": {
 			"dependsOn": []
 		},
 		"playground": {
