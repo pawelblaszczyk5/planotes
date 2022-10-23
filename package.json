@@ -9,10 +9,10 @@
 	],
 	"scripts": {
 		"build": "turbo run build",
-		"dev:web": "turbo run dev --filter=@planotes/web build:watch --filter=@planotes/ui --parallel",
+		"dev:web": "turbo run dev --filter=@planotes/web & turbo run build:watch --filter=@planotes/ui",
 		"build:web": "turbo run build --filter=@planotes/web",
 		"start:web": "turbo run start --filter=@planotes/web",
-		"dev:design": "turbo run dev --filter=@planotes/design build:watch --filter=@planotes/ui --parallel",
+		"dev:design": "turbo run dev --filter=@planotes/design & turbo run build:watch --filter=@planotes/ui",
 		"build:design": "turbo run build --filter=@planotes/design",
 		"start:design": "turbo run start --filter=@planotes/design",
 		"lint": "turbo run lint",
