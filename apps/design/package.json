@@ -1,30 +1,30 @@
 {
 	"name": "@planotes/design",
+	"type": "module",
 	"scripts": {
-		"dev": "solid-start dev",
 		"build": "solid-start build",
+		"dev": "solid-start dev",
 		"lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
 		"typecheck": "node scripts/typeCheck.js"
 	},
-	"type": "module",
-	"devDependencies": {
-		"solid-start-node": "^0.2.0",
-		"typescript": "^4.8.4",
-		"vite": "^3.1.8",
-		"@planotes/tsconfig": "workspace:*",
-		"eslint-config-planotes": "workspace:*",
-		"unocss": "^0.45.30",
-		"@iconify/json": "^2.1.126",
-		"@planotes/unocss": "workspace:*"
-	},
 	"dependencies": {
+		"@planotes/ui": "workspace:*",
 		"@solidjs/meta": "^0.28.0",
 		"@solidjs/router": "^0.5.0",
+		"@unocss/reset": "^0.45.30",
 		"solid-js": "^1.6.0",
 		"solid-start": "^0.2.0",
-		"undici": "^5.11.0",
-		"@unocss/reset": "^0.45.30",
-		"@planotes/ui": "workspace:*"
+		"undici": "^5.11.0"
+	},
+	"devDependencies": {
+		"@iconify/json": "^2.1.126",
+		"@planotes/tsconfig": "workspace:*",
+		"@planotes/unocss": "workspace:*",
+		"eslint-config-planotes": "workspace:*",
+		"solid-start-node": "^0.2.0",
+		"typescript": "^4.8.4",
+		"unocss": "^0.45.30",
+		"vite": "^3.1.8"
 	},
 	"engines": {
 		"node": ">=16"

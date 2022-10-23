@@ -1,10 +1,10 @@
 {
 	"name": "eslint-config-planotes",
 	"version": "0.0.0",
-	"main": "index.cjs",
 	"private": true,
-	"type": "module",
 	"license": "MIT",
+	"type": "module",
+	"main": "index.cjs",
 	"dependencies": {
 		"eslint": "^8.26.0",
 		"eslint-config-canonical": "^37.0.3",

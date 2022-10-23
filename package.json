@@ -18,13 +18,13 @@
 		"typecheck": "turbo run typecheck"
 	},
 	"devDependencies": {
+		"@planotes/tsconfig": "workspace:*",
+		"@planotes/unocss": "workspace:*",
 		"eslint-config-planotes": "workspace:*",
 		"prettier": "^2.7.1",
 		"prettier-plugin-tailwindcss": "^0.1.13",
-		"@planotes/tsconfig": "workspace:*",
 		"turbo": "^1.6.1",
-		"unocss": "^0.45.30",
-		"@planotes/unocss": "workspace:*"
+		"unocss": "^0.45.30"
 	},
 	"engines": {
 		"node": ">=18 <19",

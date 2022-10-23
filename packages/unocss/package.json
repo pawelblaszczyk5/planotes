@@ -1,12 +1,12 @@
 {
 	"name": "@planotes/unocss",
 	"version": "0.0.0",
-	"main": "index.ts",
 	"private": true,
-	"type": "module",
 	"license": "MIT",
+	"type": "module",
+	"main": "index.ts",
 	"dependencies": {
-		"unocss": "^0.45.30",
-		"@iconify/json": "^2.1.126"
+		"@iconify/json": "^2.1.126",
+		"unocss": "^0.45.30"
 	}
 }
