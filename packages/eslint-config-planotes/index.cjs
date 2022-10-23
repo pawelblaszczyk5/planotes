@@ -66,6 +66,7 @@ module.exports = {
 				],
 				'prettier/prettier': 'error',
 				'unicorn/prevent-abbreviations': 'off',
+				'solid/no-innerhtml': 'off',
 			},
 		},
 	],

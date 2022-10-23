@@ -11,4 +11,7 @@ export default defineConfig({
 		UnoCss(),
 		solid(),
 	],
+	ssr: {
+		external: ['shiki'],
+	},
 });
