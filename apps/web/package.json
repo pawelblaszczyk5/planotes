@@ -7,7 +7,7 @@
 		"dev": "solid-start dev",
 		"lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
 		"preview": "solid-start start",
-		"start": "node dist/server.js",
+		"start": "pnpm prisma migrate deploy && node dist/server.js",
 		"typecheck": "node scripts/typeCheck.js",
 		"postinstall": "pnpm run prisma:generate",
 		"prisma:dev": "prisma db push",

@@ -1,2 +1,0 @@
-[phases.install]
-  cmds = ['...', 'cd apps/web && pnpm prisma migrate deploy']
