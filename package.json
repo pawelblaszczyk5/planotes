@@ -23,7 +23,8 @@
 		"prettier-plugin-tailwindcss": "^0.1.13",
 		"@planotes/tsconfig": "workspace:*",
 		"turbo": "^1.6.1",
-		"unocss": "^0.45.30"
+		"unocss": "^0.45.30",
+		"@planotes/unocss": "workspace:*"
 	},
 	"engines": {
 		"node": ">=18 <19",

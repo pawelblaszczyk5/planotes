@@ -24,7 +24,8 @@
 		"@iconify/json": "^2.1.126",
 		"@types/nodemailer": "^6.4.6",
 		"prisma": "^4.5.0",
-		"unocss": "^0.45.30"
+		"unocss": "^0.45.30",
+		"@planotes/unocss": "workspace:*"
 	},
 	"dependencies": {
 		"@solidjs/meta": "^0.28.0",

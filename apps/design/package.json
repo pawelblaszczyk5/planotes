@@ -14,7 +14,8 @@
 		"@planotes/tsconfig": "workspace:*",
 		"eslint-config-planotes": "workspace:*",
 		"unocss": "^0.45.30",
-		"@iconify/json": "^2.1.126"
+		"@iconify/json": "^2.1.126",
+		"@planotes/unocss": "workspace:*"
 	},
 	"dependencies": {
 		"@solidjs/meta": "^0.28.0",

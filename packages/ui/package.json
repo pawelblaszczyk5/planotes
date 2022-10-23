@@ -44,6 +44,7 @@
 		"vite-plugin-solid": "^2.3.10",
 		"@iconify/json": "^2.1.126",
 		"@unocss/reset": "^0.45.30",
-		"unocss": "^0.45.30"
+		"unocss": "^0.45.30",
+		"@planotes/unocss": "workspace:*"
 	}
 }
