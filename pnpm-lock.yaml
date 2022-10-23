@@ -29,6 +29,8 @@ importers:
       '@solidjs/meta': ^0.28.0
       '@solidjs/router': ^0.5.0
       '@unocss/reset': ^0.45.30
+      '@whyframe/core': ^0.1.8
+      '@whyframe/jsx': ^0.1.7
       eslint-config-planotes: workspace:*
       solid-js: ^1.6.0
       solid-start: ^0.2.0
@@ -49,6 +51,8 @@ importers:
       '@iconify/json': 2.1.126
       '@planotes/tsconfig': link:../../packages/tsconfig
       '@planotes/unocss': link:../../packages/unocss
+      '@whyframe/core': 0.1.8_vite@3.1.8
+      '@whyframe/jsx': 0.1.7_hdtuukyshs4n67vld5fapchteu
       eslint-config-planotes: link:../../packages/eslint-config-planotes
       solid-start-node: 0.2.0_ps2lpxk5hfnushqxoxo2mwt2xu
       typescript: 4.8.4
@@ -2355,6 +2359,40 @@ packages:
       - encoding
     dev: false
 
+  /@whyframe/core/0.1.8_vite@3.1.8:
+    resolution: {integrity: sha512-wrVydABLjmYwvyZTCagzoDFFCUzEwdsSOK177GEYYiX4YjY6IYueZYKjYASlg3c5b6wfbvyqn2TvqNsAzQhT9g==}
+    peerDependencies:
+      vite: ^3.0.0
+      webpack: ^5.0.0
+    peerDependenciesMeta:
+      vite:
+        optional: true
+      webpack:
+        optional: true
+    dependencies:
+      vite: 3.1.8
+    dev: true
+
+  /@whyframe/jsx/0.1.7_hdtuukyshs4n67vld5fapchteu:
+    resolution: {integrity: sha512-1q5NoTdUzG16epTIU5HynkkJ3+YHoLbCr9M+JmOm6Vq+/WxgaB+VyIz3okh0jFcZEOC2X2UH7vFiwxL0nyZ28A==}
+    peerDependencies:
+      '@whyframe/core': ^0.1.0
+      vite: ^3.0.0
+      webpack: ^5.0.0
+    peerDependenciesMeta:
+      vite:
+        optional: true
+      webpack:
+        optional: true
+    dependencies:
+      '@babel/parser': 7.19.6
+      '@babel/types': 7.19.4
+      '@whyframe/core': 0.1.8_vite@3.1.8
+      estree-walker: 3.0.1
+      magic-string: 0.26.7
+      vite: 3.1.8
+    dev: true
+
   /abort-controller/3.0.0:
     resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}
     engines: {node: '>=6.5'}
@@ -4022,6 +4060,10 @@ packages:
 
   /estree-walker/2.0.2:
     resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==}
+
+  /estree-walker/3.0.1:
+    resolution: {integrity: sha512-woY0RUD87WzMBUiZLx8NsYr23N5BKsOMZHhu2hoNRVh6NXGfoiT1KOL8G3UHlJAnEDGmfa5ubNA/AacfG+Kb0g==}
+    dev: true
 
   /esutils/2.0.3:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}

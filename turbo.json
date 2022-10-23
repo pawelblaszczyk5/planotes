@@ -19,6 +19,9 @@
 		},
 		"start": {
 			"dependsOn": []
+		},
+		"playground": {
+			"cache": false
 		}
 	}
 }

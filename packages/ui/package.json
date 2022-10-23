@@ -25,7 +25,7 @@
 	"scripts": {
 		"build": "rollup -c",
 		"build:watch": "rollup -c -w",
-		"dev": "vite",
+		"playground": "vite",
 		"lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
 		"typecheck": "tsc"
 	},

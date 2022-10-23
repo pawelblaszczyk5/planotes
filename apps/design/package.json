@@ -20,6 +20,8 @@
 		"@iconify/json": "^2.1.126",
 		"@planotes/tsconfig": "workspace:*",
 		"@planotes/unocss": "workspace:*",
+		"@whyframe/core": "^0.1.8",
+		"@whyframe/jsx": "^0.1.7",
 		"eslint-config-planotes": "workspace:*",
 		"solid-start-node": "^0.2.0",
 		"typescript": "^4.8.4",
