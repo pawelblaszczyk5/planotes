@@ -17,10 +17,10 @@ jobs:
         with:
           version: 7
 
-      - name: Use Node.js 16
+      - name: Use Node.js 18
         uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516
         with:
-          node-version: '16'
+          node-version: '18'
           cache: 'pnpm'
 
       - name: Install dependencies

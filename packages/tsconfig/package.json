@@ -1,0 +1,12 @@
+{
+	"name": "@planotes/tsconfig",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"files": [
+		"base.json"
+	],
+	"devDependencies": {
+		"@tsconfig/strictest": "^1.0.2"
+	}
+}

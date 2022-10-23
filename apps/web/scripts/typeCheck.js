@@ -1,9 +1,7 @@
 // @ts-nocheck
-import path from 'path';
 import ts from 'typescript';
 
 const configFilePath = ts.findConfigFile('././', ts.sys.fileExists, 'tsconfig.json');
-const projectPath = path.resolve(path.dirname(configFilePath));
 const configFile = ts.readConfigFile(configFilePath, ts.sys.readFile);
 
 const compilerOptions = ts.parseJsonConfigFileContent(configFile.config, ts.sys, '././', {

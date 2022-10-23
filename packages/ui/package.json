@@ -1,0 +1,48 @@
+{
+	"version": "0.0.0",
+	"name": "@planotes/ui",
+	"private": true,
+	"sideEffects": false,
+	"type": "module",
+	"files": [
+		"dist"
+	],
+	"main": "dist/cjs/index.js",
+	"module": "dist/esm/index.js",
+	"types": "dist/types/index.d.ts",
+	"exports": {
+		".": {
+			"solid": "./dist/source/index.jsx",
+			"import": "./dist/esm/index.js",
+			"browser": {
+				"import": "./dist/esm/index.js",
+				"require": "./dist/cjs/index.js"
+			},
+			"require": "./dist/cjs/index.js",
+			"node": "./dist/cjs/index.js"
+		}
+	},
+	"scripts": {
+		"dev": "vite",
+		"lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+		"typecheck": "tsc",
+		"build": "rollup -c",
+		"build:watch": "rollup -c -w"
+	},
+	"peerDependencies": {
+		"solid-js": ">=1.6.0"
+	},
+	"devDependencies": {
+		"@rollup/plugin-alias": "^4.0.2",
+		"eslint-config-planotes": "workspace:*",
+		"rollup": "^2.77.2",
+		"rollup-preset-solid": "^1.4.0",
+		"solid-js": "^1.6.0",
+		"@planotes/tsconfig": "workspace:*",
+		"typescript": "^4.7.4",
+		"vite": "^3.0.4",
+		"vite-plugin-solid": "^2.3.0",
+		"@unocss/reset": "^0.45.30",
+		"unocss": "^0.45.30"
+	}
+}

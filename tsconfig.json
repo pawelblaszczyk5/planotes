@@ -1,19 +1,5 @@
 {
-	"compilerOptions": {
-		"baseUrl": "./",
-		"importsNotUsedAsValues": "remove",
-		"jsx": "preserve",
-		"jsxImportSource": "solid-js",
-		"module": "ESNext",
-		"moduleResolution": "node",
-		"noEmit": true,
-		"paths": {
-			"~/*": ["./src/*"]
-		},
-		"target": "ESNext",
-		"types": ["vite/client"]
-	},
-	"exclude": ["dist"],
-	"extends": "@tsconfig/strictest/tsconfig.json",
-	"include": ["**/*"]
+	"extends": "@planotes/tsconfig/base.json",
+	"include": ["**/*"],
+	"exclude": ["apps/**/*", "apps/**/*"]
 }
