@@ -1,0 +1,12 @@
+{
+	"extends": "@planotes/tsconfig/base.json",
+	"compilerOptions": {
+		"baseUrl": "./",
+		"paths": {
+			"~/*": ["./src/*"]
+		},
+		"types": ["vite/client"]
+	},
+	"include": ["**/*"],
+	"exclude": ["dist"]
+}

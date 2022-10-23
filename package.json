@@ -12,6 +12,8 @@
 		"dev:web": "turbo run dev --filter=@planotes/web build:watch --filter=@planotes/ui --parallel",
 		"build:web": "turbo run build --filter=@planotes/web",
 		"start:web": "turbo run start --filter=@planotes/web",
+		"dev:design": "turbo run dev --filter=@planotes/design build:watch --filter=@planotes/ui --parallel",
+		"build:design": "turbo run build --filter=@planotes/design",
 		"lint": "turbo run lint",
 		"typecheck": "turbo run typecheck"
 	},

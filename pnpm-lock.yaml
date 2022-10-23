@@ -18,6 +18,39 @@ importers:
       turbo: 1.6.1
       unocss: 0.45.30
 
+  apps/design:
+    specifiers:
+      '@iconify/json': ^2.1.126
+      '@planotes/tsconfig': workspace:*
+      '@planotes/ui': workspace:*
+      '@solidjs/meta': ^0.28.0
+      '@solidjs/router': ^0.5.0
+      '@unocss/reset': ^0.45.30
+      eslint-config-planotes: workspace:*
+      solid-js: ^1.6.0
+      solid-start: ^0.2.0
+      solid-start-node: ^0.2.0
+      typescript: ^4.8.4
+      undici: ^5.11.0
+      unocss: ^0.45.30
+      vite: ^3.1.8
+    dependencies:
+      '@planotes/ui': link:../../packages/ui
+      '@solidjs/meta': 0.28.0_solid-js@1.6.0
+      '@solidjs/router': 0.5.0_solid-js@1.6.0
+      '@unocss/reset': 0.45.30
+      solid-js: 1.6.0
+      solid-start: 0.2.0_bga3qpy3x2mcpb3xfn66l4kmc4
+      undici: 5.11.0
+    devDependencies:
+      '@iconify/json': 2.1.126
+      '@planotes/tsconfig': link:../../packages/tsconfig
+      eslint-config-planotes: link:../../packages/eslint-config-planotes
+      solid-start-node: 0.2.0_ps2lpxk5hfnushqxoxo2mwt2xu
+      typescript: 4.8.4
+      unocss: 0.45.30_vite@3.1.8
+      vite: 3.1.8
+
   apps/web:
     specifiers:
       '@iconify/json': ^2.1.126
@@ -83,6 +116,7 @@ importers:
 
   packages/ui:
     specifiers:
+      '@iconify/json': ^2.1.126
       '@planotes/tsconfig': workspace:*
       '@rollup/plugin-alias': ^4.0.2
       '@unocss/reset': ^0.45.30
@@ -95,6 +129,7 @@ importers:
       vite: ^3.1.8
       vite-plugin-solid: ^2.3.10
     devDependencies:
+      '@iconify/json': 2.1.126
       '@planotes/tsconfig': link:../tsconfig
       '@rollup/plugin-alias': 4.0.2_rollup@2.79.1
       '@unocss/reset': 0.45.30
