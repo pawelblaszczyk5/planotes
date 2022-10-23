@@ -35,7 +35,12 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
-      - name: Deploy
-        run: pnpm --package=@railway/cli dlx railway up --detach
+      - name: Deploy web app
+        run: pnpm --package=@railway/cli dlx railway up -s Planotes --detach
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
+      - name: Deploy design
+        run: pnpm --package=@railway/cli dlx railway up -s Design --detach
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
