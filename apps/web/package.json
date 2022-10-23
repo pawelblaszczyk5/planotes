@@ -31,7 +31,6 @@
 	"devDependencies": {
 		"@iconify/json": "^2.1.126",
 		"@planotes/tsconfig": "workspace:*",
-		"@planotes/unocss": "workspace:*",
 		"@types/nodemailer": "^6.4.6",
 		"eslint-config-planotes": "workspace:*",
 		"prisma": "^4.5.0",

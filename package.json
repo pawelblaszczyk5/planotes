@@ -19,7 +19,6 @@
 	},
 	"devDependencies": {
 		"@planotes/tsconfig": "workspace:*",
-		"@planotes/unocss": "workspace:*",
 		"eslint-config-planotes": "workspace:*",
 		"prettier": "^2.7.1",
 		"prettier-plugin-tailwindcss": "^0.1.13",

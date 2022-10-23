@@ -32,7 +32,6 @@
 	"devDependencies": {
 		"@iconify/json": "^2.1.126",
 		"@planotes/tsconfig": "workspace:*",
-		"@planotes/unocss": "workspace:*",
 		"@rollup/plugin-alias": "^4.0.2",
 		"@unocss/reset": "^0.45.30",
 		"eslint-config-planotes": "workspace:*",

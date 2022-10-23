@@ -15,12 +15,12 @@
 		"shiki": "^0.11.1",
 		"solid-js": "^1.6.0",
 		"solid-start": "^0.2.0",
+		"solid-start-vercel": "^0.2.0",
 		"undici": "^5.11.0"
 	},
 	"devDependencies": {
 		"@iconify/json": "^2.1.126",
 		"@planotes/tsconfig": "workspace:*",
-		"@planotes/unocss": "workspace:*",
 		"@whyframe/core": "^0.1.8",
 		"@whyframe/jsx": "^0.1.7",
 		"eslint-config-planotes": "workspace:*",
