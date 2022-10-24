@@ -26,7 +26,7 @@
 		"build": "rollup -c",
 		"build:watch": "rollup -c -w",
 		"dev": "vite",
-		"lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+		"lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --ignore-path .gitignore",
 		"typecheck": "tsc"
 	},
 	"devDependencies": {
