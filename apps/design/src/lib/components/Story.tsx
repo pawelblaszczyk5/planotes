@@ -1,16 +1,9 @@
 import { getWhyframeSource } from '@whyframe/core/utils';
-import { getHighlighter, loadTheme } from 'shiki';
 import { createSignal, onMount, type JSXElement } from 'solid-js';
 import server$ from 'solid-start/server';
+import { highlightCode } from '~/lib/utils/highlighting';
 
-const highlightedSrc = server$(async (sourceToHighlight: string) => {
-	// Idk why this src must be like this
-	const THEME_SRC = '../../../../../apps/design/public/vitesse-dark-soft.json';
-	const theme = await loadTheme(THEME_SRC);
-	const highlighter = await getHighlighter({ theme });
-
-	return highlighter.codeToHtml(sourceToHighlight, { lang: 'tsx' });
-});
+const highlightedSrc = server$(async (src: string) => highlightCode(src));
 
 // It's not an arrow function cause of Whyframe issue
 export const Story = function (props: { children: JSXElement; title: string }) {
@@ -22,8 +15,7 @@ export const Story = function (props: { children: JSXElement; title: string }) {
 
 		if (!iframeElementRef) return;
 
-		const bla = await highlightedSrc(getWhyframeSource(iframeElementRef) ?? '');
-		setSource(bla);
+		setSource(await highlightedSrc(getWhyframeSource(iframeElementRef) ?? ''));
 	});
 
 	return (
