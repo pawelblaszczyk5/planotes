@@ -1,5 +1,18 @@
-import { createSignal, onMount } from 'solid-js';
+import { createIframeRpc } from '@whyframe/core/utils';
+import { createSignal, onCleanup, onMount } from 'solid-js';
 import { createApp } from 'whyframe:app';
+
+const createInsideRpcHandler = () => {
+	const insideRpc = createIframeRpc();
+
+	insideRpc.on('swapColorScheme', () => {
+		document.documentElement.classList.toggle('dark');
+	});
+
+	onCleanup(() => {
+		insideRpc.teardown();
+	});
+};
 
 const Iframe = () => {
 	const [hostRef, setHostRef] = createSignal<HTMLDivElement>();
@@ -11,7 +24,10 @@ const Iframe = () => {
 
 		const hostElementRef = hostRef();
 
-		if (hostElementRef) createApp(hostElementRef);
+		if (hostElementRef) {
+			createApp(hostElementRef);
+			createInsideRpcHandler();
+		}
 	});
 
 	return <div ref={setHostRef} />;
