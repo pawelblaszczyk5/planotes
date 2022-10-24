@@ -7,6 +7,8 @@ const Iframe = () => {
 	onMount(() => {
 		if (import.meta.env.SSR) return;
 
+		document.body.classList.add('text-primary', 'bg-primary');
+
 		const hostElementRef = hostRef();
 
 		if (hostElementRef) createApp(hostElementRef);
