@@ -26,4 +26,4 @@ export const getColorScheme = async (request: Request) => {
 };
 
 export const createColorSchemeCookie = async (preferedColorScheme: ColorScheme) =>
-	await colorSchemeCookie.serialize(preferedColorScheme);
+	colorSchemeCookie.serialize(preferedColorScheme);

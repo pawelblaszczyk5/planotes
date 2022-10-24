@@ -30,7 +30,7 @@ const sessionStorage = createCookieSessionStorage({
 	},
 });
 
-const getSession = async (request: Request) => await sessionStorage.getSession(request.headers.get('cookie'));
+const getSession = async (request: Request) => sessionStorage.getSession(request.headers.get('cookie'));
 const { destroySession, commitSession } = sessionStorage;
 
 const SESSION_KEYS = {
@@ -53,9 +53,8 @@ const magicIdentifier = createCookie('magid', {
 	secure: true,
 });
 
-export const createMagicIdentifierCookie = async (magicLinkId: string) => await magicIdentifier.serialize(magicLinkId);
-export const getMagicIdentifier = async (request: Request) =>
-	await magicIdentifier.parse(request.headers.get('cookie'));
+export const createMagicIdentifierCookie = async (magicLinkId: string) => magicIdentifier.serialize(magicLinkId);
+export const getMagicIdentifier = async (request: Request) => magicIdentifier.parse(request.headers.get('cookie'));
 
 export const createSessionCookie = async ({
 	userId,
@@ -72,7 +71,7 @@ export const createSessionCookie = async ({
 	session.set(SESSION_KEYS.USER_ID, userId);
 	session.set(SESSION_KEYS.VALID_UNTIL, validUntil);
 
-	return await commitSession(session, {
+	return commitSession(session, {
 		maxAge: sessionDuration === SessionDuration.EPHEMERAL ? undefined : validUntil - getCurrentEpochSeconds(),
 	});
 };
