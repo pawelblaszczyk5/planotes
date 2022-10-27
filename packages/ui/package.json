@@ -30,17 +30,17 @@
 		"typecheck": "tsc"
 	},
 	"devDependencies": {
-		"@iconify/json": "^2.1.126",
+		"@iconify/json": "^2.1.129",
 		"@planotes/tsconfig": "workspace:*",
 		"@rollup/plugin-alias": "^4.0.2",
-		"@unocss/reset": "^0.45.30",
+		"@unocss/reset": "^0.46.1",
 		"eslint-config-planotes": "workspace:*",
-		"rollup": "^2.79.1",
+		"rollup": "^3.2.3",
 		"rollup-preset-solid": "^1.4.0",
 		"solid-js": "^1.6.0",
 		"typescript": "^4.8.4",
-		"unocss": "^0.45.30",
-		"vite": "^3.1.8",
+		"unocss": "^0.46.1",
+		"vite": "^3.2.0",
 		"vite-plugin-solid": "^2.3.10"
 	},
 	"peerDependencies": {
