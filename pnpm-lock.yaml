@@ -127,7 +127,7 @@ importers:
       '@rollup/plugin-alias': ^4.0.2
       '@unocss/reset': ^0.46.1
       eslint-config-planotes: workspace:*
-      rollup: ^3.2.3
+      rollup: ^2.79.1
       rollup-preset-solid: ^1.4.0
       solid-js: ^1.6.0
       typescript: ^4.8.4
@@ -137,14 +137,14 @@ importers:
     devDependencies:
       '@iconify/json': 2.1.129
       '@planotes/tsconfig': link:../tsconfig
-      '@rollup/plugin-alias': 4.0.2_rollup@3.2.3
+      '@rollup/plugin-alias': 4.0.2_rollup@2.79.1
       '@unocss/reset': 0.46.1
       eslint-config-planotes: link:../eslint-config-planotes
-      rollup: 3.2.3
+      rollup: 2.79.1
       rollup-preset-solid: 1.4.0
       solid-js: 1.6.0
       typescript: 4.8.4
-      unocss: 0.46.1_rollup@3.2.3+vite@3.2.0
+      unocss: 0.46.1_rollup@2.79.1+vite@3.2.0
       vite: 3.2.0
       vite-plugin-solid: 2.3.10_solid-js@1.6.0+vite@3.2.0
 
@@ -1732,7 +1732,7 @@ packages:
     resolution: {integrity: sha512-4t9ir2SbQQr/wMCNU4YpHWp5hU14J2m3wHUZnGJPpmBF8YtkisxyVyQsKd1e6FyLTaGq8LOLhm6VLYHKqKNm+g==}
     requiresBuild: true
 
-  /@rollup/plugin-alias/4.0.2_rollup@3.2.3:
+  /@rollup/plugin-alias/4.0.2_rollup@2.79.1:
     resolution: {integrity: sha512-1hv7dBOZZwo3SEupxn4UA2N0EDThqSSS+wI1St1TNTBtOZvUchyIClyHcnDcjjrReTPZ47Faedrhblv4n+T5UQ==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -1741,7 +1741,7 @@ packages:
       rollup:
         optional: true
     dependencies:
-      rollup: 3.2.3
+      rollup: 2.79.1
       slash: 4.0.0
     dev: true
 
@@ -1835,7 +1835,7 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /@rollup/pluginutils/5.0.2_rollup@3.2.3:
+  /@rollup/pluginutils/5.0.2_rollup@2.79.1:
     resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -1847,7 +1847,7 @@ packages:
       '@types/estree': 1.0.0
       estree-walker: 2.0.2
       picomatch: 2.3.1
-      rollup: 3.2.3
+      rollup: 2.79.1
     dev: true
 
   /@rushstack/eslint-patch/1.2.0:
@@ -2099,12 +2099,12 @@ packages:
       - vite
     dev: true
 
-  /@unocss/astro/0.46.1_rollup@3.2.3+vite@3.2.0:
+  /@unocss/astro/0.46.1_rollup@2.79.1+vite@3.2.0:
     resolution: {integrity: sha512-5WfDZNFwqLaAykXmly049nk6k6cZ4ZYFbmO/ijcbxeemx1Pduq3J9FfMznL8KBxXLs/S/kE174X6TtOMrVp//Q==}
     dependencies:
       '@unocss/core': 0.46.1
       '@unocss/reset': 0.46.1
-      '@unocss/vite': 0.46.1_rollup@3.2.3+vite@3.2.0
+      '@unocss/vite': 0.46.1_rollup@2.79.1+vite@3.2.0
     transitivePeerDependencies:
       - rollup
       - vite
@@ -2143,13 +2143,13 @@ packages:
       - rollup
     dev: true
 
-  /@unocss/cli/0.46.1_rollup@3.2.3:
+  /@unocss/cli/0.46.1_rollup@2.79.1:
     resolution: {integrity: sha512-lMV1o3+PskSvLaBZbjHKf+KmSN8W42Je0oZEQL4+zgNTstISrdNdByHQTkBDYW6NU4HfURjs8wPlsKYox8wTMA==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
       '@ampproject/remapping': 2.2.0
-      '@rollup/pluginutils': 5.0.2_rollup@3.2.3
+      '@rollup/pluginutils': 5.0.2_rollup@2.79.1
       '@unocss/config': 0.46.1
       '@unocss/core': 0.46.1
       '@unocss/preset-uno': 0.46.1
@@ -2289,13 +2289,13 @@ packages:
       - rollup
     dev: true
 
-  /@unocss/vite/0.46.1_rollup@3.2.3+vite@3.2.0:
+  /@unocss/vite/0.46.1_rollup@2.79.1+vite@3.2.0:
     resolution: {integrity: sha512-7jJHxIyAJ765afdk90ajyokz6QMdR3lKJTXzCTjp2afrRfvIeTv+a0cYdytOazCPdqbKclqMuOcMEYjJD8Q2kA==}
     peerDependencies:
       vite: ^2.9.0 || ^3.0.0-0
     dependencies:
       '@ampproject/remapping': 2.2.0
-      '@rollup/pluginutils': 5.0.2_rollup@3.2.3
+      '@rollup/pluginutils': 5.0.2_rollup@2.79.1
       '@unocss/config': 0.46.1
       '@unocss/core': 0.46.1
       '@unocss/inspector': 0.46.1
@@ -5604,14 +5604,6 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
 
-  /rollup/3.2.3:
-    resolution: {integrity: sha512-qfadtkY5kl0F5e4dXVdj2D+GtOdifasXHFMiL1SMf9ADQDv5Eti6xReef9FKj+iQPR2pvtqWna57s/PjARY4fg==}
-    engines: {node: '>=14.18.0', npm: '>=8.0.0'}
-    hasBin: true
-    optionalDependencies:
-      fsevents: 2.3.2
-    dev: true
-
   /route-sort/1.0.0:
     resolution: {integrity: sha512-SFgmvjoIhp5S4iBEDW3XnbT+7PRuZ55oRuNjY+CDB1SGZkyCG9bqQ3/dhaZTctTBYMAvDxd2Uy9dStuaUfgJqQ==}
     engines: {node: '>= 6'}
@@ -6219,7 +6211,7 @@ packages:
       - vite
     dev: true
 
-  /unocss/0.46.1_rollup@3.2.3+vite@3.2.0:
+  /unocss/0.46.1_rollup@2.79.1+vite@3.2.0:
     resolution: {integrity: sha512-zeDBjj8XGAe7zgkwgoqBuFcokPmn8z0ES6/+qGNE9T04hnhjlwE7jVBKFMCkB6gWJs8Zmug+lORYubJ9B87a8Q==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -6228,8 +6220,8 @@ packages:
       '@unocss/webpack':
         optional: true
     dependencies:
-      '@unocss/astro': 0.46.1_rollup@3.2.3+vite@3.2.0
-      '@unocss/cli': 0.46.1_rollup@3.2.3
+      '@unocss/astro': 0.46.1_rollup@2.79.1+vite@3.2.0
+      '@unocss/cli': 0.46.1_rollup@2.79.1
       '@unocss/core': 0.46.1
       '@unocss/preset-attributify': 0.46.1
       '@unocss/preset-icons': 0.46.1
@@ -6244,7 +6236,7 @@ packages:
       '@unocss/transformer-compile-class': 0.46.1
       '@unocss/transformer-directives': 0.46.1
       '@unocss/transformer-variant-group': 0.46.1
-      '@unocss/vite': 0.46.1_rollup@3.2.3+vite@3.2.0
+      '@unocss/vite': 0.46.1_rollup@2.79.1+vite@3.2.0
     transitivePeerDependencies:
       - rollup
       - supports-color
