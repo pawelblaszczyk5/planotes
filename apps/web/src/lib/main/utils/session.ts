@@ -39,7 +39,7 @@ const SESSION_KEYS = {
 } as const;
 
 const sessionSchema = z.object({
-	[SESSION_KEYS.USER_ID]: z.string().uuid(),
+	[SESSION_KEYS.USER_ID]: z.string().cuid(),
 	[SESSION_KEYS.VALID_UNTIL]: z.number(),
 });
 
