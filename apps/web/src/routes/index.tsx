@@ -1,12 +1,9 @@
-import { useRouteData } from 'solid-start';
-import { createServerData$ } from 'solid-start/server';
-
-export const routeData = () => createServerData$(async () => 'world');
-
 const Index = () => {
-	const data = useRouteData<typeof routeData>();
-
-	return <h1 class="p-4">Hello {data()}!</h1>;
+	return (
+		<main class="flex h-full items-center justify-center">
+			<h1 class="font-600 text-3xl">Home page under construction</h1>
+		</main>
+	);
 };
 
 export default Index;

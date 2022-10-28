@@ -12,7 +12,8 @@ const Root = () => {
 	const colorScheme = createServerData$(async (_, { request }) => getColorScheme(request));
 
 	return (
-		<Html lang="en">
+		// Using classList here to workaround hydration removing 'dark' class
+		<Html lang="en" classList={{ 'h-full': true }}>
 			<Head>
 				<Title>Planotes</Title>
 				<Meta charset="utf-8" />
@@ -23,7 +24,7 @@ const Root = () => {
 					</Show>
 				</Suspense>
 			</Head>
-			<Body class="text-primary bg-primary">
+			<Body class="text-primary bg-primary h-full p-4">
 				<Suspense>
 					<ErrorBoundary>
 						<Routes>
