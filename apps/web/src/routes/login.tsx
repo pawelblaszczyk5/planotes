@@ -1,17 +1,29 @@
 import { randomBytes } from 'node:crypto';
-import { FormError } from 'solid-start';
-import { createServerAction$, redirect } from 'solid-start/server';
+import { FormError, useRouteData } from 'solid-start';
+import { createServerAction$, createServerData$, redirect, ServerError } from 'solid-start/server';
 import { db } from '~/lib/main/utils/db';
 import { sendEmailWithMagicLink } from '~/lib/main/utils/mail';
 import {
 	createMagicIdentifierCookie,
+	isUserLoggedIn,
 	MAGIC_LINK_REQUIRED_GENERATION_DELAY_IN_MINUTES,
 	MAGIC_LINK_VALIDITY_IN_MINUTES,
 } from '~/lib/main/utils/session';
 import { getDateWithOffset } from '~/lib/main/utils/time';
 
+export const routeData = () =>
+	createServerData$(async (_, { request }) => {
+		if (await isUserLoggedIn(request)) {
+			throw redirect('/');
+		}
+	});
+
 const Login = () => {
-	const [, sendMagicLinkTrigger] = createServerAction$(async (formData: FormData) => {
+	useRouteData<typeof routeData>()();
+
+	const [, sendMagicLinkTrigger] = createServerAction$(async (formData: FormData, { request }) => {
+		// TODO: change to proper redirect URL
+		if (await isUserLoggedIn(request)) throw redirect('/');
 		// TODO: proper validation etc
 		const email = formData.get('email') as string;
 		const sessionDuration = formData.get('sessionDuration') as 'EPHEMERAL' | 'PERSISTENT';
@@ -60,7 +72,7 @@ const Login = () => {
 				},
 			});
 
-			throw new FormError('Error');
+			throw new ServerError('Error', { status: 500 });
 		}
 
 		const cookie = await createMagicIdentifierCookie(magicLinkId);
