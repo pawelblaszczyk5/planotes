@@ -1,5 +1,5 @@
 import { useRouteData } from 'solid-start';
-import { createServerData$ } from 'solid-start/server';
+import { createServerData$, HttpStatusCode } from 'solid-start/server';
 import { requireUserId } from '~/lib/main/utils/session';
 
 export const routeData = () =>
@@ -7,10 +7,15 @@ export const routeData = () =>
 		await requireUserId(request);
 	});
 
-const Home = () => {
+const Lost = () => {
 	useRouteData<typeof routeData>()();
 
-	return <h1>Home</h1>;
+	return (
+		<>
+			<HttpStatusCode code={404} />
+			<h1>Are you lost?</h1>
+		</>
+	);
 };
 
-export default Home;
+export default Lost;
