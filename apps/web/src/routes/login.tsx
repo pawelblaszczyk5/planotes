@@ -92,6 +92,7 @@ const Login = () => {
 			<input id="persistent" checked={true} type="radio" name="sessionDuration" value="PERSISTENT" />
 			<label for="ephemeral">Ephemeral session</label>
 			<input id="ephemeral" type="radio" name="sessionDuration" value="EPHEMERAL" />
+			<button>Login</button>
 		</sendMagicLinkTrigger.Form>
 	);
 };
