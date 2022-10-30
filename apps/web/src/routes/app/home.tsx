@@ -10,7 +10,7 @@ export const routeData = () =>
 const Home = () => {
 	useRouteData<typeof routeData>()();
 
-	return <h1>Home</h1>;
+	return <h1 class="text-secondary">Home</h1>;
 };
 
 export default Home;

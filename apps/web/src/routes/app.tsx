@@ -14,7 +14,7 @@ const NavLink = (props: { external?: boolean; href: string; icon: string; title:
 
 	return (
 		<A
-			class="ring-primary flex h-10 w-10 items-center justify-center p-2"
+			class="ring-primary text-primary md:text-secondary md:hover:text-primary flex h-10 w-10 items-center justify-center p-2 md:transition-colors"
 			href={props.href}
 			title={props.title}
 			target={linkTarget()}
@@ -25,17 +25,15 @@ const NavLink = (props: { external?: boolean; href: string; icon: string; title:
 	);
 };
 
-const NavButton = (props: { icon: string; onClick?: () => void; title: string }) => {
-	return (
-		<button
-			onClick={() => props.onClick?.()}
-			class="ring-primary flex h-10 w-10 items-center justify-center p-2"
-			aria-label={props.title}
-		>
-			<i class="text-3xl" classList={{ [props.icon]: true }} aria-hidden="true" />
-		</button>
-	);
-};
+const NavButton = (props: { icon: string; onClick?: () => void; title: string }) => (
+	<button
+		onClick={() => props.onClick?.()}
+		class="ring-primary text-primary md:text-secondary md:hover:text-primary flex h-10 w-10 items-center justify-center p-2 md:transition-colors"
+		aria-label={props.title}
+	>
+		<i class="text-3xl" classList={{ [props.icon]: true }} aria-hidden="true" />
+	</button>
+);
 
 const NavImageLink = (props: { href: string; src: string; title: string }) => (
 	<A class="ring-primary flex h-12 w-12 items-center justify-center p-1" href={props.href}>
