@@ -46,9 +46,9 @@ const App = () => {
 
 	return (
 		<div class="h-full w-full">
-			<nav class="b-b md:b-r b-primary h-18 fixed top-0 left-0 flex w-full items-center px-4 py-2 md:left-0 md:top-0 md:h-full md:w-16 md:flex-col md:px-2 md:py-4">
+			<nav class="b-b md:b-r b-primary h-18 fixed top-0 left-0 flex w-full items-center px-6 py-2 md:left-0 md:top-0 md:h-full md:w-16 md:flex-col md:px-2 md:py-4">
 				<NavImageLink href="/ " title="Home" src={logo} />
-				<div class="ml-auto flex items-center gap-4 md:mt-auto md:flex-col">
+				<div class="ml-auto flex items-center gap-3 md:mt-auto md:flex-col md:gap-4">
 					<NavButton icon="i-lucide-search" title="Search" />
 					<NavButton title="test" icon="i-lucide-sun-moon" />
 					<NavLink href="https://github.com/pawelblaszczyk5/planotes" title="test" icon="i-lucide-github" external />
