@@ -28,6 +28,18 @@ module.exports = {
 				],
 				'prettier/prettier': 'error',
 				'unicorn/prevent-abbreviations': 'off',
+				'import/extensions': [
+					2,
+					'never',
+					{
+						ignorePackages: true,
+						pattern: {
+							json: 'always',
+							svg: 'always',
+							webp: 'always',
+						},
+					},
+				],
 			},
 		},
 		{
@@ -69,6 +81,18 @@ module.exports = {
 				'prettier/prettier': 'error',
 				'unicorn/prevent-abbreviations': 'off',
 				'solid/no-innerhtml': 'off',
+				'import/extensions': [
+					2,
+					'never',
+					{
+						ignorePackages: true,
+						pattern: {
+							json: 'always',
+							svg: 'always',
+							webp: 'always',
+						},
+					},
+				],
 			},
 		},
 	],
