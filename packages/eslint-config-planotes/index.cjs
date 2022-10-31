@@ -28,6 +28,7 @@ module.exports = {
 				],
 				'prettier/prettier': 'error',
 				'unicorn/prevent-abbreviations': 'off',
+				'unicorn/no-array-reduce': 'off',
 				'import/extensions': [
 					2,
 					'never',
@@ -40,6 +41,9 @@ module.exports = {
 						},
 					},
 				],
+				'@typescript-eslint/array-type': ['error', { default: 'generic' }],
+				'@typescript-eslint/no-explicit-any': 'off',
+				'@typescript-eslint/no-unnecessary-type-constraint': 'off',
 			},
 		},
 		{
@@ -80,6 +84,7 @@ module.exports = {
 				],
 				'prettier/prettier': 'error',
 				'unicorn/prevent-abbreviations': 'off',
+				'unicorn/no-array-reduce': 'off',
 				'solid/no-innerhtml': 'off',
 				'import/extensions': [
 					2,
@@ -93,6 +98,9 @@ module.exports = {
 						},
 					},
 				],
+				'@typescript-eslint/array-type': ['error', { default: 'generic' }],
+				'@typescript-eslint/no-explicit-any': 'off',
+				'@typescript-eslint/no-unnecessary-type-constraint': 'off',
 			},
 		},
 	],
