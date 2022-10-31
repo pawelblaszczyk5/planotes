@@ -1,11 +1,16 @@
+import { Show } from 'solid-js';
 import { A, Outlet, useRouteData } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
 import logo from '~/assets/logo.webp';
+import { db } from '~/lib/utils/db';
 import { requireUserId } from '~/lib/utils/session';
 
 export const routeData = () =>
 	createServerData$(async (_, { request }) => {
-		await requireUserId(request);
+		const userId = await requireUserId(request);
+		const user = db.user.findUniqueOrThrow({ where: { id: userId } });
+
+		return user;
 	});
 
 const NavLink = (props: { external?: boolean; href: string; icon: string; title: string }) => {
@@ -42,7 +47,7 @@ const NavImageLink = (props: { href: string; src: string; title: string }) => (
 );
 
 const App = () => {
-	useRouteData<typeof routeData>()();
+	const user = useRouteData<typeof routeData>();
 
 	return (
 		<div class="h-full w-full">
@@ -53,7 +58,10 @@ const App = () => {
 					<NavButton title="test" icon="i-lucide-sun-moon" />
 					<NavLink href="https://github.com/pawelblaszczyk5/planotes" title="test" icon="i-lucide-github" external />
 					<div class="hidden h-1 md:block" />
-					<NavImageLink href="/app/profile" title="Profile" src="https://picsum.photos/200" />
+					<Show when={user()?.email}>
+						{/* TODO: Change to proper seed instead of email */}
+						<NavImageLink href="/app/profile" title="Profile" src={`/api/avatar/${user()!.email}`} />
+					</Show>
 				</div>
 			</nav>
 			<main class="top-18 fixed h-[calc(100%-4.5rem)] w-full overflow-y-auto p-6 md:right-0 md:left-16 md:top-0 md:h-full md:w-[calc(100%-4rem)]">
