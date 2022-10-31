@@ -27,7 +27,7 @@ type SendEmailOptions = {
 };
 
 type SendEmailResult = {
-	accepted: string[];
+	accepted: Array<string>;
 };
 
 const sendEmail = async ({ html, receiver, plainTextVersion, senderName, subject }: SendEmailOptions) => {
