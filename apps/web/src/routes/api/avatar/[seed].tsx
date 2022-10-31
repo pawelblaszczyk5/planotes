@@ -53,23 +53,23 @@ const generateAvatarData = (seed: string) => {
 	const hashedSeed = createHash(seed);
 	const wrapperColor = COLORS[hashedSeed % COLORS.length]!;
 	const preTranslateX = getUnit(hashedSeed, 10, 1);
-	const wrapperTranslateX = preTranslateX < 5 ? preTranslateX + AVATAR_SIZE / 9 : preTranslateX;
+	const wrapperTranslateX = preTranslateX < 5 ? preTranslateX + VIEWBOX_SIZE / 9 : preTranslateX;
 	const preTranslateY = getUnit(hashedSeed, 10, 2);
-	const wrapperTranslateY = preTranslateY < 5 ? preTranslateY + AVATAR_SIZE / 9 : preTranslateY;
+	const wrapperTranslateY = preTranslateY < 5 ? preTranslateY + VIEWBOX_SIZE / 9 : preTranslateY;
 
 	return {
 		backgroundColor: COLORS[(hashedSeed + 13) % COLORS.length]!,
 		eyeSpread: getUnit(hashedSeed, 5),
 		faceColor: getContrastingColor(wrapperColor),
 		faceRotate: getUnit(hashedSeed, 10, 3),
-		faceTranslateX: wrapperTranslateX > AVATAR_SIZE / 6 ? wrapperTranslateX / 2 : getUnit(hashedSeed, 8, 1),
-		faceTranslateY: wrapperTranslateY > AVATAR_SIZE / 6 ? wrapperTranslateY / 2 : getUnit(hashedSeed, 7, 2),
+		faceTranslateX: wrapperTranslateX > VIEWBOX_SIZE / 6 ? wrapperTranslateX / 2 : getUnit(hashedSeed, 8, 1),
+		faceTranslateY: wrapperTranslateY > VIEWBOX_SIZE / 6 ? wrapperTranslateY / 2 : getUnit(hashedSeed, 7, 2),
 		isCircle: getBoolean(hashedSeed, 1),
 		isMouthOpen: getBoolean(hashedSeed, 2),
 		mouthSpread: getUnit(hashedSeed, 3),
 		wrapperColor,
 		wrapperRotate: getUnit(hashedSeed, 360),
-		wrapperScale: 1 + getUnit(hashedSeed, AVATAR_SIZE / 12) / 10,
+		wrapperScale: 1 + getUnit(hashedSeed, VIEWBOX_SIZE / 12) / 10,
 		wrapperTranslateX,
 		wrapperTranslateY,
 	} as const;
@@ -94,8 +94,8 @@ const AvatarBeam = (props: ReturnType<typeof generateAvatarData>) => (
 				width={VIEWBOX_SIZE}
 				height={VIEWBOX_SIZE}
 				transform={`translate(${props.wrapperTranslateX} ${props.wrapperTranslateY}) rotate(${props.wrapperRotate} ${
-					AVATAR_SIZE / 2
-				} ${AVATAR_SIZE / 2}) scale(${props.wrapperScale})`}
+					VIEWBOX_SIZE / 2
+				} ${VIEWBOX_SIZE / 2}) scale(${props.wrapperScale})`}
 				fill={props.wrapperColor}
 				rx={props.isCircle ? VIEWBOX_SIZE : VIEWBOX_SIZE / 6}
 			/>
