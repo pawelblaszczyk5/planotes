@@ -1,17 +1,25 @@
-import { Show } from 'solid-js';
-import { A, Outlet, useRouteData } from 'solid-start';
-import { createServerData$ } from 'solid-start/server';
+import { createEffect, Show } from 'solid-js';
+import { A, Outlet, useLocation, useRouteData } from 'solid-start';
+import { createServerAction$, createServerData$, redirect } from 'solid-start/server';
 import logo from '~/assets/logo.webp';
+import { type ColorScheme, createColorSchemeCookie, getColorScheme } from '~/lib/utils/colorScheme';
 import { db } from '~/lib/utils/db';
 import { requireUserId } from '~/lib/utils/session';
 
-export const routeData = () =>
-	createServerData$(async (_, { request }) => {
+export const routeData = () => {
+	const userResource = createServerData$(async (_, { request }) => {
 		const userId = await requireUserId(request);
 		const user = db.user.findUniqueOrThrow({ where: { id: userId } });
 
 		return user;
 	});
+
+	const colorSchemeResource = createServerData$(async (_, { request }) => {
+		return getColorScheme(request);
+	});
+
+	return [userResource, colorSchemeResource] as const;
+};
 
 const NavLink = (props: { external?: boolean; href: string; icon: string; title: string }) => {
 	const linkTarget = () => (props.external ? '_blank' : '_self');
@@ -46,8 +54,72 @@ const NavImageLink = (props: { href: string; src: string; title: string }) => (
 	</A>
 );
 
+const mediaQueryChangeHandler = (event: MediaQueryListEvent) => {
+	if (event.matches) {
+		document.documentElement.classList.add('dark');
+		return;
+	}
+
+	document.documentElement.classList.remove('dark');
+};
+
+const getNextColorScheme = (currentColorScheme: ColorScheme) => {
+	if (currentColorScheme === 'DARK') return 'LIGHT';
+	if (currentColorScheme === 'LIGHT') return 'SYSTEM';
+	return 'DARK';
+};
+
 const App = () => {
-	const user = useRouteData<typeof routeData>();
+	const [user, colorScheme] = useRouteData<typeof routeData>();
+	const location = useLocation();
+
+	const [, changeColorSchemeTrigger] = createServerAction$(async (formData: FormData, { request }) => {
+		// TODO: Add proper validation
+		const currentColorScheme = await getColorScheme(request);
+		const nextColorScheme = getNextColorScheme(currentColorScheme);
+		const cookie = await createColorSchemeCookie(nextColorScheme);
+
+		// TODO: this url must be validated
+		return redirect(formData.get('currentLocation') as string, { headers: { 'Set-Cookie': cookie } });
+	});
+
+	createEffect(() => {
+		const currentColorScheme = colorScheme();
+
+		if (!currentColorScheme) return;
+
+		if (currentColorScheme === 'DARK') {
+			document.documentElement.classList.add('dark');
+			return;
+		}
+
+		if (currentColorScheme === 'LIGHT') {
+			document.documentElement.classList.remove('dark');
+			return;
+		}
+
+		const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+
+		mediaQueryList.addEventListener('change', mediaQueryChangeHandler);
+
+		return () => mediaQueryList.removeEventListener('change', mediaQueryChangeHandler);
+	});
+
+	const getColorSchemeIcon = () => {
+		const currentColorScheme = colorScheme();
+
+		if (!currentColorScheme || currentColorScheme === 'SYSTEM') return 'i-lucide-laptop-2';
+		if (currentColorScheme === 'DARK') return 'i-lucide-moon';
+		return 'i-lucide-sun';
+	};
+
+	const getColorSchemeChangeButtonTitle = () => {
+		const currentColorScheme = colorScheme();
+
+		if (!currentColorScheme || currentColorScheme === 'SYSTEM') return 'Change color scheme - currently system';
+		if (currentColorScheme === 'DARK') return 'Change color scheme - currently dark';
+		return 'Change color scheme - currently light';
+	};
 
 	return (
 		<div class="h-full w-full">
@@ -55,12 +127,15 @@ const App = () => {
 				<NavImageLink href="/ " title="Home" src={logo} />
 				<div class="ml-auto flex items-center gap-3 md:mt-auto md:flex-col md:gap-4">
 					<NavButton icon="i-lucide-search" title="Search" />
-					<NavButton title="test" icon="i-lucide-sun-moon" />
+					<changeColorSchemeTrigger.Form method="post">
+						<input type="hidden" name="currentLocation" value={location.pathname} />
+						<NavButton title={getColorSchemeChangeButtonTitle()} icon={getColorSchemeIcon()} />
+					</changeColorSchemeTrigger.Form>
 					<NavLink href="https://github.com/pawelblaszczyk5/planotes" title="test" icon="i-lucide-github" external />
 					<div class="hidden h-1 md:block" />
 					<Show when={user()?.email}>
 						{/* TODO: Change to proper seed instead of email */}
-						<NavImageLink href="/app/profile" title="Profile" src={`/api/avatar/${user()!.email}`} />
+						<NavImageLink href="/app/profile" title="Go to profile" src={`/api/avatar/${user()!.email}`} />
 					</Show>
 				</div>
 			</nav>
