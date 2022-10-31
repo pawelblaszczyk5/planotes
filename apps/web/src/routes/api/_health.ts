@@ -1,5 +1,5 @@
-import { db } from '~/lib/main/utils/db';
-import { transporter } from '~/lib/main/utils/mail';
+import { db } from '~/lib/utils/db';
+import { transporter } from '~/lib/utils/mail';
 
 const verifySmtpConnection = async () => {
 	await transporter.verify();

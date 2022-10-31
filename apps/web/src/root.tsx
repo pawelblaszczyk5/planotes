@@ -1,12 +1,24 @@
 // @refresh reload
-import { Show, Suspense } from 'solid-js';
+import { Match, Show, Suspense, Switch } from 'solid-js';
 import { Body, ErrorBoundary, FileRoutes, Head, Html, Meta, Routes, Scripts, Title } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
-import { ColorSchemeDetector } from '~/lib/main/components/ColorSchemeDetector';
-import { getColorScheme } from '~/lib/main/utils/colorScheme';
+import { type ColorScheme, getColorScheme } from '~/lib/utils/colorScheme';
 
 import '@unocss/reset/tailwind.css';
 import 'uno.css';
+
+const ColorSchemeDetector = (props: { colorScheme: ColorScheme }) => (
+	<Switch>
+		<Match when={props.colorScheme === 'DARK'}>
+			<script>document.documentElement.classList.add('dark')</script>
+		</Match>
+		<Match when={props.colorScheme === 'SYSTEM'}>
+			<script>
+				if (window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.classList.add('dark');
+			</script>
+		</Match>
+	</Switch>
+);
 
 const Root = () => {
 	const colorScheme = createServerData$(async (_, { request }) => getColorScheme(request));

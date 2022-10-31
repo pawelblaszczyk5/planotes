@@ -1,15 +1,15 @@
 import { randomBytes } from 'node:crypto';
 import { FormError, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect, ServerError } from 'solid-start/server';
-import { db } from '~/lib/main/utils/db';
-import { sendEmailWithMagicLink } from '~/lib/main/utils/mail';
+import { db } from '~/lib/utils/db';
+import { sendEmailWithMagicLink } from '~/lib/utils/mail';
 import {
 	createMagicIdentifierCookie,
 	isUserLoggedIn,
 	MAGIC_LINK_REQUIRED_GENERATION_DELAY_IN_MINUTES,
 	MAGIC_LINK_VALIDITY_IN_MINUTES,
-} from '~/lib/main/utils/session';
-import { getDateWithOffset } from '~/lib/main/utils/time';
+} from '~/lib/utils/session';
+import { getDateWithOffset } from '~/lib/utils/time';
 
 export const routeData = () =>
 	createServerData$(async (_, { request }) => {

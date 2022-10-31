@@ -1,6 +1,6 @@
 import { createCookie } from 'solid-start/session';
 import { z } from 'zod';
-import { env } from '~/lib/main/utils/env';
+import { env } from '~/lib/utils/env';
 
 const colorScheme = z.enum(['DARK', 'LIGHT', 'SYSTEM']);
 const ONE_YEAR_IN_SECONDS = 31_556_926;

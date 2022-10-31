@@ -1,9 +1,9 @@
 import { createSignal, onMount } from 'solid-js';
 import { FormError, useSearchParams } from 'solid-start';
 import { createServerAction$, redirect } from 'solid-start/server';
-import { db } from '~/lib/main/utils/db';
-import { createSessionCookie, getMagicIdentifier } from '~/lib/main/utils/session';
-import { isDateInPast, convertEpochSecondsToDate } from '~/lib/main/utils/time';
+import { db } from '~/lib/utils/db';
+import { createSessionCookie, getMagicIdentifier } from '~/lib/utils/session';
+import { isDateInPast, convertEpochSecondsToDate } from '~/lib/utils/time';
 
 const Magic = () => {
 	// TODO: verify and parse params in routeData maybe?

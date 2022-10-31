@@ -1,6 +1,6 @@
 import { useRouteData } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
-import { requireUserId } from '~/lib/main/utils/session';
+import { requireUserId } from '~/lib/utils/session';
 
 export const routeData = () =>
 	createServerData$(async (_, { request }) => {

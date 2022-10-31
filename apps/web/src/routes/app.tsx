@@ -1,7 +1,7 @@
 import { A, Outlet, useRouteData } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
 import logo from '~/assets/logo.webp';
-import { requireUserId } from '~/lib/main/utils/session';
+import { requireUserId } from '~/lib/utils/session';
 
 export const routeData = () =>
 	createServerData$(async (_, { request }) => {
