@@ -79,6 +79,7 @@ importers:
       unocss: ^0.46.1
       vite: ^3.2.1
       zod: ^3.19.1
+      zod-form-data: ^1.2.2
     dependencies:
       '@js-temporal/polyfill': 0.4.3
       '@planotes/ui': link:../../packages/ui
@@ -91,6 +92,7 @@ importers:
       solid-start: 0.2.1_mla6v4czhlgk6jxr2c2t4pwhou
       undici: 5.12.0
       zod: 3.19.1
+      zod-form-data: 1.2.2_zod@3.19.1
     devDependencies:
       '@iconify/json': 2.1.130
       '@planotes/tsconfig': link:../../packages/tsconfig
@@ -6528,6 +6530,14 @@ packages:
   /yocto-queue/0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+  /zod-form-data/1.2.2_zod@3.19.1:
+    resolution: {integrity: sha512-Z74PiUqRos2Lov70s9jb6/VE1oLmk4891VhJ78/ckyRiYsuaUBf1qq4q0/EwoWCezCyn9UX+aCR8zRL7ugTtZQ==}
+    peerDependencies:
+      zod: ^3.11.x
+    dependencies:
+      zod: 3.19.1
+    dev: false
 
   /zod/3.19.1:
     resolution: {integrity: sha512-LYjZsEDhCdYET9ikFu6dVPGp2YH9DegXjdJToSzD9rO6fy4qiRYFoyEYwps88OseJlPyl2NOe2iJuhEhL7IpEA==}

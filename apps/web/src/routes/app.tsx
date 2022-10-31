@@ -1,6 +1,7 @@
 import { createEffect, Show } from 'solid-js';
-import { A, Outlet, useLocation, useRouteData } from 'solid-start';
+import { A, FormError, Outlet, useLocation, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect } from 'solid-start/server';
+import { zfd } from 'zod-form-data';
 import logo from '~/assets/logo.webp';
 import { type ColorScheme, createColorSchemeCookie, getColorScheme } from '~/lib/utils/colorScheme';
 import { db } from '~/lib/utils/db';
@@ -14,9 +15,7 @@ export const routeData = () => {
 		return user;
 	});
 
-	const colorSchemeResource = createServerData$(async (_, { request }) => {
-		return getColorScheme(request);
-	});
+	const colorSchemeResource = createServerData$(async (_, { request }) => getColorScheme(request));
 
 	return [userResource, colorSchemeResource] as const;
 };
@@ -69,18 +68,25 @@ const getNextColorScheme = (currentColorScheme: ColorScheme) => {
 	return 'DARK';
 };
 
+const changeColorSchemeActionSchema = zfd.formData({
+	currentLocation: zfd.text(),
+});
+
 const App = () => {
 	const [user, colorScheme] = useRouteData<typeof routeData>();
 	const location = useLocation();
 
 	const [, changeColorSchemeTrigger] = createServerAction$(async (formData: FormData, { request }) => {
-		// TODO: Add proper validation
+		const parsedFormData = changeColorSchemeActionSchema.safeParse(formData);
+
+		if (!parsedFormData.success) return new FormError('Error');
+
 		const currentColorScheme = await getColorScheme(request);
 		const nextColorScheme = getNextColorScheme(currentColorScheme);
 		const cookie = await createColorSchemeCookie(nextColorScheme);
 
 		// TODO: this url must be validated
-		return redirect(formData.get('currentLocation') as string, { headers: { 'Set-Cookie': cookie } });
+		return redirect(parsedFormData.data.currentLocation, { headers: { 'Set-Cookie': cookie } });
 	});
 
 	createEffect(() => {
@@ -88,17 +94,17 @@ const App = () => {
 
 		if (!currentColorScheme) return;
 
-		if (currentColorScheme === 'DARK') {
-			document.documentElement.classList.add('dark');
-			return;
-		}
-
-		if (currentColorScheme === 'LIGHT') {
-			document.documentElement.classList.remove('dark');
-			return;
-		}
-
 		const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+
+		if (currentColorScheme === 'DARK' || mediaQueryList.matches) {
+			document.documentElement.classList.add('dark');
+		}
+
+		if (currentColorScheme === 'LIGHT' || !mediaQueryList.matches) {
+			document.documentElement.classList.remove('dark');
+		}
+
+		if (currentColorScheme !== 'SYSTEM') return;
 
 		mediaQueryList.addEventListener('change', mediaQueryChangeHandler);
 

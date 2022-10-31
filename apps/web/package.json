@@ -26,7 +26,8 @@
 		"solid-js": "^1.6.0",
 		"solid-start": "^0.2.1",
 		"undici": "^5.12.0",
-		"zod": "^3.19.1"
+		"zod": "^3.19.1",
+		"zod-form-data": "^1.2.2"
 	},
 	"devDependencies": {
 		"@iconify/json": "^2.1.130",
