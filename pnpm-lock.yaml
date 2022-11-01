@@ -1,29 +1,29 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@iconify/json': ^2.1.130
+  '@iconify/json': ^2.1.131
   '@js-temporal/polyfill': ^0.4.3
   '@prisma/client': ^4.5.0
   '@solidjs/meta': ^0.28.2
   '@solidjs/router': ^0.5.0
   '@tsconfig/strictest': ^1.0.2
   '@types/nodemailer': ^6.4.6
-  '@unocss/reset': ^0.46.1
+  '@unocss/reset': ^0.46.2
   eslint: ^8.26.0
   eslint-config-canonical: ^37.0.3
   eslint-plugin-prettier: ^4.2.1
-  eslint-plugin-solid: ^0.7.4
+  eslint-plugin-solid: ^0.8.0
   nodemailer: ^6.8.0
   prettier: ^2.7.1
   prettier-plugin-tailwindcss: ^0.1.13
   prisma: ^4.5.0
-  solid-js: ^1.6.0
-  solid-start: ^0.2.1
-  solid-start-node: ^0.2.1
+  solid-js: ^1.6.1
+  solid-start: ^0.2.3
+  solid-start-node: ^0.2.3
   typescript: ^4.8.4
   undici: ^5.12.0
-  unocss: ^0.46.1
-  vite: ^3.2.1
+  unocss: ^0.46.2
+  vite: ^3.2.2
   zod: ^3.19.1
   zod-form-data: ^1.2.2
 
@@ -47,7 +47,7 @@ devDependencies:
   eslint: 8.26.0
   eslint-config-canonical: 37.0.3_wyqvi574yv7oiwfeinomdzmc3m
   eslint-plugin-prettier: 4.2.1_5t6g5rrqvlktilv3n3sw5svbdi
-  eslint-plugin-solid: 0.7.4_wyqvi574yv7oiwfeinomdzmc3m
+  eslint-plugin-solid: 0.8.0_wyqvi574yv7oiwfeinomdzmc3m
   prettier: 2.7.1
   prettier-plugin-tailwindcss: 0.1.13_prettier@2.7.1
   prisma: 4.5.0
@@ -3992,8 +3992,8 @@ packages:
       string.prototype.matchall: 4.0.7
     dev: true
 
-  /eslint-plugin-solid/0.7.4_wyqvi574yv7oiwfeinomdzmc3m:
-    resolution: {integrity: sha512-AqGl5gyTA2qpF3VnzHcXgZuCjYp7a1Rmukcg+OIPA4fX7TkmsYZDcclh5jw9JwPsc4IcU8T9RYkJW5pQ52Gzcg==}
+  /eslint-plugin-solid/0.8.0_wyqvi574yv7oiwfeinomdzmc3m:
+    resolution: {integrity: sha512-yzTpqZ4+qGO14aM2rii9waonMNqSlpXHID2GMREYCOWpbIrkC5gILXpLl/+ZWFHSJDvsQN+/COobBkqizn7pkw==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
