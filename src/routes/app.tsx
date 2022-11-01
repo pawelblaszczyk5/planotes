@@ -1,4 +1,4 @@
-import { createEffect, Show } from 'solid-js';
+import { createEffect, Show, Suspense } from 'solid-js';
 import { A, FormError, Outlet, useLocation, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect } from 'solid-start/server';
 import { zfd } from 'zod-form-data';
@@ -146,7 +146,9 @@ const App = () => {
 				</div>
 			</nav>
 			<main class="top-18 fixed h-[calc(100%-4.5rem)] w-full overflow-y-auto p-6 md:right-0 md:left-16 md:top-0 md:h-full md:w-[calc(100%-4rem)]">
-				<Outlet />
+				<Suspense>
+					<Outlet />
+				</Suspense>
 			</main>
 		</div>
 	);

@@ -4,6 +4,9 @@ import { requireUserId } from '~/lib/utils/session';
 
 export const routeData = () =>
 	createServerData$(async (_, { request }) => {
+		await new Promise<void>(resolve => {
+			setTimeout(() => resolve(), 13_000);
+		});
 		await requireUserId(request);
 	});
 
