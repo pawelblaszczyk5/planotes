@@ -2,7 +2,7 @@ import { createEffect, Show, Suspense } from 'solid-js';
 import { A, FormError, Outlet, useLocation, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect } from 'solid-start/server';
 import { zfd } from 'zod-form-data';
-import logo from '~/assets/logo.svg';
+import logo from '~/assets/logo.webp';
 import { type ColorScheme, createColorSchemeCookie, getColorScheme } from '~/lib/utils/colorScheme';
 import { db } from '~/lib/utils/db';
 import { requireUserId } from '~/lib/utils/session';
