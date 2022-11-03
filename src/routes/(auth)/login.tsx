@@ -13,9 +13,7 @@ import { getDateWithOffset } from '~/lib/utils/time';
 
 export const routeData = () =>
 	createServerData$(async (_, { request }) => {
-		if (await isUserLoggedIn(request)) {
-			throw redirect('/');
-		}
+		if (await isUserLoggedIn(request)) throw redirect('/app/home');
 	});
 
 const Login = () => {

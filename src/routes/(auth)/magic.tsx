@@ -1,13 +1,23 @@
 import { createSignal, onMount } from 'solid-js';
-import { FormError, useSearchParams } from 'solid-start';
-import { createServerAction$, redirect } from 'solid-start/server';
+import { FormError, useRouteData } from 'solid-start';
+import { createServerAction$, createServerData$, redirect } from 'solid-start/server';
 import { db } from '~/lib/utils/db';
-import { createSessionCookie, getMagicIdentifier } from '~/lib/utils/session';
+import { createSessionCookie, getMagicIdentifier, isUserLoggedIn } from '~/lib/utils/session';
 import { isDateInPast, convertEpochSecondsToDate } from '~/lib/utils/time';
 
+export const routeData = () =>
+	createServerData$(async (_, { request }) => {
+		if (await isUserLoggedIn(request)) throw redirect('/app/home');
+
+		const token = new URL(request.url).searchParams.get('token');
+
+		if (!token) throw redirect('');
+
+		return token;
+	});
+
 const Magic = () => {
-	// TODO: verify and parse params in routeData maybe?
-	const [params] = useSearchParams();
+	const tokenFromUrl = useRouteData<typeof routeData>();
 
 	const [formRef, setFormRef] = createSignal<HTMLFormElement>();
 
@@ -40,7 +50,7 @@ const Magic = () => {
 
 	return (
 		<verifyMagicTrigger.Form method="post" ref={setFormRef}>
-			<input name="token" type="hidden" value={params['token'] ?? ''} />
+			<input name="token" type="hidden" value={tokenFromUrl() ?? ''} />
 		</verifyMagicTrigger.Form>
 	);
 };
