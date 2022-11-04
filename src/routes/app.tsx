@@ -132,11 +132,11 @@ const App = () => {
 			<nav class="b-b md:b-r b-primary h-18 fixed top-0 left-0 flex w-full items-center px-6 py-2 md:left-0 md:top-0 md:h-full md:w-16 md:flex-col md:px-2 md:py-4">
 				<NavImageLink href="/ " title="Home" src={logo} />
 				<div class="ml-auto flex items-center gap-2 md:mt-auto md:flex-col md:gap-4">
-					<NavButton icon="i-lucide-search" title="Search" />
 					<changeColorSchemeTrigger.Form method="post">
 						<input type="hidden" name="currentLocation" value={location.pathname} />
 						<NavButton title={getColorSchemeChangeButtonTitle()} icon={getColorSchemeIcon()} />
 					</changeColorSchemeTrigger.Form>
+					<NavButton title="Sign out" icon="i-lucide-log-out" />
 					<NavLink href="https://github.com/pawelblaszczyk5/planotes" title="test" icon="i-lucide-github" external />
 					<div class="h-1 w-1" />
 					<Show when={user()?.email}>
