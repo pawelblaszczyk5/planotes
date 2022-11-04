@@ -41,7 +41,7 @@ const Magic = () => {
 
 		const cookie = await createSessionCookie({ request, sessionDuration, userId });
 
-		return redirect('/', { headers: { 'Set-Cookie': cookie } });
+		return redirect('/app/home', { headers: { 'Set-Cookie': cookie } });
 	});
 
 	onMount(() => {
