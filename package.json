@@ -30,7 +30,7 @@
 		"zod-form-data": "^1.2.2"
 	},
 	"devDependencies": {
-		"@iconify/json": "^2.1.132",
+		"@iconify/json": "^2.1.133",
 		"@tsconfig/strictest": "^1.0.2",
 		"@types/nodemailer": "^6.4.6",
 		"eslint": "^8.26.0",
