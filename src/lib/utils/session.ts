@@ -71,6 +71,13 @@ export const createSessionCookie = async ({
 	});
 };
 
+export const createLogOutCookie = async (request: Request) => {
+	const session = await getSession(request);
+	const cookie = await destroySession(session);
+
+	return cookie;
+};
+
 export const requireUserId = async (request: Request) => {
 	const session = await getSession(request);
 	const parsedSession = sessionSchema.safeParse(session.data);
@@ -82,13 +89,6 @@ export const requireUserId = async (request: Request) => {
 	}
 
 	return parsedSession.data.userId;
-};
-
-export const logout = async (request: Request) => {
-	const session = await getSession(request);
-	const cookie = await destroySession(session);
-
-	return cookie;
 };
 
 export const isUserLoggedIn = async (request: Request) => {

@@ -5,7 +5,7 @@ import { zfd } from 'zod-form-data';
 import logo from '~/assets/logo.webp';
 import { type ColorScheme, createColorSchemeCookie, getColorScheme } from '~/lib/utils/colorScheme';
 import { db } from '~/lib/utils/db';
-import { requireUserId } from '~/lib/utils/session';
+import { createLogOutCookie, requireUserId } from '~/lib/utils/session';
 
 export const routeData = () => {
 	const userResource = createServerData$(async (_, { request }) => {
@@ -89,6 +89,14 @@ const App = () => {
 		return redirect(parsedFormData.data.currentLocation, { headers: { 'Set-Cookie': cookie } });
 	});
 
+	const [, signOutTrigger] = createServerAction$<FormData>(async (_, { request }) => {
+		await requireUserId(request);
+
+		const cookie = await createLogOutCookie(request);
+
+		throw redirect('/', { headers: { 'Set-Cookie': cookie } });
+	});
+
 	createEffect(() => {
 		const currentColorScheme = colorScheme();
 
@@ -136,7 +144,9 @@ const App = () => {
 						<input type="hidden" name="currentLocation" value={location.pathname} />
 						<NavButton title={getColorSchemeChangeButtonTitle()} icon={getColorSchemeIcon()} />
 					</changeColorSchemeTrigger.Form>
-					<NavButton title="Sign out" icon="i-lucide-log-out" />
+					<signOutTrigger.Form method="post">
+						<NavButton title="Sign out" icon="i-lucide-log-out" />
+					</signOutTrigger.Form>
 					<NavLink href="https://github.com/pawelblaszczyk5/planotes" title="test" icon="i-lucide-github" external />
 					<div class="h-1 w-1" />
 					<Show when={user()?.email}>
