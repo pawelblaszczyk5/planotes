@@ -5,7 +5,7 @@ import { zfd } from 'zod-form-data';
 import logo from '~/assets/logo.webp';
 import { type ColorScheme, createColorSchemeCookie, getColorScheme } from '~/lib/utils/colorScheme';
 import { db } from '~/lib/utils/db';
-import { createLogOutCookie, requireUserId } from '~/lib/utils/session';
+import { createSignOutCookie, requireUserId } from '~/lib/utils/session';
 
 export const routeData = () => {
 	const userResource = createServerData$(async (_, { request }) => {
@@ -92,7 +92,7 @@ const App = () => {
 	const [, signOutTrigger] = createServerAction$<FormData>(async (_, { request }) => {
 		await requireUserId(request);
 
-		const cookie = await createLogOutCookie(request);
+		const cookie = await createSignOutCookie(request);
 
 		throw redirect('/', { headers: { 'Set-Cookie': cookie } });
 	});
@@ -104,13 +104,9 @@ const App = () => {
 
 		const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
 
-		if (currentColorScheme === 'DARK' || mediaQueryList.matches) {
-			document.documentElement.classList.add('dark');
-		}
+		if (currentColorScheme === 'DARK' || mediaQueryList.matches) document.documentElement.classList.add('dark');
 
-		if (currentColorScheme === 'LIGHT' || !mediaQueryList.matches) {
-			document.documentElement.classList.remove('dark');
-		}
+		if (currentColorScheme === 'LIGHT' || !mediaQueryList.matches) document.documentElement.classList.remove('dark');
 
 		if (currentColorScheme !== 'SYSTEM') return;
 

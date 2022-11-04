@@ -5,7 +5,7 @@ import { db } from '~/lib/utils/db';
 import { sendEmailWithMagicLink } from '~/lib/utils/mail';
 import {
 	createMagicIdentifierCookie,
-	isUserLoggedIn,
+	isUserSignedIn,
 	MAGIC_LINK_REQUIRED_GENERATION_DELAY_IN_MINUTES,
 	MAGIC_LINK_VALIDITY_IN_MINUTES,
 } from '~/lib/utils/session';
@@ -13,7 +13,7 @@ import { getDateWithOffset } from '~/lib/utils/time';
 
 export const routeData = () =>
 	createServerData$(async (_, { request }) => {
-		if (await isUserLoggedIn(request)) throw redirect('/app/home');
+		if (await isUserSignedIn(request)) throw redirect('/app/home');
 	});
 
 const Login = () => {
@@ -21,7 +21,7 @@ const Login = () => {
 
 	const [, sendMagicLinkTrigger] = createServerAction$(async (formData: FormData, { request }) => {
 		// TODO: change to proper redirect URL
-		if (await isUserLoggedIn(request)) throw redirect('/');
+		if (await isUserSignedIn(request)) throw redirect('/');
 		// TODO: proper validation etc
 		const email = formData.get('email') as string;
 		const sessionDuration = formData.get('sessionDuration') as 'EPHEMERAL' | 'PERSISTENT';
