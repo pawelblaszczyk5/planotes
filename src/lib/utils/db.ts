@@ -1,5 +1,11 @@
 import { PrismaClient } from '@prisma/client';
+import { createStableModule } from '~/lib/utils/createStableModule';
 
-export const db = new PrismaClient();
+const createPrismaClient = () => {
+	const instance = new PrismaClient();
 
-await db.$connect();
+	void instance.$connect();
+	return instance;
+};
+
+export const db = createStableModule('db', createPrismaClient);

@@ -1,5 +1,6 @@
 import { type Transporter, createTransport } from 'nodemailer';
 import type SMTPTransport from 'nodemailer/lib/smtp-transport';
+import { createStableModule } from '~/lib/utils/createStableModule';
 import { env } from '~/lib/utils/env';
 
 const transporterConfig: SMTPTransport.Options = {
@@ -16,7 +17,7 @@ const transporterConfig: SMTPTransport.Options = {
 	port: 587,
 };
 
-export const transporter: Transporter = createTransport(transporterConfig);
+export const transporter: Transporter = createStableModule('smtpTransporter', () => createTransport(transporterConfig));
 
 type SendEmailOptions = {
 	html: string;
