@@ -12,7 +12,7 @@
 			"~/*": ["./src/*"]
 		},
 		"target": "ESNext",
-		"types": ["vite/client", "vitest/importMeta"]
+		"types": ["vite/client"]
 	},
 	"exclude": ["dist"],
 	"extends": "@tsconfig/strictest/tsconfig.json",
