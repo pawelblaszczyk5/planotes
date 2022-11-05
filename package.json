@@ -11,6 +11,7 @@
 		"start": "pnpm prisma migrate deploy && node dist/server.js",
 		"typecheck": "node scripts/typeCheck.js",
 		"prepare": "pnpm run prisma:generate",
+		"test": "vitest",
 		"prisma:dev": "prisma db push",
 		"prisma:generate": "prisma generate",
 		"prisma:migrate": "prisma migrate dev",
@@ -43,7 +44,8 @@
 		"solid-start-node": "^0.2.3",
 		"typescript": "^4.8.4",
 		"unocss": "^0.46.3",
-		"vite": "^3.2.2"
+		"vite": "^3.2.2",
+		"vitest": "^0.24.5"
 	},
 	"engines": {
 		"node": ">=18 <19",
