@@ -1,4 +1,4 @@
-import { createEffect, Show, Suspense } from 'solid-js';
+import { createEffect, For, Show } from 'solid-js';
 import { A, FormError, Outlet, useLocation, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect } from 'solid-start/server';
 import { zfd } from 'zod-form-data';
@@ -6,6 +6,15 @@ import logo from '~/assets/logo.webp';
 import { type ColorScheme, createColorSchemeCookie, getColorScheme } from '~/lib/utils/colorScheme';
 import { db } from '~/lib/utils/db';
 import { createSignOutCookie, requireUserId } from '~/lib/utils/session';
+
+const ROUTES = [
+	{ href: '/app/home', icon: 'i-lucide-home', title: 'Home' },
+	{ href: '/app/habits', icon: 'i-lucide-recycle', title: 'Habits' },
+	{ href: '/app/goals', icon: 'i-lucide-compass', title: 'Goals' },
+	{ href: '/app/tasks', icon: 'i-lucide-clipboard-check', title: 'Tasks' },
+	{ href: '/app/notes', icon: 'i-lucide-sticky-note', title: 'Notes' },
+	{ href: '/app/shop', icon: 'i-lucide-coins', title: 'Shop' },
+] as const;
 
 const mediaQueryChangeHandler = (event: MediaQueryListEvent) => {
 	if (event.matches) {
@@ -25,19 +34,6 @@ const getNextColorScheme = (currentColorScheme: ColorScheme) => {
 const changeColorSchemeActionSchema = zfd.formData({
 	currentLocation: zfd.text(),
 });
-
-export const routeData = () => {
-	const userResource = createServerData$(async (_, { request }) => {
-		const userId = await requireUserId(request);
-		const user = db.user.findUniqueOrThrow({ where: { id: userId } });
-
-		return user;
-	});
-
-	const colorSchemeResource = createServerData$(async (_, { request }) => getColorScheme(request));
-
-	return [userResource, colorSchemeResource] as const;
-};
 
 const SideNavLink = (props: { external?: boolean; href: string; icon: string; title: string }) => {
 	const linkTarget = () => (props.external ? '_blank' : '_self');
@@ -71,6 +67,28 @@ const SideNavImageLink = (props: { href: string; src: string; title: string }) =
 		<img class="h-full w-full" src={props.src} alt={props.title} />
 	</A>
 );
+
+const MainNavLink = (props: typeof ROUTES[number]) => (
+	<A
+		class="b-b-2 b-dotted b-current text-primary md:text-secondary md:hover:text-primary ring-primary [[aria-current]&]:text-accent flex items-center py-1 text-lg md:text-xl"
+		href={props.href}
+	>
+		{props.title} <i class="ml-3" classList={{ [props.icon]: true }} />
+	</A>
+);
+
+export const routeData = () => {
+	const userResource = createServerData$(async (_, { request }) => {
+		const userId = await requireUserId(request);
+		const user = db.user.findUniqueOrThrow({ where: { id: userId } });
+
+		return user;
+	});
+
+	const colorSchemeResource = createServerData$(async (_, { request }) => getColorScheme(request));
+
+	return [userResource, colorSchemeResource] as const;
+};
 
 const App = () => {
 	const [user, colorScheme] = useRouteData<typeof routeData>();
@@ -156,10 +174,17 @@ const App = () => {
 					</Show>
 				</div>
 			</nav>
-			<main class="top-18 fixed h-[calc(100%-4.5rem)] w-full overflow-y-auto p-6 md:right-0 md:left-16 md:top-0 md:h-full md:w-[calc(100%-4rem)]">
-				<Suspense>
+			<main class="top-18 fixed h-[calc(100%-4.5rem)] w-full overflow-y-auto p-6 md:right-0 md:left-16 md:top-0 md:h-full md:w-[calc(100%-4rem)] md:p-8">
+				<div class="items-start md:flex">
+					{/* TODO: Change to username and a random greeting probably or something different */}
+					<h1 class="text-4xl font-bold md:mr-6">Lorem ipsum!</h1>
+					<nav class="mt-6 flex flex-wrap gap-x-6 gap-y-4 md:ml-auto md:mt-0">
+						<For each={ROUTES}>{route => <MainNavLink {...route} />}</For>
+					</nav>
+				</div>
+				<div class="mt-12">
 					<Outlet />
-				</Suspense>
+				</div>
 			</main>
 		</div>
 	);
