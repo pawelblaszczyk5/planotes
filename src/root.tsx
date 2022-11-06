@@ -2,10 +2,16 @@
 import { createEffect, Show, Suspense } from 'solid-js';
 import { Body, ErrorBoundary, FileRoutes, Head, Html, Link, Meta, Routes, Scripts, Title } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
-import { type ColorScheme, getColorScheme, getColorSchemeStyle } from '~/lib/utils/colorScheme';
+import { type ColorScheme, getColorScheme } from '~/lib/utils/colorScheme';
 
 import '@unocss/reset/tailwind.css';
 import 'uno.css';
+
+const getColorSchemeStyle = (colorScheme: ColorScheme) => {
+	if (colorScheme === 'SYSTEM') return 'light dark';
+	if (colorScheme === 'DARK') return 'dark';
+	return 'light';
+};
 
 const mediaQueryChangeHandler = (event: MediaQueryListEvent) => {
 	if (event.matches) {

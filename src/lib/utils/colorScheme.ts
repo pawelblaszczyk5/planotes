@@ -27,9 +27,3 @@ export const getColorScheme = async (request: Request) => {
 
 export const createColorSchemeCookie = async (preferedColorScheme: ColorScheme) =>
 	colorSchemeCookie.serialize(preferedColorScheme);
-
-export const getColorSchemeStyle = (colorScheme: ColorScheme) => {
-	if (colorScheme === 'SYSTEM') return 'light dark';
-	if (colorScheme === 'DARK') return 'dark';
-	return 'light';
-};
