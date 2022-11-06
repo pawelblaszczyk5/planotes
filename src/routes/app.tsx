@@ -41,7 +41,7 @@ const SideNavLink = (props: { external?: boolean; href: string; icon: string; ti
 
 	return (
 		<A
-			class="ring-primary text-primary md:text-secondary md:hover:text-primary flex h-10 w-10 items-center justify-center p-2 md:transition-colors"
+			class="ring-primary text-primary pointer:text-secondary pointer:hover:text-primary pointer:transition-colors flex h-10 w-10 items-center justify-center p-2"
 			href={props.href}
 			title={props.title}
 			target={linkTarget()}
@@ -55,7 +55,7 @@ const SideNavLink = (props: { external?: boolean; href: string; icon: string; ti
 const SideNavButton = (props: { icon: string; onClick?: () => void; title: string }) => (
 	<button
 		onClick={() => props.onClick?.()}
-		class="ring-primary text-primary md:text-secondary md:hover:text-primary flex h-10 w-10 items-center justify-center p-2 md:transition-colors"
+		class="ring-primary text-primary pointer:text-secondary pointer:hover:text-primary pointer:transition-colors flex h-10 w-10 items-center justify-center p-2"
 		aria-label={props.title}
 	>
 		<i class="text-3xl" classList={{ [props.icon]: true }} aria-hidden="true" />
@@ -70,7 +70,7 @@ const SideNavImageLink = (props: { href: string; src: string; title: string }) =
 
 const MainNavLink = (props: typeof ROUTES[number]) => (
 	<A
-		class="b-b-2 b-dotted b-current text-primary md:text-secondary md:hover:text-primary ring-primary [[aria-current]&]:text-accent flex items-center py-1 text-lg md:text-xl"
+		class="b-b-2 b-dotted b-current text-primary pointer:text-secondary pointer:hover:text-primary pointer:transition-colors ring-primary [[aria-current]&]:text-accent flex items-center py-1 text-lg md:text-xl"
 		href={props.href}
 	>
 		{props.title} <i class="ml-3" classList={{ [props.icon]: true }} aria-hidden />

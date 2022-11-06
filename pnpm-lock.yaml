@@ -8,6 +8,7 @@ specifiers:
   '@solidjs/router': ^0.5.0
   '@tsconfig/strictest': ^1.0.2
   '@types/nodemailer': ^6.4.6
+  '@unocss/preset-mini': ^0.46.3
   '@unocss/reset': ^0.46.3
   eslint: ^8.26.0
   eslint-config-canonical: ^37.0.3
@@ -44,6 +45,7 @@ devDependencies:
   '@iconify/json': 2.1.133
   '@tsconfig/strictest': 1.0.2
   '@types/nodemailer': 6.4.6
+  '@unocss/preset-mini': 0.46.3
   eslint: 8.26.0
   eslint-config-canonical: 37.0.3_wyqvi574yv7oiwfeinomdzmc3m
   eslint-plugin-prettier: 4.2.1_5t6g5rrqvlktilv3n3sw5svbdi
