@@ -73,7 +73,7 @@ const MainNavLink = (props: typeof ROUTES[number]) => (
 		class="b-b-2 b-dotted b-current text-primary md:text-secondary md:hover:text-primary ring-primary [[aria-current]&]:text-accent flex items-center py-1 text-lg md:text-xl"
 		href={props.href}
 	>
-		{props.title} <i class="ml-3" classList={{ [props.icon]: true }} />
+		{props.title} <i class="ml-3" classList={{ [props.icon]: true }} aria-hidden />
 	</A>
 );
 
