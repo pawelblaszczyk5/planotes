@@ -1,21 +1,47 @@
 // @refresh reload
-import { Show, Suspense } from 'solid-js';
+import { createEffect, Show, Suspense } from 'solid-js';
 import { Body, ErrorBoundary, FileRoutes, Head, Html, Meta, Routes, Scripts, Title } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
-import { getColorScheme, getColorSchemeStyle } from '~/lib/utils/colorScheme';
+import { type ColorScheme, getColorScheme, getColorSchemeStyle } from '~/lib/utils/colorScheme';
 
 import '@unocss/reset/tailwind.css';
 import 'uno.css';
 
-const SystemPreferenceDetector = () => (
-	<script>
-		if (window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.classList.add('dark');
-	</script>
-);
+const mediaQueryChangeHandler = (event: MediaQueryListEvent) => {
+	if (event.matches) {
+		document.documentElement.classList.add('dark');
+		return;
+	}
+
+	document.documentElement.classList.remove('dark');
+};
+
+const SystemPreferenceDetector = (props: { colorScheme: ColorScheme }) => {
+	createEffect(() => {
+		const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+
+		if (props.colorScheme === 'DARK' || mediaQueryList.matches) document.documentElement.classList.add('dark');
+
+		if (props.colorScheme === 'LIGHT' || !mediaQueryList.matches) document.documentElement.classList.remove('dark');
+
+		if (props.colorScheme !== 'SYSTEM') return;
+
+		mediaQueryList.addEventListener('change', mediaQueryChangeHandler);
+
+		return () => mediaQueryList.removeEventListener('change', mediaQueryChangeHandler);
+	});
+
+	return (
+		<Show when={props.colorScheme === 'SYSTEM'}>
+			<script>
+				if (window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.classList.add('dark');
+			</script>
+		</Show>
+	);
+};
 
 const Root = () => {
 	const colorScheme = createServerData$(async (_, { request }) => getColorScheme(request));
-
 	return (
 		<Suspense>
 			<Html
@@ -35,7 +61,7 @@ const Root = () => {
 					<meta name="msapplication-TileColor" content="#171717" />
 					<meta name="theme-color" content="#171717" />
 					<Show when={colorScheme()}>
-						<SystemPreferenceDetector />
+						<SystemPreferenceDetector colorScheme={colorScheme()!} />
 					</Show>
 				</Head>
 				<Body class="text-primary bg-primary h-full">

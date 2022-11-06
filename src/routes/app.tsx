@@ -1,4 +1,4 @@
-import { createEffect, For, Show } from 'solid-js';
+import { For, Show } from 'solid-js';
 import { A, FormError, Outlet, useLocation, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect } from 'solid-start/server';
 import { zfd } from 'zod-form-data';
@@ -15,15 +15,6 @@ const ROUTES = [
 	{ href: '/app/notes', icon: 'i-lucide-sticky-note', title: 'Notes' },
 	{ href: '/app/shop', icon: 'i-lucide-coins', title: 'Shop' },
 ] as const;
-
-const mediaQueryChangeHandler = (event: MediaQueryListEvent) => {
-	if (event.matches) {
-		document.documentElement.classList.add('dark');
-		return;
-	}
-
-	document.documentElement.classList.remove('dark');
-};
 
 const getNextColorScheme = (currentColorScheme: ColorScheme) => {
 	if (currentColorScheme === 'DARK') return 'LIGHT';
@@ -113,24 +104,6 @@ const App = () => {
 		const cookie = await createSignOutCookie(request);
 
 		throw redirect('/', { headers: { 'Set-Cookie': cookie } });
-	});
-
-	createEffect(() => {
-		const currentColorScheme = colorScheme();
-
-		if (!currentColorScheme) return;
-
-		const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
-
-		if (currentColorScheme === 'DARK' || mediaQueryList.matches) document.documentElement.classList.add('dark');
-
-		if (currentColorScheme === 'LIGHT' || !mediaQueryList.matches) document.documentElement.classList.remove('dark');
-
-		if (currentColorScheme !== 'SYSTEM') return;
-
-		mediaQueryList.addEventListener('change', mediaQueryChangeHandler);
-
-		return () => mediaQueryList.removeEventListener('change', mediaQueryChangeHandler);
 	});
 
 	const getColorSchemeIcon = () => {
