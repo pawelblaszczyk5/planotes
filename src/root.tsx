@@ -2,7 +2,7 @@
 import { Show, Suspense } from 'solid-js';
 import { Body, ErrorBoundary, FileRoutes, Head, Html, Meta, Routes, Scripts, Title } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
-import { getColorScheme } from '~/lib/utils/colorScheme';
+import { getColorScheme, getColorSchemeStyle } from '~/lib/utils/colorScheme';
 
 import '@unocss/reset/tailwind.css';
 import 'uno.css';
@@ -18,7 +18,11 @@ const Root = () => {
 
 	return (
 		<Suspense>
-			<Html lang="en" classList={{ dark: colorScheme() === 'DARK', 'h-full': true }}>
+			<Html
+				style={{ 'color-scheme': getColorSchemeStyle(colorScheme() ?? 'SYSTEM') }}
+				lang="en"
+				classList={{ dark: colorScheme() === 'DARK', 'h-full': true }}
+			>
 				<Head>
 					<Title>Planotes</Title>
 					<Meta charset="utf-8" />
