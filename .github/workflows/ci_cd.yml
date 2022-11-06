@@ -36,6 +36,6 @@ jobs:
         run: pnpm typecheck
 
       - name: Deploy
-        run: pnpm --package=@railway/cli dlx railway up
+        run: pnpm --package=@railway/cli dlx railway up --detach
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
