@@ -7,52 +7,6 @@ import { type ColorScheme, createColorSchemeCookie, getColorScheme } from '~/lib
 import { db } from '~/lib/utils/db';
 import { createSignOutCookie, requireUserId } from '~/lib/utils/session';
 
-export const routeData = () => {
-	const userResource = createServerData$(async (_, { request }) => {
-		const userId = await requireUserId(request);
-		const user = db.user.findUniqueOrThrow({ where: { id: userId } });
-
-		return user;
-	});
-
-	const colorSchemeResource = createServerData$(async (_, { request }) => getColorScheme(request));
-
-	return [userResource, colorSchemeResource] as const;
-};
-
-const NavLink = (props: { external?: boolean; href: string; icon: string; title: string }) => {
-	const linkTarget = () => (props.external ? '_blank' : '_self');
-	const linkRel = () => (props.external ? 'noopener noreferrer' : '');
-
-	return (
-		<A
-			class="ring-primary text-primary md:text-secondary md:hover:text-primary flex h-10 w-10 items-center justify-center p-2 md:transition-colors"
-			href={props.href}
-			title={props.title}
-			target={linkTarget()}
-			rel={linkRel()}
-		>
-			<i class="text-3xl" classList={{ [props.icon]: true }} aria-hidden="true" />
-		</A>
-	);
-};
-
-const NavButton = (props: { icon: string; onClick?: () => void; title: string }) => (
-	<button
-		onClick={() => props.onClick?.()}
-		class="ring-primary text-primary md:text-secondary md:hover:text-primary flex h-10 w-10 items-center justify-center p-2 md:transition-colors"
-		aria-label={props.title}
-	>
-		<i class="text-3xl" classList={{ [props.icon]: true }} aria-hidden="true" />
-	</button>
-);
-
-const NavImageLink = (props: { href: string; src: string; title: string }) => (
-	<A class="ring-primary flex h-12 w-12 items-center justify-center p-1" href={props.href}>
-		<img class="h-full w-full" src={props.src} alt={props.title} />
-	</A>
-);
-
 const mediaQueryChangeHandler = (event: MediaQueryListEvent) => {
 	if (event.matches) {
 		document.documentElement.classList.add('dark');
@@ -71,6 +25,52 @@ const getNextColorScheme = (currentColorScheme: ColorScheme) => {
 const changeColorSchemeActionSchema = zfd.formData({
 	currentLocation: zfd.text(),
 });
+
+export const routeData = () => {
+	const userResource = createServerData$(async (_, { request }) => {
+		const userId = await requireUserId(request);
+		const user = db.user.findUniqueOrThrow({ where: { id: userId } });
+
+		return user;
+	});
+
+	const colorSchemeResource = createServerData$(async (_, { request }) => getColorScheme(request));
+
+	return [userResource, colorSchemeResource] as const;
+};
+
+const SideNavLink = (props: { external?: boolean; href: string; icon: string; title: string }) => {
+	const linkTarget = () => (props.external ? '_blank' : '_self');
+	const linkRel = () => (props.external ? 'noopener noreferrer' : '');
+
+	return (
+		<A
+			class="ring-primary text-primary md:text-secondary md:hover:text-primary flex h-10 w-10 items-center justify-center p-2 md:transition-colors"
+			href={props.href}
+			title={props.title}
+			target={linkTarget()}
+			rel={linkRel()}
+		>
+			<i class="text-3xl" classList={{ [props.icon]: true }} aria-hidden="true" />
+		</A>
+	);
+};
+
+const SideNavButton = (props: { icon: string; onClick?: () => void; title: string }) => (
+	<button
+		onClick={() => props.onClick?.()}
+		class="ring-primary text-primary md:text-secondary md:hover:text-primary flex h-10 w-10 items-center justify-center p-2 md:transition-colors"
+		aria-label={props.title}
+	>
+		<i class="text-3xl" classList={{ [props.icon]: true }} aria-hidden="true" />
+	</button>
+);
+
+const SideNavImageLink = (props: { href: string; src: string; title: string }) => (
+	<A class="ring-primary flex h-12 w-12 items-center justify-center p-1" href={props.href}>
+		<img class="h-full w-full" src={props.src} alt={props.title} />
+	</A>
+);
 
 const App = () => {
 	const [user, colorScheme] = useRouteData<typeof routeData>();
@@ -133,21 +133,26 @@ const App = () => {
 
 	return (
 		<div class="h-full w-full">
-			<nav class="b-b md:b-r b-primary h-18 fixed top-0 left-0 flex w-full items-center px-6 py-2 md:left-0 md:top-0 md:h-full md:w-16 md:flex-col md:px-2 md:py-4">
-				<NavImageLink href="/ " title="Home" src={logo} />
+			<nav class="b-b md:b-r md:b-b-0 b-primary h-18 fixed top-0 left-0 flex w-full items-center px-6 py-2 md:left-0 md:top-0 md:h-full md:w-16 md:flex-col md:px-2 md:py-4">
+				<SideNavImageLink href="/ " title="Home" src={logo} />
 				<div class="ml-auto flex items-center gap-2 md:mt-auto md:flex-col md:gap-4">
 					<changeColorSchemeTrigger.Form method="post">
 						<input type="hidden" name="currentLocation" value={location.pathname} />
-						<NavButton title={getColorSchemeChangeButtonTitle()} icon={getColorSchemeIcon()} />
+						<SideNavButton title={getColorSchemeChangeButtonTitle()} icon={getColorSchemeIcon()} />
 					</changeColorSchemeTrigger.Form>
 					<signOutTrigger.Form method="post">
-						<NavButton title="Sign out" icon="i-lucide-log-out" />
+						<SideNavButton title="Sign out" icon="i-lucide-log-out" />
 					</signOutTrigger.Form>
-					<NavLink href="https://github.com/pawelblaszczyk5/planotes" title="test" icon="i-lucide-github" external />
+					<SideNavLink
+						href="https://github.com/pawelblaszczyk5/planotes"
+						title="test"
+						icon="i-lucide-github"
+						external
+					/>
 					<div class="h-1 w-1" />
 					<Show when={user()?.email}>
 						{/* TODO: Change to proper seed instead of email */}
-						<NavImageLink href="/app/profile" title="Go to profile" src={`/api/avatar/${user()!.email}`} />
+						<SideNavImageLink href="/app/profile" title="Go to profile" src={`/api/avatar/${user()!.email}`} />
 					</Show>
 				</div>
 			</nav>
