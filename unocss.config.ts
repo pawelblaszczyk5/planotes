@@ -12,6 +12,7 @@ export default defineConfig({
 		}),
 	],
 	shortcuts: {
+		'b-accent': 'b-fuchsia-600 dark:b-fuchsia-400',
 		'b-destructive': 'b-rose-600 dark:b-rose-500',
 		'b-primary': 'b-neutral-400 dark:b-neutral-600',
 		'bg-primary': 'bg-neutral-200 dark:bg-neutral-900',

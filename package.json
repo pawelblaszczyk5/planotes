@@ -18,6 +18,7 @@
 	},
 	"dependencies": {
 		"@js-temporal/polyfill": "^0.4.3",
+		"@motionone/solid": "^10.14.3",
 		"@prisma/client": "^4.5.0",
 		"@solidjs/meta": "^0.28.2",
 		"@solidjs/router": "^0.5.0",
