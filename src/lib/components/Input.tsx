@@ -3,6 +3,7 @@ import { type JSXElement, createUniqueId, Show } from 'solid-js';
 type InputProps = {
 	autocomplete?: 'email' | 'username';
 	children: JSXElement;
+	class?: string;
 	error?: JSXElement;
 	name?: string;
 	type?: 'email' | 'text';
@@ -15,7 +16,7 @@ export const Input = (props: InputProps) => {
 	const hasError = () => Boolean(props.error);
 
 	return (
-		<div class="flex flex-col">
+		<div class={`flex flex-col ${props.class ? props.class : ''}`}>
 			<label class="text-secondary pb-1 text-sm" for={`${id}-input`}>
 				{props.children}
 			</label>
