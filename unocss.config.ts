@@ -12,10 +12,12 @@ export default defineConfig({
 		}),
 	],
 	shortcuts: {
+		'b-destructive': 'b-rose-600 dark:b-rose-500',
 		'b-primary': 'b-neutral-400 dark:b-neutral-600',
 		'bg-primary': 'bg-neutral-200 dark:bg-neutral-900',
 		'ring-primary': 'outline-sky-600 focus-visible:outline-2 focus-visible:outline-solid dark:outline-sky-400',
 		'text-accent': 'text-fuchsia-600 dark:text-fuchsia-400',
+		'text-destructive': 'text-rose-600 dark:text-rose-500',
 		'text-primary': 'text-neutral-900 dark:text-neutral-200',
 		'text-secondary': 'text-neutral-600 dark:text-neutral-400',
 	},
