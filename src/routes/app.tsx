@@ -124,7 +124,7 @@ const App = () => {
 
 	return (
 		<div class="h-full w-full">
-			<nav class="b-b md:b-r md:b-b-0 b-primary h-18 fixed top-0 left-0 flex w-full items-center px-6 py-2 md:left-0 md:top-0 md:h-full md:w-16 md:flex-col md:px-2 md:py-4">
+			<nav class="b-b md:b-r md:b-b-0 b-primary h-18 fixed top-0 left-0 flex w-full items-center px-6 py-2 md:left-0 md:top-0 md:h-full md:w-16 md:flex-col md:px-2 md:py-6">
 				<SideNavImageLink href="/ " title="Home" src={logo} />
 				<div class="ml-auto flex items-center gap-2 md:mt-auto md:flex-col md:gap-4">
 					<changeColorSchemeTrigger.Form method="post">
@@ -147,7 +147,7 @@ const App = () => {
 					</Show>
 				</div>
 			</nav>
-			<main class="top-18 fixed h-[calc(100%-4.5rem)] w-full overflow-y-auto p-6 md:right-0 md:left-16 md:top-0 md:h-full md:w-[calc(100%-4rem)] md:p-8">
+			<main class="top-18 fixed h-[calc(100%-4.5rem)] w-full overflow-y-auto p-6 md:right-0 md:left-16 md:top-0 md:h-full md:w-[calc(100%-4rem)]">
 				<div class="items-start md:flex">
 					{/* TODO: Change to username and a random greeting probably or something different */}
 					<h1 class="text-4xl font-bold md:mr-6">Lorem ipsum!</h1>
