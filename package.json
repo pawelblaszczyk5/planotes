@@ -23,6 +23,8 @@
 		"@solidjs/meta": "^0.28.2",
 		"@solidjs/router": "^0.5.0",
 		"@unocss/reset": "^0.46.3",
+		"@zag-js/radio": "^0.1.1",
+		"@zag-js/solid": "^0.2.1",
 		"nodemailer": "^6.8.0",
 		"solid-js": "^1.6.1",
 		"solid-start": "^0.2.3",
