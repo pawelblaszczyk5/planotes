@@ -10,6 +10,8 @@ import {
 	createEffect,
 } from 'solid-js';
 
+// FIXME: Use standard children JSX notation after https://github.com/solidjs/solid/issues/1345
+
 type Api = Accessor<ReturnType<typeof radio.connect>>;
 
 const RadioGroupContext = createContext<Api>();
