@@ -1,11 +1,11 @@
 import { type JSXElement, createUniqueId, Show } from 'solid-js';
 
 type InputProps = {
-	autocomplete?: 'email' | 'username';
+	autocomplete?: 'email' | 'off' | 'username';
 	children: JSXElement;
 	class?: string;
 	error?: JSXElement;
-	name?: string;
+	name: string;
 	type?: 'email' | 'text';
 	value?: string;
 };
@@ -25,7 +25,7 @@ export const Input = (props: InputProps) => {
 				classList={{ 'b-destructive': hasError(), 'b-primary': !hasError() }}
 				type={props.type ?? 'text'}
 				id={`${id}-input`}
-				name={props.name ?? ''}
+				name={props.name}
 				value={props.value ?? ''}
 				aria-invalid={hasError()}
 				aria-describedby={hasError() ? `${id}-error` : ''}
