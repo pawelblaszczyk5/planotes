@@ -17,7 +17,7 @@ const useApi = () => {
 	return api;
 };
 
-type RootProps = { children: JSXElement; name: string; defaultValue?: string };
+type RootProps = { children: JSXElement; name: string; defaultValue?: string; class?: string };
 
 const Root = (props: RootProps) => {
 	const radioGroupId = createUniqueId();
@@ -30,7 +30,7 @@ const Root = (props: RootProps) => {
 
 	return (
 		<RadioGroupContext.Provider value={api}>
-			<div class="flex flex-col items-start gap-2" {...api().rootProps}>
+			<div class={`flex flex-col items-start gap-2 ${props.class ?? ''}`} {...api().rootProps}>
 				{props.children}
 			</div>
 		</RadioGroupContext.Provider>

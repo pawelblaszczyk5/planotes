@@ -16,7 +16,7 @@ export const Input = (props: InputProps) => {
 	const hasError = () => Boolean(props.error);
 
 	return (
-		<div class={`flex flex-col ${props.class ? props.class : ''}`}>
+		<div class={`flex flex-col ${props.class ?? ''}`}>
 			<label class="text-secondary pb-1 text-sm" for={`${id}-input`}>
 				{props.children}
 			</label>

@@ -13,7 +13,7 @@ export const Button = (props: ButtonProps) => {
 	return (
 		<Motion.button
 			press={{ scale: 0.95 }}
-			class={`ring-primary b-2 rounded-sm py-2 px-6 font-medium outline-offset-2 ${props.class ? props.class : ''}`}
+			class={`ring-primary b-2 rounded-sm py-2 px-6 font-medium outline-offset-2 ${props.class ?? ''}`}
 			classList={{
 				'b-accent': props.variant === 'primary' || !props.variant,
 				'b-destructive': props.variant === 'destructive',
