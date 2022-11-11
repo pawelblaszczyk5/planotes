@@ -1,14 +1,8 @@
+// TODO:  check if it can be solved other way
+// @refresh reload
 import * as radio from '@zag-js/radio';
 import { normalizeProps, useMachine } from '@zag-js/solid';
-import {
-	type Accessor,
-	type JSXElement,
-	createUniqueId,
-	createMemo,
-	createContext,
-	useContext,
-	createEffect,
-} from 'solid-js';
+import { type Accessor, type JSXElement, createUniqueId, createMemo, createContext, useContext, Show } from 'solid-js';
 
 type Api = Accessor<ReturnType<typeof radio.connect>>;
 
@@ -22,22 +16,22 @@ const useApi = () => {
 	return api;
 };
 
-type RootProps = { children: JSXElement; name: string; value?: string };
+type RootProps = { children: JSXElement; name: string; defaultValue?: string };
 
 const Root = (props: RootProps) => {
 	const radioGroupId = createUniqueId();
 	// eslint-disable-next-line solid/reactivity -- there is no way to set name programatically after init
-	const [state, send] = useMachine(radio.machine({ id: radioGroupId, name: props.name }));
+	const [state, send] = useMachine(
+		radio.machine({ id: radioGroupId, name: props.name, value: props.defaultValue ?? null }),
+	);
 
 	const api = createMemo(() => radio.connect(state, send, normalizeProps));
 
-	createEffect(() => {
-		if (typeof props.value === 'string') api().setValue(props.value);
-	});
-
 	return (
 		<RadioGroupContext.Provider value={api}>
-			<div {...api().rootProps}>{props.children}</div>
+			<div class="flex flex-col items-start gap-2" {...api().rootProps}>
+				{props.children}
+			</div>
 		</RadioGroupContext.Provider>
 	);
 };
@@ -51,10 +45,22 @@ const Item = (props: ItemProps) => {
 	const api = useApi();
 
 	return (
-		<label {...api().getItemProps({ value: props.value })}>
-			<span {...api().getItemLabelProps({ value: props.value })}>{props.children}</span>
+		<label
+			class="text-secondary [&[data-hover]]:text-primary [&[data-focus]]:ring-primary-force flex items-center outline-offset-2"
+			{...api().getItemProps({ value: props.value })}
+		>
+			<div
+				class="b-primary b-2 mr-2 grid h-6 w-6 place-items-center rounded-full"
+				{...api().getItemControlProps({ value: props.value })}
+			>
+				<Show when={api().value === props.value}>
+					<div class="bg-accent h-3 w-3 rounded-full" />
+				</Show>
+			</div>
+			<span class="text-sm" {...api().getItemLabelProps({ value: props.value })}>
+				{props.children}
+			</span>
 			<input {...api().getItemInputProps({ value: props.value })} />
-			<div {...api().getItemControlProps({ value: props.value })} />
 		</label>
 	);
 };
