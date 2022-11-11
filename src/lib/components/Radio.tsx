@@ -1,5 +1,6 @@
 // TODO:  check if it can be solved other way
 // @refresh reload
+import { Motion, Presence } from '@motionone/solid';
 import * as radio from '@zag-js/radio';
 import { normalizeProps, useMachine } from '@zag-js/solid';
 import { type Accessor, type JSXElement, createUniqueId, createMemo, createContext, useContext, Show } from 'solid-js';
@@ -46,16 +47,24 @@ const Item = (props: ItemProps) => {
 
 	return (
 		<label
-			class="text-secondary [&[data-hover]]:text-primary [&[data-focus]]:ring-primary-force flex items-center outline-offset-2"
+			class="text-secondary [&[data-checked]]:text-primary [&[data-focus]]:ring-primary-force flex items-center outline-offset-2"
 			{...api().getItemProps({ value: props.value })}
 		>
 			<div
 				class="b-primary b-2 mr-2 grid h-6 w-6 place-items-center rounded-full"
 				{...api().getItemControlProps({ value: props.value })}
 			>
-				<Show when={api().value === props.value}>
-					<div class="bg-accent h-3 w-3 rounded-full" />
-				</Show>
+				<Presence>
+					<Show when={api().value === props.value}>
+						<Motion.div
+							initial={{ opacity: 0, scale: 0.6 }}
+							animate={{ opacity: 1, scale: 1 }}
+							exit={{ opacity: 0, scale: 0.6 }}
+							transition={{ duration: 0.2 }}
+							class="bg-accent h-3 w-3 rounded-full"
+						/>
+					</Show>
+				</Presence>
 			</div>
 			<span class="text-sm" {...api().getItemLabelProps({ value: props.value })}>
 				{props.children}
