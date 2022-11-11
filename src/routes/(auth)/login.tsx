@@ -49,6 +49,7 @@ const Login = () => {
 			},
 		});
 
+		// TODO: check if user browser is the same
 		if (previousMagicLink) throw new FormError('Error');
 
 		const token = randomBytes(32).toString('base64url');
