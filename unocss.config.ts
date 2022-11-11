@@ -18,6 +18,7 @@ export default defineConfig({
 		'bg-primary': 'bg-neutral-200 dark:bg-neutral-900',
 		'bg-accent': 'bg-fuchsia-600 dark:bg-fuchsia-400',
 		'ring-primary': 'outline-sky-600 focus-visible:outline-2 focus-visible:outline-solid dark:outline-sky-400',
+		'ring-primary-force': 'outline-sky-600 outline-2 outline-solid dark:outline-sky-400',
 		'text-accent': 'text-fuchsia-600 dark:text-fuchsia-400',
 		'text-destructive': 'text-rose-600 dark:text-rose-500',
 		'text-primary': 'text-neutral-900 dark:text-neutral-200',
