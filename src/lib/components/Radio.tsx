@@ -30,7 +30,7 @@ const Root = (props: RootProps) => {
 
 	return (
 		<RadioGroupContext.Provider value={api}>
-			<div class={`flex flex-col items-start gap-2 ${props.class ?? ''}`} {...api().rootProps}>
+			<div class={props.class} {...api().rootProps}>
 				{props.children}
 			</div>
 		</RadioGroupContext.Provider>
@@ -47,7 +47,7 @@ const Item = (props: ItemProps) => {
 
 	return (
 		<label
-			class="text-secondary [&[data-checked]]:text-primary [&[data-focus]]:ring-primary-force flex items-center outline-offset-2"
+			class="text-secondary [&[data-checked]]:text-primary [&[data-focus]]:ring-primary-force flex items-center text-sm outline-offset-2"
 			{...api().getItemProps({ value: props.value })}
 		>
 			<div
@@ -66,9 +66,7 @@ const Item = (props: ItemProps) => {
 					</Show>
 				</Presence>
 			</div>
-			<span class="text-sm" {...api().getItemLabelProps({ value: props.value })}>
-				{props.children}
-			</span>
+			<span {...api().getItemLabelProps({ value: props.value })}>{props.children}</span>
 			<input {...api().getItemInputProps({ value: props.value })} />
 		</label>
 	);
@@ -81,7 +79,11 @@ type LabelProps = {
 const Label = (props: LabelProps) => {
 	const api = useApi();
 
-	return <h3 {...api().labelProps}>{props.children}</h3>;
+	return (
+		<h3 {...api().labelProps} class="text-secondary pb-1 text-sm">
+			{props.children}
+		</h3>
+	);
 };
 
 export const RadioGroup = { Item, Label, Root };
