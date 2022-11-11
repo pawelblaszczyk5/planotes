@@ -10,8 +10,6 @@ import {
 	createEffect,
 } from 'solid-js';
 
-// FIXME: Use standard children JSX notation after https://github.com/solidjs/solid/issues/1345
-
 type Api = Accessor<ReturnType<typeof radio.connect>>;
 
 const RadioGroupContext = createContext<Api>();
@@ -39,7 +37,7 @@ const Root = (props: RootProps) => {
 
 	return (
 		<RadioGroupContext.Provider value={api}>
-			<div {...api().rootProps} children={props.children} />
+			<div {...api().rootProps}>{props.children}</div>
 		</RadioGroupContext.Provider>
 	);
 };
@@ -53,16 +51,11 @@ const Item = (props: ItemProps) => {
 	const api = useApi();
 
 	return (
-		<label
-			{...api().getItemProps({ value: props.value })}
-			children={
-				<>
-					<span {...api().getItemLabelProps({ value: props.value })}>{props.children}</span>
-					<input {...api().getItemInputProps({ value: props.value })} />
-					<div {...api().getItemControlProps({ value: props.value })} />
-				</>
-			}
-		/>
+		<label {...api().getItemProps({ value: props.value })}>
+			<span {...api().getItemLabelProps({ value: props.value })}>{props.children}</span>
+			<input {...api().getItemInputProps({ value: props.value })} />
+			<div {...api().getItemControlProps({ value: props.value })} />
+		</label>
 	);
 };
 
@@ -73,7 +66,7 @@ type LabelProps = {
 const Label = (props: LabelProps) => {
 	const api = useApi();
 
-	return <h3 {...api().labelProps} children={props.children} />;
+	return <h3 {...api().labelProps}>{props.children}</h3>;
 };
 
 export const RadioGroup = { Item, Label, Root };
