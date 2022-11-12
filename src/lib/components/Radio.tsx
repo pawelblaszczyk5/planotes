@@ -1,4 +1,3 @@
-// TODO:  check if it can be solved other way
 // @refresh reload
 import { Motion, Presence } from '@motionone/solid';
 import * as radio from '@zag-js/radio';
@@ -47,11 +46,11 @@ const Item = (props: ItemProps) => {
 
 	return (
 		<label
-			class="text-secondary [&[data-checked]]:text-primary [&[data-focus]]:ring-primary-force flex items-center text-sm outline-offset-2"
+			class="text-secondary [&[data-checked]]:text-primary flex items-center text-sm outline-offset-2"
 			{...api().getItemProps({ value: props.value })}
 		>
 			<div
-				class="b-primary b-2 mr-2 grid h-6 w-6 place-items-center rounded-full"
+				class="b-primary b-2 [&[data-focus]]:ring-primary-force mr-2 grid h-6 w-6 place-items-center rounded-full outline-offset-2"
 				{...api().getItemControlProps({ value: props.value })}
 			>
 				<Presence>
