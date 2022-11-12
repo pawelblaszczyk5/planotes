@@ -12,6 +12,7 @@ import {
 	Show,
 	createEffect,
 	untrack,
+	mergeProps,
 } from 'solid-js';
 
 type Api = Accessor<ReturnType<typeof radio.connect>>;
@@ -28,23 +29,28 @@ const useApi = () => {
 
 type RootProps = { children: JSXElement; class?: string; name: string; value?: string };
 
+const DEFAULT_ROOT_PROPS = {
+	value: '',
+} as const;
+
 const Root = (props: RootProps) => {
+	const propsWithDefaults = mergeProps(DEFAULT_ROOT_PROPS, props);
 	const radioGroupId = createUniqueId();
 	const [state, send] = useMachine(
 		// eslint-disable-next-line solid/reactivity -- there is no way to set name programatically after init
-		radio.machine({ id: radioGroupId, name: props.name, value: props.value ?? null }),
+		radio.machine({ id: radioGroupId, name: propsWithDefaults.name, value: propsWithDefaults.value }),
 	);
 
 	const api = createMemo(() => radio.connect(state, send, normalizeProps));
 
 	createEffect(() => {
-		untrack(api).setValue(props.value ?? '');
+		untrack(api).setValue(propsWithDefaults.value);
 	});
 
 	return (
 		<RadioGroupContext.Provider value={api}>
-			<div class={props.class} {...api().rootProps}>
-				{props.children}
+			<div class={propsWithDefaults.class} {...api().rootProps}>
+				{propsWithDefaults.children}
 			</div>
 		</RadioGroupContext.Provider>
 	);

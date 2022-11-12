@@ -1,4 +1,4 @@
-import { type JSXElement, createUniqueId, Show } from 'solid-js';
+import { type JSXElement, createUniqueId, Show, mergeProps } from 'solid-js';
 
 type InputProps = {
 	autocomplete?: 'email' | 'off' | 'username';
@@ -10,30 +10,38 @@ type InputProps = {
 	value?: string;
 };
 
+const DEFAULT_INPUT_PROPS = {
+	autocomplete: 'off',
+	class: '',
+	type: 'text',
+	value: '',
+} as const;
+
 export const Input = (props: InputProps) => {
+	const propsWithDefaults = mergeProps(DEFAULT_INPUT_PROPS, props);
 	const id = createUniqueId();
 
-	const hasError = () => Boolean(props.error);
+	const hasError = () => Boolean(propsWithDefaults.error);
 
 	return (
-		<div class={`flex flex-col ${props.class ?? ''}`}>
+		<div class="flex flex-col" classList={{ [propsWithDefaults.class]: true }}>
 			<label class="text-secondary pb-1 text-sm" for={`${id}-input`}>
-				{props.children}
+				{propsWithDefaults.children}
 			</label>
 			<input
 				class="b-2 text-primary ring-primary rounded-sm bg-transparent py-2 px-4 text-base outline-offset-2"
 				classList={{ 'b-destructive': hasError(), 'b-primary': !hasError() }}
-				type={props.type ?? 'text'}
+				type={propsWithDefaults.type}
 				id={`${id}-input`}
-				name={props.name}
-				value={props.value ?? ''}
+				name={propsWithDefaults.name}
+				value={propsWithDefaults.value}
 				aria-invalid={hasError()}
 				aria-describedby={hasError() ? `${id}-error` : ''}
-				autocomplete={props.autocomplete ?? 'off'}
+				autocomplete={propsWithDefaults.autocomplete}
 			/>
 			<Show when={hasError()}>
 				<span class="text-destructive pt-1 text-sm" id={`${id}-error`} role="alert">
-					{props.error}
+					{propsWithDefaults.error}
 				</span>
 			</Show>
 		</div>

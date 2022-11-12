@@ -1,5 +1,5 @@
 import { Motion } from '@motionone/solid';
-import { type JSXElement } from 'solid-js';
+import { mergeProps, type JSXElement } from 'solid-js';
 
 type ButtonProps = {
 	children: JSXElement;
@@ -9,20 +9,29 @@ type ButtonProps = {
 	variant?: 'destructive' | 'primary' | 'secondary';
 };
 
+const DEFAULT_BUTTON_PROPS = {
+	class: '',
+	type: 'submit',
+	variant: 'primary',
+} as const;
+
 export const Button = (props: ButtonProps) => {
+	const propsWithDefaults = mergeProps(DEFAULT_BUTTON_PROPS, props);
+
 	return (
 		<Motion.button
 			press={{ scale: 0.95 }}
-			class={`ring-primary b-2 rounded-sm py-2 px-6 font-medium outline-offset-2 ${props.class ?? ''}`}
+			class="ring-primary b-2 rounded-sm py-2 px-6 font-medium outline-offset-2"
 			classList={{
-				'b-accent': props.variant === 'primary' || !props.variant,
-				'b-destructive': props.variant === 'destructive',
-				'b-primary': props.variant === 'secondary',
+				'b-accent': propsWithDefaults.variant === 'primary',
+				'b-destructive': propsWithDefaults.variant === 'destructive',
+				'b-primary': propsWithDefaults.variant === 'secondary',
+				[propsWithDefaults.class]: true,
 			}}
-			type={props.type ?? 'submit'}
-			onClick={() => props.onClick?.()}
+			type={propsWithDefaults.type}
+			onClick={() => propsWithDefaults.onClick?.()}
 		>
-			{props.children}
+			{propsWithDefaults.children}
 		</Motion.button>
 	);
 };
