@@ -1,9 +1,9 @@
 import { createSignal, onMount } from 'solid-js';
 import { FormError, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect } from 'solid-start/server';
-import { db } from '~/lib/utils/db';
-import { createSessionCookie, getMagicIdentifier, isUserSignedIn } from '~/lib/utils/session';
-import { isDateInPast, convertEpochSecondsToDate } from '~/lib/utils/time';
+import { db } from '~/utils/db';
+import { createSessionCookie, getMagicIdentifier, isUserSignedIn } from '~/utils/session';
+import { isDateInPast, convertEpochSecondsToDate } from '~/utils/time';
 
 export const routeData = () =>
 	createServerData$(async (_, { request }) => {

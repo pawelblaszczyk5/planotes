@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { createStableModule } from '~/lib/utils/createStableModule';
+import { createStableModule } from '~/utils/createStableModule';
 
 const createPrismaClient = () => {
 	const instance = new PrismaClient();

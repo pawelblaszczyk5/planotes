@@ -1,18 +1,18 @@
 import { randomBytes } from 'node:crypto';
 import { FormError, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect, ServerError } from 'solid-start/server';
-import { Button } from '~/lib/components/Button';
-import { Input } from '~/lib/components/Input';
-import { RadioGroup } from '~/lib/components/Radio';
-import { db } from '~/lib/utils/db';
-import { sendEmailWithMagicLink } from '~/lib/utils/mail';
+import { Button } from '~/components/Button';
+import { Input } from '~/components/Input';
+import { RadioGroup } from '~/components/Radio';
+import { db } from '~/utils/db';
+import { sendEmailWithMagicLink } from '~/utils/mail';
 import {
 	createMagicIdentifierCookie,
 	isUserSignedIn,
 	MAGIC_LINK_REQUIRED_GENERATION_DELAY_IN_MINUTES,
 	MAGIC_LINK_VALIDITY_IN_MINUTES,
-} from '~/lib/utils/session';
-import { getDateWithOffset } from '~/lib/utils/time';
+} from '~/utils/session';
+import { getDateWithOffset } from '~/utils/time';
 
 export const routeData = () =>
 	createServerData$(async (_, { request }) => {
@@ -87,12 +87,14 @@ const Login = () => {
 	});
 
 	return (
-		<sendMagicLinkTrigger.Form method="post" class="flex max-w-2xl flex-col p-16">
+		<sendMagicLinkTrigger.Form method="post" class="flex max-w-2xl flex-col gap-4 p-16">
 			<Input name="email">Email address</Input>
 			<RadioGroup.Root defaultValue="PERSISTENT" name="sessionDuration">
 				<RadioGroup.Label>Session duration</RadioGroup.Label>
-				<RadioGroup.Item value="PERSISTENT">Persistent</RadioGroup.Item>
-				<RadioGroup.Item value="EPHEMERAL">Ephemeral</RadioGroup.Item>
+				<div class="flex flex-col gap-2">
+					<RadioGroup.Item value="PERSISTENT">Persistent</RadioGroup.Item>
+					<RadioGroup.Item value="EPHEMERAL">Ephemeral</RadioGroup.Item>
+				</div>
 			</RadioGroup.Root>
 			<Button>Sign in</Button>
 			{/* <label for="email">Email address</label>

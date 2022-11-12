@@ -2,8 +2,8 @@ import { SessionDuration } from '@prisma/client';
 import { redirect } from 'solid-start';
 import { createCookie, createCookieSessionStorage } from 'solid-start/session';
 import { z } from 'zod';
-import { env } from '~/lib/utils/env';
-import { convertEpochSecondsToDate, getCurrentEpochSeconds, getDateWithOffset, isDateInPast } from '~/lib/utils/time';
+import { env } from '~/utils/env';
+import { convertEpochSecondsToDate, getCurrentEpochSeconds, getDateWithOffset, isDateInPast } from '~/utils/time';
 
 export const MAGIC_LINK_VALIDITY_IN_MINUTES = 15;
 export const MAGIC_LINK_REQUIRED_GENERATION_DELAY_IN_MINUTES = 2;

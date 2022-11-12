@@ -2,7 +2,7 @@
 import { createEffect, Show, Suspense } from 'solid-js';
 import { Body, ErrorBoundary, FileRoutes, Head, Html, Link, Meta, Routes, Scripts, Title } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
-import { type ColorScheme, getColorScheme } from '~/lib/utils/colorScheme';
+import { type ColorScheme, getColorScheme } from '~/utils/colorScheme';
 
 import '@unocss/reset/tailwind.css';
 import 'uno.css';
