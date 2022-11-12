@@ -17,12 +17,12 @@ const useApi = () => {
 	return api;
 };
 
-type RootProps = { children: JSXElement; name: string; defaultValue?: string; class?: string };
+type RootProps = { children: JSXElement; class?: string; defaultValue?: string; name: string };
 
 const Root = (props: RootProps) => {
 	const radioGroupId = createUniqueId();
-	// eslint-disable-next-line solid/reactivity -- there is no way to set name programatically after init
 	const [state, send] = useMachine(
+		// eslint-disable-next-line solid/reactivity -- there is no way to set name programatically after init
 		radio.machine({ id: radioGroupId, name: props.name, value: props.defaultValue ?? null }),
 	);
 
