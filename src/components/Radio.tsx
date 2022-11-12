@@ -46,7 +46,7 @@ const Item = (props: ItemProps) => {
 
 	return (
 		<label
-			class="text-secondary [&[data-checked]]:text-primary flex items-center text-sm outline-offset-2"
+			class="text-secondary [&[data-checked]]:text-primary flex items-center text-sm outline-offset-2 transition-colors"
 			{...api().getItemProps({ value: props.value })}
 		>
 			<div
