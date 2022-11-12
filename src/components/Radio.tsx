@@ -2,7 +2,17 @@
 import { Motion, Presence } from '@motionone/solid';
 import * as radio from '@zag-js/radio';
 import { normalizeProps, useMachine } from '@zag-js/solid';
-import { type Accessor, type JSXElement, createUniqueId, createMemo, createContext, useContext, Show } from 'solid-js';
+import {
+	type Accessor,
+	type JSXElement,
+	createUniqueId,
+	createMemo,
+	createContext,
+	useContext,
+	Show,
+	createEffect,
+	untrack,
+} from 'solid-js';
 
 type Api = Accessor<ReturnType<typeof radio.connect>>;
 
@@ -16,16 +26,20 @@ const useApi = () => {
 	return api;
 };
 
-type RootProps = { children: JSXElement; class?: string; defaultValue?: string; name: string };
+type RootProps = { children: JSXElement; class?: string; name: string; value?: string };
 
 const Root = (props: RootProps) => {
 	const radioGroupId = createUniqueId();
 	const [state, send] = useMachine(
 		// eslint-disable-next-line solid/reactivity -- there is no way to set name programatically after init
-		radio.machine({ id: radioGroupId, name: props.name, value: props.defaultValue ?? null }),
+		radio.machine({ id: radioGroupId, name: props.name, value: props.value ?? null }),
 	);
 
 	const api = createMemo(() => radio.connect(state, send, normalizeProps));
+
+	createEffect(() => {
+		untrack(api).setValue(props.value ?? '');
+	});
 
 	return (
 		<RadioGroupContext.Provider value={api}>
