@@ -1,6 +1,9 @@
 import { randomBytes } from 'node:crypto';
 import { FormError, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect, ServerError } from 'solid-start/server';
+import { Button } from '~/components/Button';
+import { Input } from '~/components/Input';
+import { RadioGroup } from '~/components/Radio';
 import { db } from '~/utils/db';
 import { sendEmailWithMagicLink } from '~/utils/mail';
 import {
@@ -84,15 +87,19 @@ const Login = () => {
 	});
 
 	return (
-		<sendMagicLinkTrigger.Form method="post">
-			<label for="email">Email address</label>
-			<input id="email" type="email" name="email" />
-			<label for="persistent">Persistent session</label>
-			<input id="persistent" checked={true} type="radio" name="sessionDuration" value="PERSISTENT" />
-			<label for="ephemeral">Ephemeral session</label>
-			<input id="ephemeral" type="radio" name="sessionDuration" value="EPHEMERAL" />
-			<button>Login</button>
-		</sendMagicLinkTrigger.Form>
+		<main class="flex min-h-full w-full items-center justify-center p-6">
+			<sendMagicLinkTrigger.Form method="post" class="b-2 b-primary flex h-max w-full max-w-2xl flex-col gap-6 p-8">
+				<Input name="email">Email address</Input>
+				<RadioGroup.Root value="PERSISTENT" name="sessionDuration">
+					<RadioGroup.Label>Session duration</RadioGroup.Label>
+					<div class="flex flex-col gap-2">
+						<RadioGroup.Item value="PERSISTENT">Persistent</RadioGroup.Item>
+						<RadioGroup.Item value="EPHEMERAL">Ephemeral</RadioGroup.Item>
+					</div>
+				</RadioGroup.Root>
+				<Button>Sign in</Button>
+			</sendMagicLinkTrigger.Form>
+		</main>
 	);
 };
 
