@@ -88,7 +88,7 @@ const Login = () => {
 
 	return (
 		<main class="flex min-h-full w-full items-center justify-center p-6">
-			<sendMagicLinkTrigger.Form method="post" class="b-2 b-primary flex h-max w-full max-w-2xl flex-col gap-6 p-8">
+			<sendMagicLinkTrigger.Form method="post" class="b-2 b-primary flex h-max w-full max-w-xl flex-col gap-6 p-8">
 				<Input name="email">Email address</Input>
 				<RadioGroup.Root value="PERSISTENT" name="sessionDuration">
 					<RadioGroup.Label>Session duration</RadioGroup.Label>
@@ -97,7 +97,7 @@ const Login = () => {
 						<RadioGroup.Item value="EPHEMERAL">Ephemeral</RadioGroup.Item>
 					</div>
 				</RadioGroup.Root>
-				<Button>Sign in</Button>
+				<Button class="max-w-48 mx-auto w-full">Sign in</Button>
 			</sendMagicLinkTrigger.Form>
 		</main>
 	);
