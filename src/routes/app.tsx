@@ -3,6 +3,7 @@ import { A, FormError, Outlet, useLocation, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect } from 'solid-start/server';
 import { zfd } from 'zod-form-data';
 import logo from '~/assets/logo.webp';
+import { LinkWithIcon } from '~/components/Link';
 import { type ColorScheme, createColorSchemeCookie, getColorScheme } from '~/utils/colorScheme';
 import { db } from '~/utils/db';
 import { createSignOutCookie, requireUserId } from '~/utils/session';
@@ -56,15 +57,6 @@ const SideNavButton = (props: { icon: string; onClick?: () => void; title: strin
 const SideNavImageLink = (props: { href: string; src: string; title: string }) => (
 	<A class="ring-primary flex h-12 w-12 items-center justify-center rounded-sm p-1" href={props.href}>
 		<img class="h-full w-full" src={props.src} alt={props.title} />
-	</A>
-);
-
-const MainNavLink = (props: typeof ROUTES[number]) => (
-	<A
-		class="b-b-2 b-dotted b-current text-primary pointer:text-secondary pointer:hover:text-primary pointer:transition-colors ring-primary [[aria-current]&]:text-accent rounded-0.5 flex items-center py-1 text-lg outline-offset-4 md:text-xl"
-		href={props.href}
-	>
-		{props.title} <i class="ml-3" classList={{ [props.icon]: true }} aria-hidden />
 	</A>
 );
 
@@ -152,7 +144,13 @@ const App = () => {
 					{/* TODO: Change to username and a random greeting probably or something different */}
 					<h1 class="text-4xl font-bold md:mr-6">Lorem ipsum!</h1>
 					<nav class="mt-6 flex flex-wrap gap-x-6 gap-y-4 md:ml-auto md:mt-0">
-						<For each={ROUTES}>{route => <MainNavLink {...route} />}</For>
+						<For each={ROUTES}>
+							{route => (
+								<LinkWithIcon icon={route.icon} href={route.href}>
+									{route.title}
+								</LinkWithIcon>
+							)}
+						</For>
 					</nav>
 				</div>
 				<div class="mt-12">
