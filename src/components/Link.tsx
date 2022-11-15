@@ -18,10 +18,9 @@ export const Link = (props: LinkProps) => {
 
 	return (
 		<A
-			class="b-b-2 b-dotted b-current text-primary pointer:text-secondary pointer:hover:text-primary pointer:transition-colors ring-primary [[aria-current]&]:text-accent rounded-0.5 py-1 text-xl outline-offset-4"
+			class={`b-b-2 b-dotted b-current text-primary pointer:text-secondary pointer:hover:text-primary pointer:transition-colors ring-primary [[aria-current]&]:text-accent rounded-0.5 py-1 text-xl outline-offset-4 ${propsWithDefaults.class}`}
 			end={propsWithDefaults.end}
 			href={propsWithDefaults.href}
-			classList={{ [propsWithDefaults.class]: true }}
 		>
 			{propsWithDefaults.children}
 		</A>
@@ -42,7 +41,7 @@ export const LinkWithIcon = (props: LinkWithIconProps) => {
 	return (
 		<Link href={propsWithDefaults.href} class={propsWithDefaults.class} end={propsWithDefaults.end}>
 			<span class="flex items-center">
-				{propsWithDefaults.children} <i class="ml-3" classList={{ [propsWithDefaults.icon]: true }} aria-hidden />
+				{propsWithDefaults.children} <i class={`ml-3 ${props.icon}`} aria-hidden />
 			</span>
 		</Link>
 	);
