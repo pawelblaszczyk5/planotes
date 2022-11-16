@@ -34,3 +34,55 @@ export const Button = (props: ButtonProps) => {
 		</Motion.button>
 	);
 };
+
+type LinkButtonProps = Pick<ButtonProps, 'children' | 'class' | 'variant'> & {
+	external?: boolean;
+	href: string;
+	noScroll?: boolean;
+	rel?: string;
+	replace?: boolean;
+	target?: string;
+};
+
+const DEFAULT_LINK_BUTTON_PROPS = {
+	class: '',
+	external: false,
+	rel: '',
+	replace: false,
+	target: '',
+	variant: 'primary',
+} as const;
+
+export const ButtonLink = (props: LinkButtonProps) => {
+	const propsWithDefaults = mergeProps(DEFAULT_LINK_BUTTON_PROPS, props);
+
+	const rest = () => {
+		const restProps: { link?: true; replace?: true } = {};
+
+		if (propsWithDefaults.replace) restProps.replace = true;
+		if (!propsWithDefaults.external) restProps.link = true;
+
+		return restProps;
+	};
+
+	return (
+		<Motion.a
+			press={{ scale: 0.95 }}
+			class={clsx(
+				'ring-primary b-2 rounded-sm py-2 px-6 text-center font-medium outline-offset-2',
+				propsWithDefaults.class,
+				{
+					'b-accent': propsWithDefaults.variant === 'primary',
+					'b-destructive': propsWithDefaults.variant === 'destructive',
+					'b-primary': propsWithDefaults.variant === 'secondary',
+				},
+			)}
+			href={props.href}
+			target={propsWithDefaults.target}
+			rel={propsWithDefaults.rel}
+			{...rest()}
+		>
+			{propsWithDefaults.children}
+		</Motion.a>
+	);
+};
