@@ -19,7 +19,7 @@ export const routeData = () =>
 		if (await isUserSignedIn(request)) throw redirect('/app/home');
 	});
 
-const Login = () => {
+const SignIn = () => {
 	useRouteData<typeof routeData>()();
 
 	const [, sendMagicLinkTrigger] = createServerAction$(async (formData: FormData, { request }) => {
@@ -101,4 +101,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default SignIn;
