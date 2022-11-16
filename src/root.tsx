@@ -1,4 +1,5 @@
 // @refresh reload
+import clsx from 'clsx';
 import { createEffect, Show, Suspense } from 'solid-js';
 import { Body, ErrorBoundary, FileRoutes, Head, Html, Link, Meta, Routes, Scripts, Title } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
@@ -54,7 +55,7 @@ const Root = () => {
 			<Html
 				style={{ 'color-scheme': getColorSchemeStyle(colorScheme() ?? 'SYSTEM') }}
 				lang="en"
-				classList={{ dark: colorScheme() === 'DARK', 'h-full': true }}
+				class={clsx('h-full', { dark: colorScheme() === 'DARK' })}
 			>
 				<Head>
 					<Title>Planotes</Title>

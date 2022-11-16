@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { For, Show } from 'solid-js';
 import { A, FormError, Outlet, useLocation, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect } from 'solid-start/server';
@@ -39,7 +40,7 @@ const SideNavLink = (props: { external?: boolean; href: string; icon: string; ti
 			target={linkTarget()}
 			rel={linkRel()}
 		>
-			<i class="text-3xl" classList={{ [props.icon]: true }} aria-hidden="true" />
+			<i class={clsx('text-3xl', props.icon)} aria-hidden="true" />
 		</A>
 	);
 };
@@ -50,7 +51,7 @@ const SideNavButton = (props: { icon: string; onClick?: () => void; title: strin
 		class="ring-primary text-primary pointer:text-secondary pointer:hover:text-primary pointer:transition-colors flex h-10 w-10 items-center justify-center rounded-sm p-2"
 		aria-label={props.title}
 	>
-		<i class="text-3xl" classList={{ [props.icon]: true }} aria-hidden="true" />
+		<i class={clsx('text-3xl', props.icon)} aria-hidden="true" />
 	</button>
 );
 

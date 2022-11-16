@@ -1,4 +1,5 @@
 import { Motion } from '@motionone/solid';
+import clsx from 'clsx';
 import { mergeProps, type JSXElement } from 'solid-js';
 
 type ButtonProps = {
@@ -21,13 +22,11 @@ export const Button = (props: ButtonProps) => {
 	return (
 		<Motion.button
 			press={{ scale: 0.95 }}
-			class="ring-primary b-2 rounded-sm py-2 px-6 font-medium outline-offset-2"
-			classList={{
+			class={clsx('ring-primary b-2 rounded-sm py-2 px-6 font-medium outline-offset-2', propsWithDefaults.class, {
 				'b-accent': propsWithDefaults.variant === 'primary',
 				'b-destructive': propsWithDefaults.variant === 'destructive',
 				'b-primary': propsWithDefaults.variant === 'secondary',
-				[propsWithDefaults.class]: true,
-			}}
+			})}
 			type={propsWithDefaults.type}
 			onClick={() => propsWithDefaults.onClick?.()}
 		>

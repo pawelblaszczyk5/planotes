@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { type JSXElement, createUniqueId, Show, mergeProps } from 'solid-js';
 
 type InputProps = {
@@ -24,13 +25,15 @@ export const Input = (props: InputProps) => {
 	const hasError = () => Boolean(propsWithDefaults.error);
 
 	return (
-		<div class="flex flex-col" classList={{ [propsWithDefaults.class]: true }}>
+		<div class={clsx('flex flex-col', propsWithDefaults.class)}>
 			<label class="text-secondary pb-1 text-sm" for={`${id}-input`}>
 				{propsWithDefaults.children}
 			</label>
 			<input
-				class="b-2 text-primary ring-primary rounded-sm bg-transparent py-2 px-4 text-base outline-offset-2"
-				classList={{ 'b-destructive': hasError(), 'b-primary': !hasError() }}
+				class={clsx(
+					'b-2 text-primary ring-primary rounded-sm bg-transparent py-2 px-4 text-base outline-offset-2',
+					hasError() ? 'b-destructive' : 'b-primary',
+				)}
 				type={propsWithDefaults.type}
 				id={`${id}-input`}
 				name={propsWithDefaults.name}
