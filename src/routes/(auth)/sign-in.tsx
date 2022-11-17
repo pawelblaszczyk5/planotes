@@ -32,8 +32,8 @@ const signInSchema = zfd.formData({
 
 const FORM_ERRORS = {
 	INVALID_EMAIL: 'Invalid email address',
-	TOO_MANY_REQUESTS: 'Too many magic link requests for the same email address and device',
 	MAIL_SENDING_FAILED: 'There was a problem with sending you an email, try again',
+	TOO_MANY_REQUESTS: 'Too many magic link requests for the same email address and device',
 } as const;
 
 const SignIn = () => {
