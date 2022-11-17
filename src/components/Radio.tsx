@@ -35,10 +35,9 @@ const DEFAULT_ROOT_PROPS = {
 
 const Root = (props: RootProps) => {
 	const propsWithDefaults = mergeProps(DEFAULT_ROOT_PROPS, props);
-	const radioGroupId = createUniqueId();
 	const [state, send] = useMachine(
 		// eslint-disable-next-line solid/reactivity -- there is no way to set name programatically after init
-		radio.machine({ id: radioGroupId, name: propsWithDefaults.name, value: propsWithDefaults.value }),
+		radio.machine({ id: createUniqueId(), name: propsWithDefaults.name, value: propsWithDefaults.value }),
 	);
 
 	const api = createMemo(() => radio.connect(state, send, normalizeProps));
