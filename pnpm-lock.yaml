@@ -11,6 +11,7 @@ specifiers:
   '@types/nodemailer': ^6.4.6
   '@unocss/preset-mini': ^0.46.5
   '@unocss/reset': ^0.46.5
+  '@zag-js/checkbox': ^0.2.1
   '@zag-js/radio': ^0.1.1
   '@zag-js/solid': ^0.2.1
   clsx: ^1.2.1
@@ -39,6 +40,7 @@ dependencies:
   '@solidjs/meta': 0.28.2_solid-js@1.6.2
   '@solidjs/router': 0.5.0_solid-js@1.6.2
   '@unocss/reset': 0.46.5
+  '@zag-js/checkbox': 0.2.1
   '@zag-js/radio': 0.1.1
   '@zag-js/solid': 0.2.1_solid-js@1.6.2
   clsx: 1.2.1
@@ -2326,6 +2328,13 @@ packages:
     transitivePeerDependencies:
       - encoding
     dev: true
+
+  /@zag-js/checkbox/0.2.1:
+    resolution: {integrity: sha512-9HyS0liXoBcXsbq33quKF6AK9esCsnwE6RlH/d4L8zIMuNlckFwtykSxYk+RNqbr/vZ69hjckq3Nt8335ONijQ==}
+    dependencies:
+      '@zag-js/core': 0.2.1
+      '@zag-js/types': 0.3.0
+    dev: false
 
   /@zag-js/core/0.2.1:
     resolution: {integrity: sha512-MJOtJ+8BVe0hSrFJ9NJRkJP95icjs06B+QRaP4n0SeT5u/u20NLr1/qnbOEvZPSwpI994U2snmyRvpXDn4SD0g==}
