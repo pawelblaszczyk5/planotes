@@ -5,7 +5,7 @@ type InputProps = {
 	autocomplete?: 'email' | 'off' | 'username';
 	children: JSXElement;
 	class?: string;
-	error?: JSXElement;
+	error?: string | undefined;
 	name: string;
 	type?: 'email' | 'text';
 	value?: string;
