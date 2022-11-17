@@ -1,10 +1,15 @@
 import { randomBytes } from 'node:crypto';
+import { SessionDuration } from '@prisma/client';
+import { Show } from 'solid-js';
 import { FormError, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect, ServerError } from 'solid-start/server';
+import { z } from 'zod';
+import { zfd } from 'zod-form-data';
 import { Button } from '~/components/Button';
 import { Checkbox } from '~/components/Checkbox';
 import { Input } from '~/components/Input';
 import { db } from '~/utils/db';
+import { COMMON_FORM_ERRORS, createFormFieldsErrors } from '~/utils/formError';
 import { sendEmailWithMagicLink } from '~/utils/mail';
 import {
 	createMagicIdentifierCookie,
@@ -19,15 +24,36 @@ export const routeData = () =>
 		if (await isUserSignedIn(request)) throw redirect('/app/home');
 	});
 
+const signInSchema = zfd.formData({
+	email: zfd.text(z.string().email()),
+	rememberMe: zfd.checkbox(),
+});
+
+const FORM_ERRORS = {
+	INVALID_EMAIL: 'Invalid email address',
+} as const;
+
 const SignIn = () => {
 	useRouteData<typeof routeData>()();
 
-	const [, sendMagicLinkTrigger] = createServerAction$(async (formData: FormData, { request }) => {
-		// TODO: change to proper redirect URL
+	const [signIn, signInTrigger] = createServerAction$(async (formData: FormData, { request }) => {
 		if (await isUserSignedIn(request)) throw redirect('/app/home');
-		// TODO: proper validation etc
-		const email = formData.get('email') as string;
-		const sessionDuration = formData.get('sessionDuration') as 'EPHEMERAL' | 'PERSISTENT';
+
+		const parsedFormData = signInSchema.safeParse(formData);
+
+		if (!parsedFormData.success) {
+			const errors = parsedFormData.error.formErrors;
+
+			throw new FormError('BAD_REQUEST', {
+				fieldErrors: {
+					...(errors.fieldErrors.email ? { email: FORM_ERRORS.INVALID_EMAIL } : {}),
+					...(errors.formErrors.length ? { other: COMMON_FORM_ERRORS.INVALID_FORM_DATA } : {}),
+				},
+			});
+		}
+
+		const { email } = parsedFormData.data;
+		const sessionDuration = parsedFormData.data.rememberMe ? SessionDuration.PERSISTENT : SessionDuration.EPHEMERAL;
 
 		const { id: userId } = await db.user.upsert({
 			create: {
@@ -86,16 +112,23 @@ const SignIn = () => {
 		});
 	});
 
+	const signInErrors = createFormFieldsErrors(() => signIn.error);
+
 	return (
-		<sendMagicLinkTrigger.Form method="post" class="contents">
-			<Input name="email">Email address</Input>
-			<Checkbox name="rememberMe">Remember me?</Checkbox>
+		<signInTrigger.Form method="post" class="contents">
+			<Input error={signInErrors()['email']} name="email">
+				Email address
+			</Input>
+			<Checkbox name="rememberMe">Remember me</Checkbox>
+			<Show when={signInErrors()['other']}>
+				<p class="text-destructive text-sm">{signInErrors()['other']}</p>
+			</Show>
 			<p class="text-secondary text-sm">
 				You don't need to create an account, just use your email address! We'll send you a link that let's you login
 				with this device. No need to remember a password!
 			</p>
 			<Button class="max-w-48 mx-auto w-full">Sign in</Button>
-		</sendMagicLinkTrigger.Form>
+		</signInTrigger.Form>
 	);
 };
 
