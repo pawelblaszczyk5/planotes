@@ -128,8 +128,8 @@ const SignIn = () => {
 				<p class="text-destructive text-sm">{signInErrors()['other']}</p>
 			</Show>
 			<p class="text-secondary text-sm">
-				You don't need to create an account, just use your email address! We'll send you a link that let's you login
-				with this device. No need to remember a password!
+				You don't need to create an account, just use your email address! We'll send you a link that lets you login with
+				this device. No need to remember a password!
 			</p>
 			<Button class="max-w-48 mx-auto w-full">Sign in</Button>
 		</signInTrigger.Form>
