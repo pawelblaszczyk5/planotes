@@ -8,7 +8,7 @@ const Auth = () => {
 				Main page
 			</LinkWithIcon>
 			<main class="b-2 b-primary flex flex min-h-full w-full max-w-xl flex-col justify-center gap-6 p-6 p-8">
-				<h1 class="text-center text-2xl">Welcome!</h1>
+				<h1 class="text-center text-3xl">Welcome!</h1>
 				<Outlet />
 			</main>
 		</div>
