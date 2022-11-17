@@ -2,8 +2,8 @@ import { randomBytes } from 'node:crypto';
 import { FormError, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect, ServerError } from 'solid-start/server';
 import { Button } from '~/components/Button';
+import { Checkbox } from '~/components/Checkbox';
 import { Input } from '~/components/Input';
-import { RadioGroup } from '~/components/Radio';
 import { db } from '~/utils/db';
 import { sendEmailWithMagicLink } from '~/utils/mail';
 import {
@@ -24,7 +24,7 @@ const SignIn = () => {
 
 	const [, sendMagicLinkTrigger] = createServerAction$(async (formData: FormData, { request }) => {
 		// TODO: change to proper redirect URL
-		if (await isUserSignedIn(request)) throw redirect('/');
+		if (await isUserSignedIn(request)) throw redirect('/app/home');
 		// TODO: proper validation etc
 		const email = formData.get('email') as string;
 		const sessionDuration = formData.get('sessionDuration') as 'EPHEMERAL' | 'PERSISTENT';
@@ -89,13 +89,11 @@ const SignIn = () => {
 	return (
 		<sendMagicLinkTrigger.Form method="post" class="contents">
 			<Input name="email">Email address</Input>
-			<RadioGroup.Root value="PERSISTENT" name="sessionDuration">
-				<RadioGroup.Label>Session duration</RadioGroup.Label>
-				<div class="flex flex-col gap-2">
-					<RadioGroup.Item value="PERSISTENT">Persistent</RadioGroup.Item>
-					<RadioGroup.Item value="EPHEMERAL">Ephemeral</RadioGroup.Item>
-				</div>
-			</RadioGroup.Root>
+			<Checkbox name="rememberMe">Remember me?</Checkbox>
+			<p class="text-secondary text-sm">
+				You don't need to create an account, just use your email address! We'll send you a link that let's you login
+				with this device. No need to remember a password!
+			</p>
 			<Button class="max-w-48 mx-auto w-full">Sign in</Button>
 		</sendMagicLinkTrigger.Form>
 	);
