@@ -13,6 +13,7 @@ import { COMMON_FORM_ERRORS, createFormFieldsErrors } from '~/utils/formError';
 import { sendEmailWithMagicLink } from '~/utils/mail';
 import {
 	createMagicIdentifierCookie,
+	getMagicIdentifier,
 	isUserSignedIn,
 	MAGIC_LINK_REQUIRED_GENERATION_DELAY_IN_MINUTES,
 	MAGIC_LINK_VALIDITY_IN_MINUTES,
@@ -31,6 +32,8 @@ const signInSchema = zfd.formData({
 
 const FORM_ERRORS = {
 	INVALID_EMAIL: 'Invalid email address',
+	TOO_MANY_REQUESTS: 'Too many magic link requests for the same email address and device',
+	MAIL_SENDING_FAILED: 'There was a problem with sending you an email, try again',
 } as const;
 
 const SignIn = () => {
@@ -44,7 +47,7 @@ const SignIn = () => {
 		if (!parsedFormData.success) {
 			const errors = parsedFormData.error.formErrors;
 
-			throw new FormError('BAD_REQUEST', {
+			throw new FormError(COMMON_FORM_ERRORS.BAD_REQUEST, {
 				fieldErrors: {
 					...(errors.fieldErrors.email ? { email: FORM_ERRORS.INVALID_EMAIL } : {}),
 					...(errors.formErrors.length ? { other: COMMON_FORM_ERRORS.INVALID_FORM_DATA } : {}),
@@ -78,8 +81,9 @@ const SignIn = () => {
 			},
 		});
 
-		// TODO: check if user browser is the same
-		if (previousMagicLink) throw new FormError('Error');
+		const magicIdentifier = await getMagicIdentifier(request);
+
+		if (previousMagicLink && magicIdentifier) throw new FormError(FORM_ERRORS.TOO_MANY_REQUESTS);
 
 		const token = randomBytes(32).toString('base64url');
 		const { id: magicLinkId } = await db.magicLink.create({
@@ -100,7 +104,7 @@ const SignIn = () => {
 				},
 			});
 
-			throw new ServerError('Error', { status: 500 });
+			throw new ServerError(FORM_ERRORS.MAIL_SENDING_FAILED, { status: 500 });
 		}
 
 		const cookie = await createMagicIdentifierCookie(magicLinkId);

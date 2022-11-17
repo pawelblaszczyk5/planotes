@@ -1,23 +1,24 @@
 import { type Accessor, createMemo } from 'solid-js';
-import { FormError } from 'solid-start';
+import { FormError, ServerError } from 'solid-start';
 
 export const COMMON_FORM_ERRORS = {
 	INTERNAL_SERVER_ERROR: 'Internal server error, try again',
 	INVALID_FORM_DATA: "Make sure you're properly submitting form and try again",
+	BAD_REQUEST: 'Incorrect request data',
 } as const;
 
-type FormErrorWithFieldErrors = typeof FormError & { fieldErrors: Record<string, string> };
+export const isFormError = (error: unknown): error is FormError => Boolean(error instanceof FormError);
 
-export const isProperFormError = (error: unknown): error is FormErrorWithFieldErrors =>
-	Boolean(error instanceof FormError && error.fieldErrors && Object.keys(error.fieldErrors).length);
+export const isServerError = (error: unknown): error is ServerError => error instanceof ServerError;
 
 export const createFormFieldsErrors = (error: Accessor<unknown>) => {
 	const formFieldsErrorsMemo = createMemo(() => {
 		const currentError = error();
 
 		if (!currentError) return {};
-
-		if (!isProperFormError(currentError)) return { other: COMMON_FORM_ERRORS.INTERNAL_SERVER_ERROR };
+		if (isServerError(currentError)) return { other: currentError.message };
+		if (!isFormError(currentError)) return { other: COMMON_FORM_ERRORS.INTERNAL_SERVER_ERROR };
+		if (!currentError.fieldErrors) return { other: currentError.message };
 
 		return currentError.fieldErrors;
 	});
