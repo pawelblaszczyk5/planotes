@@ -1,8 +1,9 @@
-import { Outlet } from 'solid-start';
+import { Outlet, Title } from 'solid-start';
 import { LinkWithIcon } from '~/components/Link';
 
-const Auth = () => {
-	return (
+const Auth = () => (
+	<>
+		<Title>Sign In | Planotes</Title>
 		<div class="relative flex min-h-full w-full items-center justify-center p-6 py-16">
 			<LinkWithIcon class="fixed top-6 left-6 block" href="/" icon="i-lucide-corner-down-left">
 				Main page
@@ -12,7 +13,7 @@ const Auth = () => {
 				<Outlet />
 			</main>
 		</div>
-	);
-};
+	</>
+);
 
 export default Auth;

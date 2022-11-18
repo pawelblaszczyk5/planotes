@@ -1,4 +1,4 @@
-import { useRouteData } from 'solid-start';
+import { Title, useRouteData } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
 import { requireUserId } from '~/utils/session';
 
@@ -7,7 +7,12 @@ export const routeData = () => createServerData$(async (_, { request }) => requi
 const Home = () => {
 	useRouteData<typeof routeData>()();
 
-	return <h1>Home</h1>;
+	return (
+		<>
+			<Title>Home | Planotes</Title>
+			<h1>Home</h1>
+		</>
+	);
 };
 
 export default Home;
