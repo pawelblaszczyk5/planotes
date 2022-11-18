@@ -23,9 +23,9 @@
 		"@solidjs/meta": "^0.28.2",
 		"@solidjs/router": "^0.5.0",
 		"@unocss/reset": "^0.46.5",
-		"@zag-js/checkbox": "^0.2.1",
-		"@zag-js/radio": "^0.1.1",
-		"@zag-js/solid": "^0.2.1",
+		"@zag-js/checkbox": "^0.2.2",
+		"@zag-js/radio": "^0.1.2",
+		"@zag-js/solid": "^0.2.2",
 		"clsx": "^1.2.1",
 		"nodemailer": "^6.8.0",
 		"solid-js": "^1.6.2",
@@ -35,11 +35,11 @@
 		"zod-form-data": "^1.2.4"
 	},
 	"devDependencies": {
-		"@iconify/json": "^2.1.137",
+		"@iconify/json": "^2.1.140",
 		"@tsconfig/strictest": "^1.0.2",
 		"@types/nodemailer": "^6.4.6",
 		"@unocss/preset-mini": "^0.46.5",
-		"eslint": "^8.27.0",
+		"eslint": "^8.28.0",
 		"eslint-config-canonical": "^37.0.3",
 		"eslint-plugin-prettier": "^4.2.1",
 		"eslint-plugin-solid": "^0.8.0",
@@ -47,9 +47,9 @@
 		"prettier-plugin-tailwindcss": "^0.1.13",
 		"prisma": "^4.6.1",
 		"solid-start-node": "^0.2.5",
-		"typescript": "^4.8.4",
+		"typescript": "^4.9.3",
 		"unocss": "^0.46.5",
-		"vite": "^3.2.3"
+		"vite": "^3.2.4"
 	},
 	"engines": {
 		"node": ">=18 <19",
