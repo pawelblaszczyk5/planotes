@@ -120,7 +120,7 @@ const SignIn = () => {
 
 	return (
 		<signInTrigger.Form method="post" class="contents">
-			<Input error={signInErrors()['email']} name="email">
+			<Input error={signInErrors()['email']} name="email" autocomplete="email">
 				Email address
 			</Input>
 			<Checkbox name="rememberMe">Remember me</Checkbox>
