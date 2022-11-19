@@ -42,6 +42,7 @@ module.exports = {
 				'prettier/prettier': 'error',
 				'unicorn/prevent-abbreviations': 'off',
 				'unicorn/no-array-reduce': 'off',
+				'unicorn/no-array-for-each': 'off',
 				'solid/no-innerhtml': 'off',
 				'import/extensions': [
 					2,
