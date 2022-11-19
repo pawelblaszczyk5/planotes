@@ -52,37 +52,38 @@ const Root = () => {
 
 	return (
 		<Suspense>
-			<Html
-				style={{ 'color-scheme': getColorSchemeStyle(colorScheme() ?? 'SYSTEM') }}
-				lang="en"
-				class={clsx('h-full', { dark: colorScheme() === 'DARK' })}
-			>
-				<Head>
-					<Title>Planotes</Title>
-					<Meta charset="utf-8" />
-					<Meta name="viewport" content="width=device-width, initial-scale=1" />
-					<Link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-					<Link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-					<Link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-					<Link rel="manifest" href="/site.webmanifest" />
-					<Link rel="mask-icon" href="/safari-pinned-tab.svg" color="#171717" />
-					<Meta name="msapplication-TileColor" content="#171717" />
-					<Meta name="theme-color" content="#171717" />
-					<Show when={colorScheme()}>
+			{/* TODO: Remove this Show after https://github.com/solidjs/solid-start/issues/460 */}
+			<Show when={colorScheme()}>
+				<Html
+					style={{ 'color-scheme': getColorSchemeStyle(colorScheme() ?? 'SYSTEM') }}
+					lang="en"
+					class={clsx('h-full', { dark: colorScheme() === 'DARK' })}
+				>
+					<Head>
+						<Title>Planotes</Title>
+						<Meta charset="utf-8" />
+						<Meta name="viewport" content="width=device-width, initial-scale=1" />
+						<Link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+						<Link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+						<Link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+						<Link rel="manifest" href="/site.webmanifest" />
+						<Link rel="mask-icon" href="/safari-pinned-tab.svg" color="#171717" />
+						<Meta name="msapplication-TileColor" content="#171717" />
+						<Meta name="theme-color" content="#171717" />
 						<SystemPreferenceDetector colorScheme={colorScheme()!} />
-					</Show>
-				</Head>
-				<Body class="text-primary bg-primary h-full">
-					<Suspense>
-						<ErrorBoundary>
-							<Routes>
-								<FileRoutes />
-							</Routes>
-						</ErrorBoundary>
-					</Suspense>
-					<Scripts />
-				</Body>
-			</Html>
+					</Head>
+					<Body class="text-primary bg-primary h-full">
+						<Suspense>
+							<ErrorBoundary>
+								<Routes>
+									<FileRoutes />
+								</Routes>
+							</ErrorBoundary>
+						</Suspense>
+						<Scripts />
+					</Body>
+				</Html>
+			</Show>
 		</Suspense>
 	);
 };
