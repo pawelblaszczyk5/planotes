@@ -42,7 +42,6 @@ type InputProps = {
 		| 'new-password'
 		| 'nickname'
 		| 'off'
-		| 'off'
 		| 'on'
 		| 'one-time-code'
 		| 'organization-title'
