@@ -38,7 +38,10 @@ export const RouteDialog = (props: RouteDialogProps) => {
 				{...api().underlayProps}
 				class="fixed top-1/2 left-1/2 z-20 max-h-[calc(100%-4rem)] w-[calc(100%-4rem)] max-w-2xl translate-y--1/2 translate-x--1/2"
 			>
-				<div {...api().contentProps} class="bg-primary rounded-xl p-8 shadow-md shadow-black/50 dark:shadow-black/90">
+				<div
+					{...api().contentProps}
+					class="bg-primary ring-primary rounded-xl p-8 shadow-md shadow-black/50 dark:shadow-black/90"
+				>
 					<h3 class="b-b-2 b-primary mb-4 pb-2 text-3xl font-medium" {...api().titleProps}>
 						{props.title}
 					</h3>
@@ -47,7 +50,10 @@ export const RouteDialog = (props: RouteDialogProps) => {
 					</p>
 					{props.children}
 					<Show when={props.exitRedirect}>
-						<A href={props.exitRedirect!} class="fixed top-2 right-2 grid h-10 w-10 place-items-center">
+						<A
+							href={props.exitRedirect!}
+							class="ring-primary fixed top-2 right-2 grid h-10 w-10 place-items-center rounded"
+						>
 							<i class="i-lucide-x" aria-label="Close" />
 						</A>
 					</Show>
