@@ -20,9 +20,9 @@ export const RouteDialog = (props: RouteDialogProps) => {
 	const [state, send] = useMachine(
 		dialog.machine({
 			// eslint-disable-next-line solid/reactivity -- there is no way to set name programatically after init
-			closeOnEsc: !props.exitRedirect,
+			closeOnEsc: Boolean(props.exitRedirect),
 			// eslint-disable-next-line solid/reactivity -- there is no way to set name programatically after init
-			closeOnOutsideClick: !props.exitRedirect,
+			closeOnOutsideClick: Boolean(props.exitRedirect),
 			defaultOpen: true,
 			id: createUniqueId(),
 			onClose: () => navigate(props.exitRedirect!),
