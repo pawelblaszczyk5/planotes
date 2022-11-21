@@ -1,4 +1,4 @@
-import { Title, useRouteData } from 'solid-start';
+import { Title, useRouteData, Outlet } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
 import { requireUserId } from '~/utils/session';
 
@@ -11,6 +11,7 @@ const Home = () => {
 		<>
 			<Title>Home | Planotes</Title>
 			<h1>Home</h1>
+			<Outlet />
 		</>
 	);
 };
