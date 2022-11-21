@@ -38,8 +38,8 @@ export const Dialog = (props: DialogProps) => {
 					{...api().underlayProps}
 					class="fixed top-1/2 left-1/2 z-20 max-h-[calc(100%-4rem)] w-[calc(100%-4rem)] max-w-2xl translate-y--1/2 translate-x--1/2"
 				>
-					<div {...api().contentProps} class="bg-primary rounded-md p-8 shadow-md shadow-black/50 dark:shadow-black/90">
-						<h3 class="b-b-2  b-primary mb-4 pb-2 text-3xl font-semibold" {...api().titleProps}>
+					<div {...api().contentProps} class="bg-primary rounded-xl p-8 shadow-md shadow-black/50 dark:shadow-black/90">
+						<h3 class="b-b-2 b-primary mb-4 pb-2 text-3xl font-medium" {...api().titleProps}>
 							{propsWithDefaults.title}
 						</h3>
 						<p class="text-secondary mb-6 text-sm" {...api().descriptionProps}>
