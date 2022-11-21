@@ -11,7 +11,7 @@ type LinkProps = {
 
 const DEFAULT_LINK_PROPS = {
 	class: '',
-	end: true,
+	end: false,
 } as const;
 
 export const Link = (props: LinkProps) => {
@@ -20,9 +20,10 @@ export const Link = (props: LinkProps) => {
 	return (
 		<A
 			class={clsx(
-				'b-b-2 b-dotted b-current text-primary pointer:text-secondary pointer:hover:text-primary pointer:transition-colors ring-primary [[aria-current]&]:text-accent rounded-0.5 py-1 text-xl outline-offset-4',
+				'b-b-2 b-dotted b-current text-primary pointer:text-secondary pointer:hover:text-primary pointer:transition-colors ring-primary rounded-0.5 py-1 text-xl outline-offset-4',
 				propsWithDefaults.class,
 			)}
+			activeClass="!text-accent"
 			end={propsWithDefaults.end}
 			href={propsWithDefaults.href}
 		>

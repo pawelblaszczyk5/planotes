@@ -6,7 +6,7 @@ specifiers:
   '@motionone/solid': ^10.14.3
   '@prisma/client': ^4.6.1
   '@solidjs/meta': ^0.28.2
-  '@solidjs/router': ^0.5.0
+  '@solidjs/router': ^0.5.1
   '@tsconfig/strictest': ^1.0.2
   '@types/nodemailer': ^6.4.6
   '@unocss/preset-mini': ^0.46.5
@@ -39,7 +39,7 @@ dependencies:
   '@motionone/solid': 10.14.3_solid-js@1.6.2
   '@prisma/client': 4.6.1_prisma@4.6.1
   '@solidjs/meta': 0.28.2_solid-js@1.6.2
-  '@solidjs/router': 0.5.0_solid-js@1.6.2
+  '@solidjs/router': 0.5.1_solid-js@1.6.2
   '@unocss/reset': 0.46.5
   '@zag-js/checkbox': 0.2.2
   '@zag-js/dialog': 0.2.2
@@ -48,7 +48,7 @@ dependencies:
   clsx: 1.2.1
   nodemailer: 6.8.0
   solid-js: 1.6.2
-  solid-start: 0.2.5_qx3wzgkguxvthvssnutneqxbxi
+  solid-start: 0.2.5_i2cnpwj3ojjdnkycik5yjsstli
   undici: 5.12.0
   zod: 3.19.1
   zod-form-data: 1.2.4_zod@3.19.1
@@ -1905,8 +1905,8 @@ packages:
     dependencies:
       solid-js: 1.6.2
 
-  /@solidjs/router/0.5.0_solid-js@1.6.2:
-    resolution: {integrity: sha512-rNR07l21tWWDVmCbaapggB89rEX7jlM2XChpTLqEGEnj46LzVZ8zgvjcF6NNKScByAlLpoQUkVIjB2KHpcMi+w==}
+  /@solidjs/router/0.5.1_solid-js@1.6.2:
+    resolution: {integrity: sha512-igyrwUqm/9T26Lb6l7oXwpc4lLUVqbhbN92wOL3NgLoLVmkQlUNTZciuAe+Su8XeJXlrWjl6oxDJDLt+6pws/g==}
     peerDependencies:
       solid-js: ^1.5.3
     dependencies:
@@ -5721,7 +5721,7 @@ packages:
       polka: 1.0.0-next.22
       rollup: 2.79.1
       sirv: 2.0.2
-      solid-start: 0.2.5_qx3wzgkguxvthvssnutneqxbxi
+      solid-start: 0.2.5_i2cnpwj3ojjdnkycik5yjsstli
       terser: 5.15.1
       undici: 5.12.0
       vite: 3.2.4
@@ -5729,7 +5729,7 @@ packages:
       - supports-color
     dev: true
 
-  /solid-start/0.2.5_qx3wzgkguxvthvssnutneqxbxi:
+  /solid-start/0.2.5_i2cnpwj3ojjdnkycik5yjsstli:
     resolution: {integrity: sha512-G1Iyb2ECulsCsewr12hueaCGvB+FQPylcYq9SvsCy8A2Lpyj5KcB9ic7pAKtEbByBAa318MqvBFEmL4eKS8mhw==}
     hasBin: true
     peerDependencies:
@@ -5745,7 +5745,7 @@ packages:
       '@babel/preset-typescript': 7.18.6_@babel+core@7.20.2
       '@babel/template': 7.18.10
       '@solidjs/meta': 0.28.2_solid-js@1.6.2
-      '@solidjs/router': 0.5.0_solid-js@1.6.2
+      '@solidjs/router': 0.5.1_solid-js@1.6.2
       '@types/cookie': 0.5.1
       '@vinxi/vite-plugin-inspect': 0.6.27_rollup@2.79.1+vite@3.2.4
       chokidar: 3.5.3
