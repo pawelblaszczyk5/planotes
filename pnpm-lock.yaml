@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@iconify/json': ^2.1.140
+  '@iconify/json': ^2.1.141
   '@js-temporal/polyfill': ^0.4.3
   '@motionone/solid': ^10.14.3
   '@prisma/client': ^4.6.1
@@ -12,6 +12,7 @@ specifiers:
   '@unocss/preset-mini': ^0.46.5
   '@unocss/reset': ^0.46.5
   '@zag-js/checkbox': ^0.2.2
+  '@zag-js/dialog': ^0.2.2
   '@zag-js/radio': ^0.1.2
   '@zag-js/solid': ^0.2.2
   clsx: ^1.2.1
@@ -41,6 +42,7 @@ dependencies:
   '@solidjs/router': 0.5.0_solid-js@1.6.2
   '@unocss/reset': 0.46.5
   '@zag-js/checkbox': 0.2.2
+  '@zag-js/dialog': 0.2.2
   '@zag-js/radio': 0.1.2
   '@zag-js/solid': 0.2.2_solid-js@1.6.2
   clsx: 1.2.1
@@ -52,7 +54,7 @@ dependencies:
   zod-form-data: 1.2.4_zod@3.19.1
 
 devDependencies:
-  '@iconify/json': 2.1.140
+  '@iconify/json': 2.1.141
   '@tsconfig/strictest': 1.0.2
   '@types/nodemailer': 6.4.6
   '@unocss/preset-mini': 0.46.5
@@ -1570,8 +1572,8 @@ packages:
     resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}
     dev: true
 
-  /@iconify/json/2.1.140:
-    resolution: {integrity: sha512-P0Omxi71evnAiPFb21nYZD2hnxhstYkQhatvVF+18esDYfDYcrjHjcm0SRfS3dzAALIo03m+jEmJzAj9nDXP5w==}
+  /@iconify/json/2.1.141:
+    resolution: {integrity: sha512-FPVZPGwhfugQ4ejfdvvy+/oAq0QCG3MY4oWrt80s77XQX1LEA7UndN1GV5uBdo2fKgRU94RnmBbtDOZ4T+4aoQ==}
     dependencies:
       '@iconify/types': 2.0.0
       pathe: 0.3.9
@@ -2329,6 +2331,10 @@ packages:
       - encoding
     dev: true
 
+  /@zag-js/aria-hidden/0.2.0:
+    resolution: {integrity: sha512-NjCybo9zICpJh/eVnckzNFqqoC5tEyXpogjudqWAxLPVewp+plmOBfqtrYwWMbRJ87mtxkCUUpWKTP3en4WtmQ==}
+    dev: false
+
   /@zag-js/checkbox/0.2.2:
     resolution: {integrity: sha512-MX85vQD1FdFWB26rcauZ2cb4UKK6iA3jvvTH2pEFz8xYgUpvyq43hhDYB3EZGwLMbUWetLss5yPysvFF8JTWUg==}
     dependencies:
@@ -2343,11 +2349,36 @@ packages:
       klona: 2.0.5
     dev: false
 
+  /@zag-js/dialog/0.2.2:
+    resolution: {integrity: sha512-XPO1KSilfuWp0efG0QCDGJQaAvDU/RcrpAE53IWHfw4Y+hkvHcfGBvqyMlbmE9c+qx529kk4LyqNLO3YCX/Grg==}
+    dependencies:
+      '@zag-js/aria-hidden': 0.2.0
+      '@zag-js/core': 0.2.2
+      '@zag-js/dismissable': 0.2.0
+      '@zag-js/remove-scroll': 0.2.0
+      '@zag-js/types': 0.3.1
+      focus-trap: 7.0.0
+    dev: false
+
+  /@zag-js/dismissable/0.2.0:
+    resolution: {integrity: sha512-AP5H9szbSg4T5ntXVB86AEGLwO47Cr/LoJrydDiy2Zlk332fZ54wt8oKAI+aTkgGDF9xKp6GHnwS7JWKxGPfmQ==}
+    dependencies:
+      '@zag-js/interact-outside': 0.2.0
+    dev: false
+
+  /@zag-js/interact-outside/0.2.0:
+    resolution: {integrity: sha512-vj+roRkCI5NogZApuporXoWMI5uq57zWzFGsQUL2Yl91Oq7l448IvWzmmoSi+Tsgd4aGO7hwbJCvp3oqjCa5JA==}
+    dev: false
+
   /@zag-js/radio/0.1.2:
     resolution: {integrity: sha512-gmzIQ3T5dcRdE82Ovjmuc7g5BgeLASj5sFFzIDoitWbUQRwgDhIHk+DNEybDn+PZwHf/DP44q23GgCx3yUgRCw==}
     dependencies:
       '@zag-js/core': 0.2.2
       '@zag-js/types': 0.3.1
+    dev: false
+
+  /@zag-js/remove-scroll/0.2.0:
+    resolution: {integrity: sha512-mxtPQnPABgAka6zVSvvauS00dgfO6+2n2c8sftdnpCnpTRq6mdCPxj4/NE169Wk5ldzxBbqmnjgYWjOlWV8lpw==}
     dev: false
 
   /@zag-js/solid/0.2.2_solid-js@1.6.2:
@@ -4177,6 +4208,12 @@ packages:
     resolution: {integrity: sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==}
     dev: true
 
+  /focus-trap/7.0.0:
+    resolution: {integrity: sha512-uT4Bl8TwU+5vVAx/DHil/1eVS54k9unqhK/vGy2KSh7esPmqgC0koAB9J2sJ+vtj8+vmiFyGk2unLkhNLQaxoA==}
+    dependencies:
+      tabbable: 6.0.1
+    dev: false
+
   /follow-redirects/1.15.2_debug@4.3.4:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
     engines: {node: '>=4.0'}
@@ -5885,6 +5922,10 @@ packages:
   /supports-preserve-symlinks-flag/1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+
+  /tabbable/6.0.1:
+    resolution: {integrity: sha512-SYJSIgeyXW7EuX1ytdneO5e8jip42oHWg9xl/o3oTYhmXusZVgiA+VlPvjIN+kHii9v90AmzTZEBcsEvuAY+TA==}
+    dev: false
 
   /terser/5.15.1:
     resolution: {integrity: sha512-K1faMUvpm/FBxjBXud0LWVAGxmvoPbZbfTCYbSgaaYQaIXI3/TdI7a7ZGA73Zrou6Q8Zmz3oeUTsp/dj+ag2Xw==}
