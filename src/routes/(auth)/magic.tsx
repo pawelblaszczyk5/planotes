@@ -5,16 +5,17 @@ import { zfd } from 'zod-form-data';
 import { Button } from '~/components/Button';
 import { db } from '~/utils/db';
 import { createFormFieldsErrors } from '~/utils/formError';
+import { REDIRECTS } from '~/utils/redirects';
 import { createSessionCookie, getMagicIdentifier, isUserSignedIn } from '~/utils/session';
 import { isDateInPast, convertEpochSecondsToDate } from '~/utils/time';
 
 export const routeData = () =>
 	createServerData$(async (_, { request }) => {
-		if (await isUserSignedIn(request)) throw redirect('/app/home');
+		if (await isUserSignedIn(request)) throw redirect(REDIRECTS.HOME);
 
 		const token = new URL(request.url).searchParams.get('token');
 
-		if (!token) throw redirect('');
+		if (!token) throw redirect(REDIRECTS.MAIN);
 
 		return token;
 	});
@@ -58,7 +59,7 @@ const Magic = () => {
 
 		const cookie = await createSessionCookie({ request, sessionDuration, userId });
 
-		return redirect('/app/home', { headers: { 'Set-Cookie': cookie } });
+		return redirect(REDIRECTS.HOME, { headers: { 'Set-Cookie': cookie } });
 	});
 
 	const redeemMagicTokenErrors = createFormFieldsErrors(() => redeemMagicToken.error);

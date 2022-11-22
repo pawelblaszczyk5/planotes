@@ -11,6 +11,7 @@ import { Input } from '~/components/Input';
 import { db } from '~/utils/db';
 import { COMMON_FORM_ERRORS, createFormFieldsErrors } from '~/utils/formError';
 import { sendEmailWithMagicLink } from '~/utils/mail';
+import { REDIRECTS } from '~/utils/redirects';
 import {
 	createMagicIdentifierCookie,
 	getMagicIdentifier,
@@ -22,7 +23,7 @@ import { getDateWithOffset } from '~/utils/time';
 
 export const routeData = () =>
 	createServerData$(async (_, { request }) => {
-		if (await isUserSignedIn(request)) throw redirect('/app/home');
+		if (await isUserSignedIn(request)) throw redirect(REDIRECTS.HOME);
 	});
 
 const signInSchema = zfd.formData({
@@ -40,7 +41,7 @@ const SignIn = () => {
 	useRouteData<typeof routeData>()();
 
 	const [signIn, signInTrigger] = createServerAction$(async (formData: FormData, { request }) => {
-		if (await isUserSignedIn(request)) throw redirect('/app/home');
+		if (await isUserSignedIn(request)) throw redirect(REDIRECTS.HOME);
 
 		const parsedFormData = signInSchema.safeParse(formData);
 
@@ -109,7 +110,7 @@ const SignIn = () => {
 
 		const cookie = await createMagicIdentifierCookie(magicLinkId);
 
-		return redirect('/', {
+		return redirect(REDIRECTS.MAIN, {
 			headers: {
 				'Set-Cookie': cookie,
 			},

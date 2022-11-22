@@ -7,6 +7,7 @@ import logo from '~/assets/logo.webp';
 import { LinkWithIcon } from '~/components/Link';
 import { type ColorScheme, createColorSchemeCookie, getColorScheme } from '~/utils/colorScheme';
 import { db } from '~/utils/db';
+import { REDIRECTS } from '~/utils/redirects';
 import { createSignOutCookie, requireUserId } from '~/utils/session';
 
 const ROUTES = [
@@ -96,7 +97,7 @@ const App = () => {
 
 		const cookie = await createSignOutCookie(request);
 
-		throw redirect('/', { headers: { 'Set-Cookie': cookie } });
+		throw redirect(REDIRECTS.MAIN, { headers: { 'Set-Cookie': cookie } });
 	});
 
 	const getColorSchemeIcon = () => {

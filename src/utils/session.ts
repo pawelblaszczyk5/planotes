@@ -3,6 +3,7 @@ import { redirect } from 'solid-start';
 import { createCookie, createCookieSessionStorage } from 'solid-start/session';
 import { z } from 'zod';
 import { env } from '~/utils/env';
+import { REDIRECTS } from '~/utils/redirects';
 import { convertEpochSecondsToDate, getCurrentEpochSeconds, getDateWithOffset, isDateInPast } from '~/utils/time';
 
 export const MAGIC_LINK_VALIDITY_IN_MINUTES = 15;
@@ -85,7 +86,7 @@ export const requireUserId = async (request: Request) => {
 	if (!parsedSession.success || isDateInPast(convertEpochSecondsToDate(parsedSession.data.validUntil))) {
 		const cookie = await destroySession(session);
 
-		throw redirect('/', { headers: { 'Set-Cookie': cookie } });
+		throw redirect(REDIRECTS.SIGN_IN, { headers: { 'Set-Cookie': cookie } });
 	}
 
 	return parsedSession.data.userId;
