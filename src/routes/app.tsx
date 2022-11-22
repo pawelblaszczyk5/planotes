@@ -65,12 +65,12 @@ const SideNavImageLink = (props: { href: string; src: string; title: string }) =
 export const routeData = () => {
 	const userResource = createServerData$(async (_, { request }) => {
 		const userId = await requireUserId(request);
-		const user = db.user.findUniqueOrThrow({ where: { id: userId } });
+		const user = await db.user.findUniqueOrThrow({ where: { id: userId } });
 
 		return user;
 	});
 
-	const colorSchemeResource = createServerData$(async (_, { request }) => getColorScheme(request));
+	const colorSchemeResource = createServerData$(async (_, { request }) => await getColorScheme(request));
 
 	return [userResource, colorSchemeResource] as const;
 };

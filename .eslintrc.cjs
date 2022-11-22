@@ -21,7 +21,7 @@ module.exports = {
 				'@typescript-eslint/no-non-null-assertion': 'off',
 				'@typescript-eslint/unbound-method': 'off',
 				'@typescript-eslint/no-misused-promises': 'off',
-				'@typescript-eslint/return-await': ['error', 'in-try-catch'],
+				'@typescript-eslint/return-await': 'off',
 				'jsx-a11y/label-has-associated-control': 'off',
 				'canonical/filename-match-exported': 'off',
 				'canonical/filename-match-regex': 'off',
