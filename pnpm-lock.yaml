@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@iconify/json': ^2.1.141
+  '@iconify/json': ^2.1.142
   '@js-temporal/polyfill': ^0.4.3
   '@motionone/solid': ^10.14.3
   '@prisma/client': ^4.6.1
@@ -54,7 +54,7 @@ dependencies:
   zod-form-data: 1.2.4_zod@3.19.1
 
 devDependencies:
-  '@iconify/json': 2.1.141
+  '@iconify/json': 2.1.142
   '@tsconfig/strictest': 1.0.2
   '@types/nodemailer': 6.4.6
   '@unocss/preset-mini': 0.46.5
@@ -1572,8 +1572,8 @@ packages:
     resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}
     dev: true
 
-  /@iconify/json/2.1.141:
-    resolution: {integrity: sha512-FPVZPGwhfugQ4ejfdvvy+/oAq0QCG3MY4oWrt80s77XQX1LEA7UndN1GV5uBdo2fKgRU94RnmBbtDOZ4T+4aoQ==}
+  /@iconify/json/2.1.142:
+    resolution: {integrity: sha512-wTVti6wSp5ofWk7g7vWF+WDmC9ymI4PoNAGHQ0p4cGpNd04bMSS1DB+ptU8n6OqBg2T03kKEqRvG9PqjUiZSGA==}
     dependencies:
       '@iconify/types': 2.0.0
       pathe: 0.3.9
