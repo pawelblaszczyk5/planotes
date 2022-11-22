@@ -65,7 +65,13 @@ const SideNavImageLink = (props: { href: string; src: string; title: string }) =
 export const routeData = () => {
 	const userResource = createServerData$(async (_, { request }) => {
 		const userId = await requireUserId(request);
-		const user = await db.user.findUniqueOrThrow({ where: { id: userId } });
+		const user = await db.user.findUnique({ where: { id: userId } });
+
+		if (!user) {
+			const cookie = await createSignOutCookie(request);
+
+			throw redirect(REDIRECTS.MAIN, { headers: { 'Set-Cookie': cookie } });
+		}
 
 		return user;
 	});
