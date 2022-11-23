@@ -1,8 +1,7 @@
 import clsx from 'clsx';
 import { For, Show } from 'solid-js';
-import { A, FormError, Outlet, useLocation, useRouteData } from 'solid-start';
+import { A, Outlet, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect } from 'solid-start/server';
-import { zfd } from 'zod-form-data';
 import logo from '~/assets/logo.webp';
 import { LinkWithIcon } from '~/components/Link';
 import { type ColorScheme, createColorSchemeCookie, getColorScheme } from '~/utils/colorScheme';
