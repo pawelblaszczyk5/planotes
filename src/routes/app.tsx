@@ -25,10 +25,6 @@ const getNextColorScheme = (currentColorScheme: ColorScheme) => {
 	return 'DARK';
 };
 
-const changeColorSchemeActionSchema = zfd.formData({
-	currentLocation: zfd.text(),
-});
-
 const SideNavLink = (props: { external?: boolean; href: string; icon: string; title: string }) => {
 	const linkTarget = () => (props.external ? '_blank' : '_self');
 	const linkRel = () => (props.external ? 'noopener noreferrer' : '');
@@ -83,19 +79,12 @@ export const routeData = () => {
 
 const App = () => {
 	const [user, colorScheme] = useRouteData<typeof routeData>();
-	const location = useLocation();
-
-	const [, changeColorSchemeTrigger] = createServerAction$(async (formData: FormData, { request }) => {
-		const parsedFormData = changeColorSchemeActionSchema.safeParse(formData);
-
-		if (!parsedFormData.success) return new FormError('Error');
-
+	const [, changeColorSchemeTrigger] = createServerAction$(async (_: FormData, { request }) => {
 		const currentColorScheme = await getColorScheme(request);
 		const nextColorScheme = getNextColorScheme(currentColorScheme);
 		const cookie = await createColorSchemeCookie(nextColorScheme);
 
-		// TODO: this url must be validated
-		return redirect(parsedFormData.data.currentLocation, { headers: { 'Set-Cookie': cookie } });
+		return redirect(request.headers.get('referer') ?? REDIRECTS.HOME, { headers: { 'Set-Cookie': cookie } });
 	});
 
 	const [, signOutTrigger] = createServerAction$<FormData>(async (_, { request }) => {
@@ -128,7 +117,6 @@ const App = () => {
 				<SideNavImageLink href="/ " title="Home" src={logo} />
 				<div class="ml-auto flex items-center gap-2 md:mt-auto md:flex-col md:gap-4">
 					<changeColorSchemeTrigger.Form method="post">
-						<input type="hidden" name="currentLocation" value={location.pathname} />
 						<SideNavButton title={getColorSchemeChangeButtonTitle()} icon={getColorSchemeIcon()} />
 					</changeColorSchemeTrigger.Form>
 					<signOutTrigger.Form method="post">
