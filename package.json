@@ -44,7 +44,7 @@
 		"eslint-config-canonical": "^37.0.3",
 		"eslint-plugin-prettier": "^4.2.1",
 		"eslint-plugin-solid": "^0.8.0",
-		"prettier": "^2.7.1",
+		"prettier": "^2.8.0",
 		"prettier-plugin-tailwindcss": "^0.1.13",
 		"prisma": "^4.6.1",
 		"solid-start-node": "^0.2.5",
