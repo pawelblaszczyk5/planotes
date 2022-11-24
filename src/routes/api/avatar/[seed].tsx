@@ -1,6 +1,6 @@
 import { Show } from 'solid-js';
 import { renderToString } from 'solid-js/web';
-import { type APIEvent } from 'solid-start';
+import { json, type APIEvent } from 'solid-start';
 
 /*
 It's all thanks to https://github.com/boringdesigners/boring-avatars
@@ -138,7 +138,11 @@ const AvatarBeam = (props: ReturnType<typeof generateAvatarData>) => (
 );
 
 export const GET = ({ params }: APIEvent) => {
-	const avatarSvg = renderToString(() => <AvatarBeam {...generateAvatarData(params['seed'] ?? '')} />);
+	const seed = params['seed'];
+
+	if (!seed) return json('Seed parameter is required', 400);
+
+	const avatarSvg = renderToString(() => <AvatarBeam {...generateAvatarData(seed)} />);
 
 	return new Response(avatarSvg, {
 		headers: {
