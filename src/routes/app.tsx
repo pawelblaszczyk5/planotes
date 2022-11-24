@@ -120,7 +120,7 @@ const App = () => {
 		<>
 			<div class="h-full w-full">
 				<nav class="b-b md:b-r md:b-b-0 b-primary h-18 fixed top-0 left-0 flex w-full items-center px-6 py-2 md:left-0 md:top-0 md:h-full md:w-16 md:flex-col md:px-2 md:py-6">
-					<SideNavImageLink href="/ " title="Home" src={logo} />
+					<SideNavImageLink href="/" title="Home" src={logo} />
 					<div class="ml-auto flex items-center gap-2 md:mt-auto md:flex-col md:gap-4">
 						<changeColorSchemeTrigger.Form method="post">
 							<SideNavButton title={getColorSchemeChangeButtonTitle()} icon={getColorSchemeIcon()} />
