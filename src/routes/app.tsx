@@ -69,8 +69,10 @@ export const routeData = () => {
 		}
 
 		const isUserOnboarded = user.name !== null && user.avatarSeed !== null;
+		const isUserVisitingOnboarding = new URL(request.url).pathname.includes(REDIRECTS.ONBOARD);
 
-		if (!isUserOnboarded && new URL(request.url).pathname !== REDIRECTS.ONBOARD) throw redirect(REDIRECTS.ONBOARD);
+		if (!isUserOnboarded && !isUserVisitingOnboarding) throw redirect(REDIRECTS.ONBOARD);
+		if (isUserOnboarded && isUserVisitingOnboarding) throw redirect(REDIRECTS.HOME);
 
 		return user;
 	});
