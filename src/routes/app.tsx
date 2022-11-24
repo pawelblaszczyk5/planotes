@@ -68,6 +68,10 @@ export const routeData = () => {
 			throw redirect(REDIRECTS.MAIN, { headers: { 'Set-Cookie': cookie } });
 		}
 
+		const isUserOnboarded = user.name !== null && user.avatarSeed !== null;
+
+		if (!isUserOnboarded && new URL(request.url).pathname !== REDIRECTS.ONBOARD) throw redirect(REDIRECTS.ONBOARD);
+
 		return user;
 	});
 
