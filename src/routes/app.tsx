@@ -1,8 +1,12 @@
+import { type User } from '@prisma/client';
 import clsx from 'clsx';
 import { For, Show } from 'solid-js';
 import { A, Outlet, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect } from 'solid-start/server';
 import logo from '~/assets/logo.webp';
+import { Button } from '~/components/Button';
+import { RouteDialog } from '~/components/Dialog';
+import { Input } from '~/components/Input';
 import { LinkWithIcon } from '~/components/Link';
 import { type ColorScheme, createColorSchemeCookie, getColorScheme } from '~/utils/colorScheme';
 import { db } from '~/utils/db';
@@ -23,6 +27,8 @@ const getNextColorScheme = (currentColorScheme: ColorScheme) => {
 	if (currentColorScheme === 'LIGHT') return 'SYSTEM';
 	return 'DARK';
 };
+
+const isUserOnboarded = (user: User) => user.avatarSeed !== null && user.name !== null;
 
 const SideNavLink = (props: { external?: boolean; href: string; icon: string; title: string }) => {
 	const linkTarget = () => (props.external ? '_blank' : '_self');
@@ -68,12 +74,6 @@ export const routeData = () => {
 			throw redirect(REDIRECTS.MAIN, { headers: { 'Set-Cookie': cookie } });
 		}
 
-		const isUserOnboarded = user.name !== null && user.avatarSeed !== null;
-		const isUserVisitingOnboarding = new URL(request.url).pathname.includes(REDIRECTS.ONBOARD);
-
-		if (!isUserOnboarded && !isUserVisitingOnboarding) throw redirect(REDIRECTS.ONBOARD);
-		if (isUserOnboarded && isUserVisitingOnboarding) throw redirect(REDIRECTS.HOME);
-
 		return user;
 	});
 
@@ -117,48 +117,59 @@ const App = () => {
 	};
 
 	return (
-		<div class="h-full w-full">
-			<nav class="b-b md:b-r md:b-b-0 b-primary h-18 fixed top-0 left-0 flex w-full items-center px-6 py-2 md:left-0 md:top-0 md:h-full md:w-16 md:flex-col md:px-2 md:py-6">
-				<SideNavImageLink href="/ " title="Home" src={logo} />
-				<div class="ml-auto flex items-center gap-2 md:mt-auto md:flex-col md:gap-4">
-					<changeColorSchemeTrigger.Form method="post">
-						<SideNavButton title={getColorSchemeChangeButtonTitle()} icon={getColorSchemeIcon()} />
-					</changeColorSchemeTrigger.Form>
-					<signOutTrigger.Form method="post">
-						<SideNavButton title="Sign out" icon="i-lucide-log-out" />
-					</signOutTrigger.Form>
-					<SideNavLink
-						href="https://github.com/pawelblaszczyk5/planotes"
-						title="test"
-						icon="i-lucide-github"
-						external
-					/>
-					<div class="h-1 w-1" />
-					<Show when={user()?.email}>
-						{/* TODO: Change to proper seed instead of email */}
-						<SideNavImageLink href="/app/profile" title="Go to profile" src={`/api/avatar/${user()!.email}`} />
-					</Show>
-				</div>
-			</nav>
-			<main class="top-18 fixed h-[calc(100%-4.5rem)] w-full overflow-y-auto p-6 md:right-0 md:left-16 md:top-0 md:h-full md:w-[calc(100%-4rem)]">
-				<div class="items-start md:flex">
-					{/* TODO: Change to username and a random greeting probably or something different */}
-					<h1 class="text-4xl font-bold md:mr-6">Lorem ipsum!</h1>
-					<nav class="mt-6 flex flex-wrap gap-x-6 gap-y-4 md:ml-auto md:mt-0">
-						<For each={ROUTES}>
-							{route => (
-								<LinkWithIcon icon={route.icon} href={route.href}>
-									{route.title}
-								</LinkWithIcon>
-							)}
-						</For>
-					</nav>
-				</div>
-				<div class="mt-12">
-					<Outlet />
-				</div>
-			</main>
-		</div>
+		<>
+			<div class="h-full w-full">
+				<nav class="b-b md:b-r md:b-b-0 b-primary h-18 fixed top-0 left-0 flex w-full items-center px-6 py-2 md:left-0 md:top-0 md:h-full md:w-16 md:flex-col md:px-2 md:py-6">
+					<SideNavImageLink href="/ " title="Home" src={logo} />
+					<div class="ml-auto flex items-center gap-2 md:mt-auto md:flex-col md:gap-4">
+						<changeColorSchemeTrigger.Form method="post">
+							<SideNavButton title={getColorSchemeChangeButtonTitle()} icon={getColorSchemeIcon()} />
+						</changeColorSchemeTrigger.Form>
+						<signOutTrigger.Form method="post">
+							<SideNavButton title="Sign out" icon="i-lucide-log-out" />
+						</signOutTrigger.Form>
+						<SideNavLink
+							href="https://github.com/pawelblaszczyk5/planotes"
+							title="test"
+							icon="i-lucide-github"
+							external
+						/>
+						<div class="h-1 w-1" />
+						<SideNavImageLink
+							href="/app/profile"
+							title="Go to profile"
+							src={`/api/avatar/${user()?.avatarSeed ?? user()?.email}`}
+						/>
+					</div>
+				</nav>
+				<main class="top-18 fixed h-[calc(100%-4.5rem)] w-full overflow-y-auto p-6 md:right-0 md:left-16 md:top-0 md:h-full md:w-[calc(100%-4rem)]">
+					<div class="items-start md:flex">
+						<h1 class="text-4xl font-bold md:mr-6">Hello{user()?.name ? ` ${user()?.name}` : ''}!</h1>
+						<nav class="mt-6 flex flex-wrap gap-x-6 gap-y-4 md:ml-auto md:mt-0">
+							<For each={ROUTES}>
+								{route => (
+									<LinkWithIcon icon={route.icon} href={route.href}>
+										{route.title}
+									</LinkWithIcon>
+								)}
+							</For>
+						</nav>
+					</div>
+					<div class="mt-12">
+						<Outlet />
+					</div>
+				</main>
+			</div>
+			<Show when={user() && !isUserOnboarded(user()!)}>
+				<RouteDialog
+					title="Finish your onboarding!"
+					description="Before fully working with Planotes we need a few additional info"
+				>
+					<Input name="lorem">Ipsum</Input>
+					<Button>Submit</Button>
+				</RouteDialog>
+			</Show>
+		</>
 	);
 };
 
