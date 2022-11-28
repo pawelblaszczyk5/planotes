@@ -77,7 +77,7 @@ export const routeData = () => {
 		return user;
 	});
 
-	const colorSchemeResource = createServerData$(async (_, { request }) => await getColorScheme(request));
+	const colorSchemeResource = createServerData$(async (_, { request }) => getColorScheme(request));
 
 	return [userResource, colorSchemeResource] as const;
 };
