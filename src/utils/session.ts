@@ -9,10 +9,10 @@ import { convertEpochSecondsToDate, getCurrentEpochSeconds, getDateWithOffset, i
 export const MAGIC_LINK_VALIDITY_IN_MINUTES = 15;
 export const MAGIC_LINK_REQUIRED_GENERATION_DELAY_IN_MINUTES = 2;
 
-const SESSION_DURATION_IN_DAYS: Record<SessionDuration, number> = {
+const SESSION_DURATION_IN_DAYS = {
 	[SessionDuration.PERSISTENT]: 30,
 	[SessionDuration.EPHEMERAL]: 1,
-} as const;
+} as const satisfies Record<SessionDuration, number>;
 
 const sessionStorage = createCookieSessionStorage({
 	cookie: {
@@ -32,7 +32,7 @@ const { destroySession, commitSession } = sessionStorage;
 const SESSION_KEYS = {
 	USER_ID: 'userId',
 	VALID_UNTIL: 'validUntil',
-} as const;
+} as const satisfies Record<string, string>;
 
 const sessionSchema = z.object({
 	[SESSION_KEYS.USER_ID]: z.string().cuid(),

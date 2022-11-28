@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { type JSXElement, createUniqueId, Show, mergeProps } from 'solid-js';
+import { type DefaultProps } from '~/utils/types';
 
 type InputProps = {
 	autocomplete?:
@@ -77,7 +78,7 @@ const DEFAULT_INPUT_PROPS = {
 	class: '',
 	type: 'text',
 	value: '',
-} as const;
+} as const satisfies DefaultProps<InputProps>;
 
 export const Input = (props: InputProps) => {
 	const propsWithDefaults = mergeProps(DEFAULT_INPUT_PROPS, props);

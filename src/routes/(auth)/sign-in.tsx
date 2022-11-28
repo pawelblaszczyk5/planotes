@@ -20,6 +20,7 @@ import {
 	MAGIC_LINK_VALIDITY_IN_MINUTES,
 } from '~/utils/session';
 import { getDateWithOffset } from '~/utils/time';
+import { type FormErrors } from '~/utils/types';
 
 export const routeData = () =>
 	createServerData$(async (_, { request }) => {
@@ -35,7 +36,7 @@ const FORM_ERRORS = {
 	INVALID_EMAIL: 'Invalid email address',
 	MAIL_SENDING_FAILED: 'There was a problem with sending you an email, try again',
 	TOO_MANY_REQUESTS: 'Too many magic link requests for the same email address and device',
-} as const;
+} as const satisfies FormErrors;
 
 const SignIn = () => {
 	useRouteData<typeof routeData>()();

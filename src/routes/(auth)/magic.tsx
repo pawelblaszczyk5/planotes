@@ -8,6 +8,7 @@ import { createFormFieldsErrors } from '~/utils/formError';
 import { REDIRECTS } from '~/utils/redirects';
 import { createSessionCookie, getMagicIdentifier, isUserSignedIn } from '~/utils/session';
 import { isDateInPast, convertEpochSecondsToDate } from '~/utils/time';
+import { type FormErrors } from '~/utils/types';
 
 export const routeData = () =>
 	createServerData$(async (_, { request }) => {
@@ -28,7 +29,7 @@ const FORM_ERRORS = {
 	EXPIRED_TOKEN: 'Provided token has already expired or been used, sign in again',
 	INVALID_DEVICE: "Provided token can't be matched with your device sign in again",
 	INVALID_TOKEN: 'Provided token is invalid, sign in again',
-} as const;
+} as const satisfies FormErrors;
 
 const Magic = () => {
 	const tokenFromUrl = useRouteData<typeof routeData>();

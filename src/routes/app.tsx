@@ -20,7 +20,7 @@ const ROUTES = [
 	{ href: '/app/tasks', icon: 'i-lucide-clipboard-check', title: 'Tasks' },
 	{ href: '/app/notes', icon: 'i-lucide-sticky-note', title: 'Notes' },
 	{ href: '/app/shop', icon: 'i-lucide-coins', title: 'Shop' },
-] as const;
+] as const satisfies ReadonlyArray<Readonly<{ href: string; icon: string; title: string }>>;
 
 const getNextColorScheme = (currentColorScheme: ColorScheme) => {
 	if (currentColorScheme === 'DARK') return 'LIGHT';

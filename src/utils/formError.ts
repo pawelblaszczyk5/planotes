@@ -1,11 +1,12 @@
 import { type Accessor, createMemo } from 'solid-js';
 import { FormError, ServerError } from 'solid-start';
+import { type FormErrors } from '~/utils/types';
 
 export const COMMON_FORM_ERRORS = {
 	BAD_REQUEST: 'Incorrect request data',
 	INTERNAL_SERVER_ERROR: 'Internal server error, try again',
 	INVALID_FORM_DATA: "Make sure you're properly submitting form and try again",
-} as const;
+} as const satisfies FormErrors;
 
 export const isFormError = (error: unknown): error is FormError => Boolean(error instanceof FormError);
 

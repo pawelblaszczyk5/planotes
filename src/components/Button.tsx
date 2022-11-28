@@ -1,6 +1,7 @@
 import { Motion } from '@motionone/solid';
 import clsx from 'clsx';
 import { mergeProps, type JSXElement } from 'solid-js';
+import { type DefaultProps } from '~/utils/types';
 
 type ButtonProps = {
 	children: JSXElement;
@@ -14,7 +15,7 @@ const DEFAULT_BUTTON_PROPS = {
 	class: '',
 	type: 'submit',
 	variant: 'primary',
-} as const;
+} as const satisfies DefaultProps<ButtonProps>;
 
 export const Button = (props: ButtonProps) => {
 	const propsWithDefaults = mergeProps(DEFAULT_BUTTON_PROPS, props);
@@ -51,7 +52,7 @@ const DEFAULT_LINK_BUTTON_PROPS = {
 	replace: false,
 	target: '',
 	variant: 'primary',
-} as const;
+} as const satisfies DefaultProps<LinkButtonProps>;
 
 export const ButtonLink = (props: LinkButtonProps) => {
 	const propsWithDefaults = mergeProps(DEFAULT_LINK_BUTTON_PROPS, props);

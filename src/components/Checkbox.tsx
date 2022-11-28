@@ -3,6 +3,7 @@ import * as checkbox from '@zag-js/checkbox';
 import { normalizeProps, useMachine } from '@zag-js/solid';
 import clsx from 'clsx';
 import { type JSXElement, createEffect, createMemo, createUniqueId, mergeProps, untrack, Show } from 'solid-js';
+import { type DefaultProps } from '~/utils/types';
 
 type CheckboxProps = {
 	checked?: boolean;
@@ -14,7 +15,7 @@ type CheckboxProps = {
 const DEFAULT_CHECKBOX_PROPS = {
 	checked: false,
 	class: '',
-} as const;
+} as const satisfies DefaultProps<CheckboxProps>;
 
 export const Checkbox = (props: CheckboxProps) => {
 	const propsWithDefaults = mergeProps(DEFAULT_CHECKBOX_PROPS, props);

@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { mergeProps, type JSXElement } from 'solid-js';
 import { A } from 'solid-start';
+import { type DefaultProps } from '~/utils/types';
 
 type LinkProps = {
 	children: JSXElement;
@@ -12,7 +13,7 @@ type LinkProps = {
 const DEFAULT_LINK_PROPS = {
 	class: '',
 	end: false,
-} as const;
+} as const satisfies DefaultProps<LinkProps>;
 
 export const Link = (props: LinkProps) => {
 	const propsWithDefaults = mergeProps(DEFAULT_LINK_PROPS, props);
@@ -38,7 +39,7 @@ type LinkWithIconProps = LinkProps & {
 
 const DEFAULT_LINK_WITH_ICON_PROPS = {
 	...DEFAULT_LINK_PROPS,
-} as const;
+} as const satisfies DefaultProps<LinkWithIconProps>;
 
 export const LinkWithIcon = (props: LinkWithIconProps) => {
 	const propsWithDefaults = mergeProps(DEFAULT_LINK_WITH_ICON_PROPS, props);

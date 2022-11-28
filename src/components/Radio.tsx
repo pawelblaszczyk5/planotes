@@ -14,6 +14,7 @@ import {
 	untrack,
 	mergeProps,
 } from 'solid-js';
+import { type DefaultProps } from '~/utils/types';
 
 type Api = Accessor<ReturnType<typeof radio.connect>>;
 
@@ -31,7 +32,7 @@ type RootProps = { children: JSXElement; class?: string; name: string; value?: s
 
 const DEFAULT_ROOT_PROPS = {
 	value: '',
-} as const;
+} as const satisfies DefaultProps<RootProps>;
 
 const Root = (props: RootProps) => {
 	const propsWithDefaults = mergeProps(DEFAULT_ROOT_PROPS, props);
