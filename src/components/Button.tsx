@@ -12,7 +12,6 @@ type ButtonProps = {
 };
 
 const DEFAULT_BUTTON_PROPS = {
-	class: '',
 	type: 'submit',
 	variant: 'primary',
 } as const satisfies DefaultProps<ButtonProps>;
@@ -46,7 +45,6 @@ type LinkButtonProps = Pick<ButtonProps, 'children' | 'class' | 'variant'> & {
 };
 
 const DEFAULT_LINK_BUTTON_PROPS = {
-	class: '',
 	external: false,
 	rel: '',
 	replace: false,

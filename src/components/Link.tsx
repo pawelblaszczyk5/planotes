@@ -11,7 +11,6 @@ type LinkProps = {
 };
 
 const DEFAULT_LINK_PROPS = {
-	class: '',
 	end: false,
 } as const satisfies DefaultProps<LinkProps>;
 

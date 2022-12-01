@@ -14,7 +14,6 @@ type CheckboxProps = {
 
 const DEFAULT_CHECKBOX_PROPS = {
 	checked: false,
-	class: '',
 } as const satisfies DefaultProps<CheckboxProps>;
 
 export const Checkbox = (props: CheckboxProps) => {

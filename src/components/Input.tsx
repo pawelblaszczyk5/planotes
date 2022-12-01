@@ -75,7 +75,6 @@ type InputProps = {
 
 const DEFAULT_INPUT_PROPS = {
 	autocomplete: 'off',
-	class: '',
 	type: 'text',
 	value: '',
 } as const satisfies DefaultProps<InputProps>;
