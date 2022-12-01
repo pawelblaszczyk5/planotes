@@ -1,7 +1,7 @@
 import * as combobox from '@zag-js/combobox';
 import { normalizeProps, useMachine } from '@zag-js/solid';
 import clsx from 'clsx';
-import { type JSXElement, createMemo, createUniqueId, For, createSignal, mergeProps } from 'solid-js';
+import { type JSXElement, createMemo, createUniqueId, For, createSignal, mergeProps, Show } from 'solid-js';
 import { type DefaultProps } from '~/utils/types';
 
 type Option = {
@@ -23,26 +23,30 @@ const DEFAULT_COMBOBOX_PROPS = {
 } as const satisfies DefaultProps<ComboboxProps>;
 
 export const Combobox = (props: ComboboxProps) => {
+	const id = createUniqueId();
 	const propsWithDefaults = mergeProps(DEFAULT_COMBOBOX_PROPS, props);
 	const [optionsToDisplay, setOptionsToDisplay] = createSignal<ComboboxProps['options']>([]);
 
 	const [state, send] = useMachine(
 		combobox.machine({
 			allowCustomValue: false,
-			id: createUniqueId(),
+			id,
 			inputBehavior: 'autohighlight',
 			loop: true,
 			onClose: () => {
-				const inputValue = state.context.inputValue;
+				setTimeout(() => {
+					const inputValue = state.context.inputValue;
 
-				if (!inputValue) return;
+					const isInputValueValid = optionsToDisplay().some(
+						option => option.label === inputValue && option.value === api().selectedValue,
+					);
 
-				const isInputValueValid = optionsToDisplay().some(option => option.label === inputValue);
+					if (isInputValueValid && inputValue) return;
 
-				if (isInputValueValid) return;
-
-				// eslint-disable-next-line @typescript-eslint/no-use-before-define
-				api().setInputValue(optionsToDisplay().find(option => option.value === api().selectedValue)?.label ?? '');
+					api().setInputValue(
+						propsWithDefaults.options.find(option => option.value === api().selectedValue)?.label ?? '',
+					);
+				});
 			},
 			onInputChange: ({ value }) => {
 				const filtered = propsWithDefaults.options.filter(option =>
@@ -57,6 +61,10 @@ export const Combobox = (props: ComboboxProps) => {
 				flip: true,
 			},
 			selectionData: propsWithDefaults.value,
+			translations: {
+				countAnnouncement: count => `Found ${count} options`,
+				toggleButtonLabel: 'Show available options',
+			},
 		}),
 	);
 
@@ -77,20 +85,30 @@ export const Combobox = (props: ComboboxProps) => {
 					)}
 					{...api().controlProps}
 				>
-					<input class="h-full flex-1 bg-transparent outline-0" {...api().inputProps} />
+					<input
+						aria-invalid={hasError()}
+						aria-describedby={hasError() ? `${id}-error` : ''}
+						class="h-full flex-1 bg-transparent outline-0"
+						{...api().inputProps}
+					/>
 					<button class="h-full w-10" {...api().toggleButtonProps}>
-						▼
+						<i class="i-lucide-chevron-down" aria-hidden />
 					</button>
 				</div>
+				<Show when={hasError()}>
+					<span class="text-destructive pt-1 text-sm" id={`${id}-error`} role="alert">
+						{propsWithDefaults.error}
+					</span>
+				</Show>
 				<input type="hidden" name={propsWithDefaults.name} readonly value={api().selectedValue ?? ''} />
 			</div>
 			<div {...api().positionerProps}>
 				{optionsToDisplay().length > 0 && (
-					<ul {...api().listboxProps}>
+					<ul class="bg-primary shadow-md shadow-black/50 dark:shadow-black/90" {...api().listboxProps}>
 						<For each={optionsToDisplay()}>
 							{(item, index) => (
 								<li
-									class="combobox__option"
+									class="[&[data-highlighted]]:text-accent not-last:b-b-1 b-primary py-2 px-4"
 									{...api().getOptionProps({
 										disabled: false,
 										index: index(),
