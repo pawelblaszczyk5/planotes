@@ -1,7 +1,17 @@
 import * as combobox from '@zag-js/combobox';
 import { normalizeProps, useMachine } from '@zag-js/solid';
 import clsx from 'clsx';
-import { type JSXElement, createMemo, createUniqueId, For, createSignal, mergeProps, Show } from 'solid-js';
+import {
+	type JSXElement,
+	createMemo,
+	createUniqueId,
+	For,
+	createSignal,
+	mergeProps,
+	Show,
+	createEffect,
+	untrack,
+} from 'solid-js';
 import { type DefaultProps } from '~/utils/types';
 
 type Option = {
@@ -72,6 +82,10 @@ export const Combobox = (props: ComboboxProps) => {
 			},
 		}),
 	);
+
+	createEffect(() => {
+		if (propsWithDefaults.value) untrack(api).setValue(propsWithDefaults.value);
+	});
 
 	const api = createMemo(() => combobox.connect(state, send, normalizeProps));
 
