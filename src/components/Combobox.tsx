@@ -37,6 +37,11 @@ export const Combobox = (props: ComboboxProps) => {
 				setTimeout(() => {
 					const inputValue = state.context.inputValue;
 
+					if (!inputValue) {
+						api().setValue('');
+						return;
+					}
+
 					const isInputValueValid = optionsToDisplay().some(
 						option => option.label === inputValue && option.value === api().selectedValue,
 					);
