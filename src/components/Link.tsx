@@ -37,6 +37,7 @@ type LinkWithIconProps = LinkProps & {
 };
 
 const DEFAULT_LINK_WITH_ICON_PROPS = {
+	class: '',
 	...DEFAULT_LINK_PROPS,
 } as const satisfies DefaultProps<LinkWithIconProps>;
 
