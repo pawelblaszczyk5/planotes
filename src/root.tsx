@@ -1,7 +1,7 @@
 // @refresh reload
 import clsx from 'clsx';
 import { createEffect, Show, Suspense } from 'solid-js';
-import { Body, ErrorBoundary, FileRoutes, Head, Html, Link, Meta, Routes, Scripts, Title } from 'solid-start';
+import { Body, ErrorBoundary, FileRoutes, Head, Html, Link, Meta, Routes, Scripts } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
 import { type ColorScheme, getColorScheme } from '~/utils/colorScheme';
 
@@ -60,7 +60,6 @@ const Root = () => {
 					class={clsx('h-full', { dark: colorScheme() === 'DARK' })}
 				>
 					<Head>
-						<Title>Planotes</Title>
 						<Meta charset="utf-8" />
 						<Meta name="viewport" content="width=device-width, initial-scale=1" />
 						<Link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
