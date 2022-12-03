@@ -23,12 +23,14 @@ type ComboboxProps = {
 	children: JSXElement;
 	class?: string;
 	error?: string | undefined;
+	maxOptions?: number;
 	name: string;
 	options: Array<Option>;
 	value?: Option | null;
 };
 
 const DEFAULT_COMBOBOX_PROPS = {
+	maxOptions: Number.POSITIVE_INFINITY,
 	value: null,
 } as const satisfies DefaultProps<ComboboxProps>;
 
@@ -68,13 +70,16 @@ export const Combobox = (props: ComboboxProps) => {
 					option.label.toLocaleLowerCase().includes(value.toLocaleLowerCase()),
 				);
 
-				setOptionsToDisplay(filtered.length > 0 ? filtered : propsWithDefaults.options);
+				setOptionsToDisplay(
+					(filtered.length > 0 ? filtered : propsWithDefaults.options).slice(0, propsWithDefaults.maxOptions),
+				);
 			},
-			onOpen: () => setOptionsToDisplay(propsWithDefaults.options),
+			onOpen: () => setOptionsToDisplay(propsWithDefaults.options.slice(0, propsWithDefaults.maxOptions)),
 			openOnClick: true,
 			positioning: {
 				flip: true,
 			},
+			// eslint-disable-next-line solid/reactivity -- it's synced via createEffetc below
 			selectionData: propsWithDefaults.value,
 			translations: {
 				countAnnouncement: count => `Found ${count} options`,
@@ -123,7 +128,10 @@ export const Combobox = (props: ComboboxProps) => {
 			</div>
 			<div {...api().positionerProps}>
 				{optionsToDisplay().length > 0 && (
-					<ul class="bg-primary shadow-md shadow-black/50 dark:shadow-black/90" {...api().listboxProps}>
+					<ul
+						class="bg-primary max-h-[calc(41px*6)] overflow-y-auto shadow-md shadow-black/50 dark:shadow-black/90"
+						{...api().listboxProps}
+					>
 						<For each={optionsToDisplay()}>
 							{(item, index) => (
 								<li
