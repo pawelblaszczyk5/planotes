@@ -127,7 +127,7 @@ export const Combobox = (props: ComboboxProps) => {
 				<input type="hidden" name={propsWithDefaults.name} readonly value={api().selectedValue ?? ''} />
 			</div>
 			<div {...api().positionerProps}>
-				{optionsToDisplay().length > 0 && (
+				<Show when={optionsToDisplay().length}>
 					<ul
 						class="bg-primary max-h-[calc(41px*6)] overflow-y-auto shadow-md shadow-black/50 dark:shadow-black/90"
 						{...api().listboxProps}
@@ -148,7 +148,7 @@ export const Combobox = (props: ComboboxProps) => {
 							)}
 						</For>
 					</ul>
-				)}
+				</Show>
 			</div>
 		</>
 	);
