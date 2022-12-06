@@ -2,7 +2,7 @@ import { createEffect, createSignal, Show } from 'solid-js';
 import { FormError, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect } from 'solid-start/server';
 import { zfd } from 'zod-form-data';
-import { Button } from '~/components/Button';
+import { Button } from '~/design/Button';
 import { db } from '~/utils/db';
 import { createFormFieldsErrors } from '~/utils/formError';
 import { REDIRECTS } from '~/utils/redirects';

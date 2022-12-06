@@ -1,5 +1,5 @@
 import { Outlet, Title } from 'solid-start';
-import { LinkWithIcon } from '~/components/Link';
+import { LinkWithIcon } from '~/design/Link';
 
 const Auth = () => (
 	<>
