@@ -51,7 +51,6 @@ export const Checkbox = (props: CheckboxProps) => {
 					</Show>
 				</Presence>
 			</div>
-			{/* @ts-expect-error - zag incorrectly typed */}
 			<span {...api().labelProps}>{propsWithDefaults.children}</span>
 			<input {...api().inputProps} />
 		</label>
