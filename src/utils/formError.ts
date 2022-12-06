@@ -17,8 +17,12 @@ export const createFormFieldsErrors = (error: Accessor<unknown>) => {
 		const currentError = error();
 
 		if (!currentError) return {};
-		if (isServerError(currentError)) return { other: currentError.message };
-		if (!isFormError(currentError)) return { other: COMMON_FORM_ERRORS.INTERNAL_SERVER_ERROR };
+		if (!isFormError(currentError)) {
+			if (isServerError(currentError)) return { other: currentError.message };
+
+			return { other: COMMON_FORM_ERRORS.INTERNAL_SERVER_ERROR };
+		}
+
 		if (!currentError.fieldErrors) return { other: currentError.message };
 
 		return currentError.fieldErrors;
