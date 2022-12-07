@@ -9,7 +9,7 @@ import { Button } from '~/components/Button';
 import { Checkbox } from '~/components/Checkbox';
 import { Input } from '~/components/Input';
 import { db } from '~/utils/db';
-import { COMMON_FORM_ERRORS, createFormFieldsErrors } from '~/utils/formError';
+import { COMMON_FORM_ERRORS, createFormFieldsErrors, zodErrorToFieldErrors } from '~/utils/formError';
 import { sendEmailWithMagicLink } from '~/utils/mail';
 import { REDIRECTS } from '~/utils/redirects';
 import {
@@ -27,16 +27,21 @@ export const routeData = () =>
 		if (await isUserSignedIn(request)) throw redirect(REDIRECTS.HOME);
 	});
 
-const signInSchema = zfd.formData({
-	email: zfd.text(z.string().email()),
-	rememberMe: zfd.checkbox(),
-});
-
 const FORM_ERRORS = {
-	INVALID_EMAIL: 'Invalid email address',
+	EMAIL_INVALID: 'Email address is invalid',
+	EMAIL_REQUIRED: 'Email address is required',
 	MAIL_SENDING_FAILED: 'There was a problem with sending you an email, try again',
 	TOO_MANY_REQUESTS: 'Too many magic link requests for the same email address and device',
 } as const satisfies FormErrors;
+
+const signInSchema = zfd.formData({
+	email: zfd.text(
+		z
+			.string({ invalid_type_error: FORM_ERRORS.EMAIL_INVALID, required_error: FORM_ERRORS.EMAIL_REQUIRED })
+			.email(FORM_ERRORS.EMAIL_INVALID),
+	),
+	rememberMe: zfd.checkbox(),
+});
 
 const SignIn = () => {
 	useRouteData<typeof routeData>()();
@@ -50,10 +55,7 @@ const SignIn = () => {
 			const errors = parsedFormData.error.formErrors;
 
 			throw new FormError(COMMON_FORM_ERRORS.BAD_REQUEST, {
-				fieldErrors: {
-					...(errors.fieldErrors.email ? { email: FORM_ERRORS.INVALID_EMAIL } : {}),
-					...(errors.formErrors.length ? { other: COMMON_FORM_ERRORS.INVALID_FORM_DATA } : {}),
-				},
+				fieldErrors: zodErrorToFieldErrors(errors),
 			});
 		}
 

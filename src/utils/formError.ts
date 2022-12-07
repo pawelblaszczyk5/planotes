@@ -1,5 +1,6 @@
 import { type Accessor, createMemo } from 'solid-js';
 import { FormError, ServerError } from 'solid-start';
+import { type ZodError } from 'zod';
 import { type FormErrors } from '~/utils/types';
 
 export const COMMON_FORM_ERRORS = {
@@ -30,3 +31,12 @@ export const createFormFieldsErrors = (error: Accessor<unknown>) => {
 
 	return formFieldsErrorsMemo;
 };
+
+export const zodErrorToFieldErrors = (errors: ZodError['formErrors']) => ({
+	...(errors.formErrors.length ? { other: COMMON_FORM_ERRORS.INVALID_FORM_DATA } : {}),
+	...Object.fromEntries(
+		Object.entries(errors.fieldErrors)
+			.filter(([, fieldErrors]) => typeof fieldErrors !== 'undefined')
+			.map(([key, fieldErrors]) => [key, fieldErrors![0]]),
+	),
+});
