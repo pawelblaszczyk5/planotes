@@ -5,6 +5,7 @@ import { A, Outlet, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect } from 'solid-start/server';
 import logo from '~/assets/logo.webp';
 import { Button } from '~/components/Button';
+import { type ComboboxOption, Combobox } from '~/components/Combobox';
 import { RouteDialog } from '~/components/Dialog';
 import { Input } from '~/components/Input';
 import { LinkWithIcon } from '~/components/Link';
@@ -12,6 +13,7 @@ import { type ColorScheme, createColorSchemeCookie, getColorScheme } from '~/uti
 import { db } from '~/utils/db';
 import { REDIRECTS } from '~/utils/redirects';
 import { createSignOutCookie, requireUserId } from '~/utils/session';
+import { IANA_TIMEZONES } from '~/utils/timezones';
 
 const ROUTES = [
 	{ href: '/app/home', icon: 'i-lucide-home', title: 'Home' },
@@ -62,6 +64,38 @@ const SideNavImageLink = (props: { href: string; src: string; title: string }) =
 		<img class="h-full w-full" src={props.src} alt={props.title} />
 	</A>
 );
+
+const timezonesComboboxOptions = IANA_TIMEZONES.map<ComboboxOption>(timezone => ({
+	label: timezone,
+	value: timezone,
+}));
+
+const UserSettingsForm = () => {
+	const [, onboardTrigger] = createServerAction$(async (_: FormData, { request }) => {
+		await requireUserId(request);
+	});
+
+	const userTimezone = () => {
+		if (import.meta.env.SSR) return null;
+
+		return (
+			timezonesComboboxOptions.find(
+				timezone => timezone.value === new Intl.DateTimeFormat().resolvedOptions().timeZone,
+			) ?? null
+		);
+	};
+
+	return (
+		<onboardTrigger.Form>
+			<Input name="name">Name</Input>
+			<Input name="avatarSeed">Avatar seed</Input>
+			<Combobox options={timezonesComboboxOptions} maxOptions={20} value={userTimezone()} name="timezone">
+				Your timezone
+			</Combobox>
+			<Button>Save</Button>
+		</onboardTrigger.Form>
+	);
+};
 
 export const routeData = () => {
 	const userResource = createServerData$(async (_, { request }) => {
@@ -166,8 +200,7 @@ const App = () => {
 					title="Finish your onboarding!"
 					description="Before fully working with Planotes we need a few additional info"
 				>
-					<Input name="lorem">Ipsum</Input>
-					<Button>Submit</Button>
+					<UserSettingsForm />
 				</RouteDialog>
 			</Show>
 		</>
