@@ -19,6 +19,8 @@ type Option = {
 	value: string;
 };
 
+export type { Option as ComboboxOption };
+
 type ComboboxProps = {
 	children: JSXElement;
 	class?: string;
@@ -88,11 +90,11 @@ export const Combobox = (props: ComboboxProps) => {
 		}),
 	);
 
-	createEffect(() => {
-		if (propsWithDefaults.value) untrack(api).setValue(propsWithDefaults.value);
-	});
-
 	const api = createMemo(() => combobox.connect(state, send, normalizeProps));
+
+	createEffect(() => {
+		untrack(api).setValue(propsWithDefaults.value ?? '');
+	});
 
 	const hasError = () => Boolean(propsWithDefaults.error);
 
