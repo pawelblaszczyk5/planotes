@@ -66,7 +66,7 @@ const SideNavImageLink = (props: { href: string; src: string; title: string }) =
 );
 
 const timezonesComboboxOptions = IANA_TIMEZONES.map<ComboboxOption>(timezone => ({
-	label: timezone,
+	label: timezone.replaceAll('_', ' '),
 	value: timezone,
 }));
 
