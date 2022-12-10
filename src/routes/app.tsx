@@ -11,6 +11,7 @@ import { Input } from '~/components/Input';
 import { LinkWithIcon } from '~/components/Link';
 import { type ColorScheme, createColorSchemeCookie, getColorScheme } from '~/utils/colorScheme';
 import { db } from '~/utils/db';
+import { createDebouncedSignal } from '~/utils/primitives';
 import { REDIRECTS } from '~/utils/redirects';
 import { createSignOutCookie, requireUserId } from '~/utils/session';
 import { IANA_TIMEZONES } from '~/utils/timezones';
@@ -70,10 +71,15 @@ const timezonesComboboxOptions = IANA_TIMEZONES.map<ComboboxOption>(timezone => 
 	value: timezone,
 }));
 
-const UserSettingsForm = () => {
+const UserSettingsForm = (props: { user: User }) => {
 	const [, onboardTrigger] = createServerAction$(async (_: FormData, { request }) => {
 		await requireUserId(request);
 	});
+
+	const [avatarSeed, setAvatarSeed] = createDebouncedSignal('');
+
+	const avatarUrl = () =>
+		`/api/avatar/${encodeURIComponent(avatarSeed() || props.user.avatarSeed || props.user.email)}`;
 
 	const userTimezone = () => {
 		if (import.meta.env.SSR) return null;
@@ -85,11 +91,23 @@ const UserSettingsForm = () => {
 		);
 	};
 
+	const handleInputsChange = (
+		event: InputEvent & {
+			currentTarget: HTMLDivElement;
+			target: Element;
+		},
+	) => {
+		if (!(event.target instanceof HTMLInputElement)) return;
+		if (event.target.name !== 'avatarSeed') return;
+
+		setAvatarSeed(event.target.value);
+	};
+
 	return (
 		<onboardTrigger.Form class="flex flex-col gap-6">
 			<div class="flex flex w-full flex-col flex-col items-center gap-6 md:flex-row-reverse">
-				<img class="max-w-32 block" src="/api/avatar/test" alt="New avatar preview" />
-				<div class="flex w-full flex-col gap-6">
+				<img class="max-w-32 block" src={avatarUrl()} alt="New avatar preview" />
+				<div class="flex w-full flex-col gap-6" onInput={handleInputsChange}>
 					<Input name="name">Name</Input>
 					<Input name="avatarSeed">Avatar seed</Input>
 				</div>
@@ -205,7 +223,7 @@ const App = () => {
 					title="Finish your onboarding!"
 					description="There are few additional things to make your experience with Planotes awesomely personalized 😊 You can edit these options on your profile anytime!"
 				>
-					<UserSettingsForm />
+					<UserSettingsForm user={user()!} />
 				</RouteDialog>
 			</Show>
 		</>
