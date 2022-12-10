@@ -142,7 +142,7 @@ export const GET = ({ params }: APIEvent) => {
 
 	if (!seed) return json('Seed parameter is required', 400);
 
-	const avatarSvg = renderToString(() => <AvatarBeam {...generateAvatarData(seed)} />);
+	const avatarSvg = renderToString(() => <AvatarBeam {...generateAvatarData(decodeURIComponent(seed))} />);
 
 	return new Response(avatarSvg, {
 		headers: {
