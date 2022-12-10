@@ -86,13 +86,18 @@ const UserSettingsForm = () => {
 	};
 
 	return (
-		<onboardTrigger.Form>
-			<Input name="name">Name</Input>
-			<Input name="avatarSeed">Avatar seed</Input>
+		<onboardTrigger.Form class="flex flex-col gap-6">
+			<div class="flex flex w-full flex-col flex-col items-center gap-6 md:flex-row-reverse">
+				<img class="max-w-32 block" src="/api/avatar/test" alt="New avatar preview" />
+				<div class="flex w-full flex-col gap-6">
+					<Input name="name">Name</Input>
+					<Input name="avatarSeed">Avatar seed</Input>
+				</div>
+			</div>
 			<Combobox options={timezonesComboboxOptions} maxOptions={20} value={userTimezone()} name="timezone">
 				Your timezone
 			</Combobox>
-			<Button>Save</Button>
+			<Button class="max-w-48 mx-auto w-full">Save profile</Button>
 		</onboardTrigger.Form>
 	);
 };
@@ -198,7 +203,7 @@ const App = () => {
 			<Show when={user() && !isUserOnboarded(user()!)}>
 				<RouteDialog
 					title="Finish your onboarding!"
-					description="Before fully working with Planotes we need a few additional info"
+					description="There are few additional things to make your experience with Planotes awesomely personalized 😊 You can edit these options on your profile anytime!"
 				>
 					<UserSettingsForm />
 				</RouteDialog>
