@@ -1,8 +1,10 @@
 import { type User } from '@prisma/client';
 import clsx from 'clsx';
 import { For, Show } from 'solid-js';
-import { A, Outlet, useRouteData } from 'solid-start';
+import { A, FormError, Outlet, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect } from 'solid-start/server';
+import { z } from 'zod';
+import { zfd } from 'zod-form-data';
 import logo from '~/assets/logo.webp';
 import { Button } from '~/components/Button';
 import { type ComboboxOption, Combobox } from '~/components/Combobox';
@@ -11,10 +13,12 @@ import { Input } from '~/components/Input';
 import { LinkWithIcon } from '~/components/Link';
 import { type ColorScheme, createColorSchemeCookie, getColorScheme } from '~/utils/colorScheme';
 import { db } from '~/utils/db';
+import { COMMON_FORM_ERRORS, createFormFieldsErrors, zodErrorToFieldErrors } from '~/utils/formError';
 import { createDebouncedSignal } from '~/utils/primitives';
 import { REDIRECTS } from '~/utils/redirects';
 import { createSignOutCookie, requireUserId } from '~/utils/session';
 import { IANA_TIMEZONES } from '~/utils/timezones';
+import { type FormErrors } from '~/utils/types';
 
 const ROUTES = [
 	{ href: '/app/home', icon: 'i-lucide-home', title: 'Home' },
@@ -71,10 +75,57 @@ const timezonesComboboxOptions = IANA_TIMEZONES.map<ComboboxOption>(timezone => 
 	value: timezone,
 }));
 
+const FORM_ERRORS = {
+	AVATAR_SEED_REQUIRED: 'Avatar seed is required',
+	INCORRECT_TIMEZONE: 'Make sure you choosed a proper timezone',
+	NAME_REQUIRED: 'Name is required',
+} as const satisfies FormErrors;
+
+const userSettingsFormSchema = zfd.formData({
+	avatarSeed: zfd.text(
+		z.string({
+			invalid_type_error: FORM_ERRORS.AVATAR_SEED_REQUIRED,
+			required_error: FORM_ERRORS.AVATAR_SEED_REQUIRED,
+		}),
+	),
+	name: zfd.text(
+		z.string({ invalid_type_error: FORM_ERRORS.NAME_REQUIRED, required_error: FORM_ERRORS.NAME_REQUIRED }),
+	),
+	timezone: zfd.text(
+		z.enum(IANA_TIMEZONES, {
+			invalid_type_error: FORM_ERRORS.INCORRECT_TIMEZONE,
+			required_error: FORM_ERRORS.INCORRECT_TIMEZONE,
+		}),
+	),
+});
+
 const UserSettingsForm = (props: { user: User }) => {
-	const [, onboardTrigger] = createServerAction$(async (_: FormData, { request }) => {
-		await requireUserId(request);
+	const [onboard, onboardTrigger] = createServerAction$(async (formData: FormData, { request }) => {
+		const userId = await requireUserId(request);
+
+		const parsedFormData = userSettingsFormSchema.safeParse(formData);
+
+		if (!parsedFormData.success) {
+			const errors = parsedFormData.error.formErrors;
+
+			throw new FormError(COMMON_FORM_ERRORS.BAD_REQUEST, {
+				fieldErrors: zodErrorToFieldErrors(errors),
+			});
+		}
+
+		await db.user.update({
+			data: {
+				avatarSeed: parsedFormData.data.avatarSeed,
+				name: parsedFormData.data.name,
+				timezone: parsedFormData.data.timezone,
+			},
+			where: { id: userId },
+		});
+
+		return redirect(request.headers.get('referer') ?? REDIRECTS.HOME);
 	});
+
+	const onboardErrors = createFormFieldsErrors(() => onboard.error);
 
 	const [avatarSeed, setAvatarSeed] = createDebouncedSignal('');
 
@@ -97,8 +148,7 @@ const UserSettingsForm = (props: { user: User }) => {
 			target: Element;
 		},
 	) => {
-		if (!(event.target instanceof HTMLInputElement)) return;
-		if (event.target.name !== 'avatarSeed') return;
+		if (!(event.target instanceof HTMLInputElement) || event.target.name !== 'avatarSeed') return;
 
 		setAvatarSeed(event.target.value);
 	};
@@ -108,13 +158,20 @@ const UserSettingsForm = (props: { user: User }) => {
 			<div class="flex flex w-full flex-col flex-col items-center gap-6 md:flex-row-reverse">
 				<img class="max-w-32 block" src={avatarUrl()} alt="New avatar preview" />
 				<div class="flex w-full flex-col gap-6" onInput={handleInputsChange}>
-					<Input name="name">Name</Input>
-					<Input name="avatarSeed">Avatar seed</Input>
+					<Input error={onboardErrors()['name']} name="name">
+						Name
+					</Input>
+					<Input name="avatarSeed" error={onboardErrors()['avatarSeed']}>
+						Avatar seed
+					</Input>
 				</div>
 			</div>
 			<Combobox options={timezonesComboboxOptions} maxOptions={20} value={userTimezone()} name="timezone">
-				Your timezone
+				Timezone
 			</Combobox>
+			<Show when={onboardErrors()['other']}>
+				<p class="text-destructive text-sm">{onboardErrors()['other']}</p>
+			</Show>
 			<Button class="max-w-48 mx-auto w-full">Save profile</Button>
 		</onboardTrigger.Form>
 	);

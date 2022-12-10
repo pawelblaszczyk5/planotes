@@ -16,6 +16,7 @@ model User {
   magicLinks MagicLink[]
   name       String?
   avatarSeed String?
+  timezone   String?
 }
 
 model MagicLink {

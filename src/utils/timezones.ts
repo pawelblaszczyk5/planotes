@@ -596,4 +596,4 @@ export const IANA_TIMEZONES = [
 	'W-SU',
 	'WET',
 	'Zulu',
-];
+] as const;
