@@ -56,6 +56,9 @@
 	"pnpm": {
 		"overrides": {
 			"esbuild": "0.15.13"
+		},
+		"patchedDependencies": {
+			"@zag-js/combobox@0.2.4": "patches/@zag-js__combobox@0.2.4.patch"
 		}
 	},
 	"engines": {

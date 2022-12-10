@@ -3,6 +3,11 @@ lockfileVersion: 5.4
 overrides:
   esbuild: 0.15.13
 
+patchedDependencies:
+  '@zag-js/combobox@0.2.4':
+    hash: wa6oi7nody467mdbbbisxksaey
+    path: patches/@zag-js__combobox@0.2.4.patch
+
 specifiers:
   '@iconify/json': ^2.1.150
   '@js-temporal/polyfill': ^0.4.3
@@ -46,7 +51,7 @@ dependencies:
   '@solidjs/router': 0.5.1_solid-js@1.6.4
   '@unocss/reset': 0.47.5
   '@zag-js/checkbox': 0.2.4
-  '@zag-js/combobox': 0.2.4
+  '@zag-js/combobox': 0.2.4_wa6oi7nody467mdbbbisxksaey
   '@zag-js/dialog': 0.2.3
   '@zag-js/radio': 0.1.4
   '@zag-js/solid': 0.2.2_solid-js@1.6.4
@@ -2416,7 +2421,7 @@ packages:
       '@zag-js/types': 0.3.1
     dev: false
 
-  /@zag-js/combobox/0.2.4:
+  /@zag-js/combobox/0.2.4_wa6oi7nody467mdbbbisxksaey:
     resolution: {integrity: sha512-8Dd0Yr5zpXaYWnhZHgeFw0k6w5c0O0Hpq0IF5QmQjqrMBkVZC/Gh12NnY0HjTPsyrowPGvKzpoxdpwyjQHGnwg==}
     dependencies:
       '@zag-js/anatomy': 0.1.1
@@ -2427,6 +2432,7 @@ packages:
       '@zag-js/popper': 0.2.0
       '@zag-js/types': 0.3.1
     dev: false
+    patched: true
 
   /@zag-js/core/0.2.2:
     resolution: {integrity: sha512-Zqzm8qa8S/LrAIGsjSy7g/XU0G2QUfWvwguGOtuJabunYGtaEE5vl4aX3qJE2QkTWb0rLalowushlPdOe6pUAw==}

@@ -68,8 +68,9 @@ export const Combobox = (props: ComboboxProps) => {
 				});
 			},
 			onInputChange: ({ value }) => {
+				const transformedValue = value.toLocaleLowerCase().trim();
 				const filtered = propsWithDefaults.options.filter(option =>
-					option.label.toLocaleLowerCase().includes(value.toLocaleLowerCase()),
+					option.label.toLocaleLowerCase().trim().includes(transformedValue),
 				);
 
 				setOptionsToDisplay(

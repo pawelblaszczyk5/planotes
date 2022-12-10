@@ -1,0 +1,28 @@
+diff --git a/dist/index.js b/dist/index.js
+index 483261c6f0797f7f0e9fb50b3691505b0e50ac7f..0b4a58533c883b7d198a70745a66e9b873d60efb 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -421,9 +421,6 @@ function connect(state, send, normalize) {
+         send("FOCUS");
+       },
+       onChange(event) {
+-        const evt = getNativeEvent(event);
+-        if (evt.isComposing)
+-          return;
+         send({ type: "CHANGE", value: event.currentTarget.value });
+       },
+       onKeyDown(event) {
+diff --git a/dist/index.mjs b/dist/index.mjs
+index 1be945fbeafe93e2858c280a71666d5f1a2b7fe3..9d6bc0999d8ca6c5e7be207725726307405cad27 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -393,9 +393,6 @@ function connect(state, send, normalize) {
+         send("FOCUS");
+       },
+       onChange(event) {
+-        const evt = getNativeEvent(event);
+-        if (evt.isComposing)
+-          return;
+         send({ type: "CHANGE", value: event.currentTarget.value });
+       },
+       onKeyDown(event) {
