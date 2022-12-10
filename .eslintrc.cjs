@@ -29,6 +29,7 @@ module.exports = {
 						variables: false,
 					},
 				],
+				'@typescript-eslint/prefer-nullish-coalescing': 'off',
 				'jsx-a11y/label-has-associated-control': 'off',
 				'canonical/filename-match-exported': 'off',
 				'canonical/filename-match-regex': 'off',
