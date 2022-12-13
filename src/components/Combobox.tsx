@@ -56,11 +56,12 @@ export const Combobox = (props: ComboboxProps) => {
 						return;
 					}
 
-					const isInputValueValid = optionsToDisplay().some(
-						option => option.label === inputValue && option.value === api().selectedValue,
-					);
+					const respectiveOption = propsWithDefaults.options.find(option => option.label === inputValue);
 
-					if (isInputValueValid && inputValue) return;
+					if (respectiveOption) {
+						api().setValue(respectiveOption);
+						return;
+					}
 
 					api().setInputValue(
 						propsWithDefaults.options.find(option => option.value === api().selectedValue)?.label ?? '',
