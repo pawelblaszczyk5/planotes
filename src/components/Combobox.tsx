@@ -107,7 +107,7 @@ export const Combobox = (props: ComboboxProps) => {
 				</label>
 				<div
 					class={clsx(
-						'b-2 text-primary focus-within:ring-primary-force flex w-full items-center rounded-sm bg-transparent py-2 px-4 pr-0 text-base outline-offset-2',
+						'b-2 text-primary [&[data-focus]]:ring-primary-force flex w-full items-center rounded-sm bg-transparent py-2 px-4 pr-0 text-base outline-offset-2',
 						hasError() ? 'b-destructive' : 'b-primary',
 					)}
 					{...api().controlProps}

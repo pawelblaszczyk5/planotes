@@ -1,9 +1,9 @@
 diff --git a/dist/index.js b/dist/index.js
-index 483261c6f0797f7f0e9fb50b3691505b0e50ac7f..0b4a58533c883b7d198a70745a66e9b873d60efb 100644
+index 711283b40632ee5b8dcdda3c497954a3a230513f..db23d82c954e435a41d5e262208dcc40f9ec9ed2 100644
 --- a/dist/index.js
 +++ b/dist/index.js
-@@ -421,9 +421,6 @@ function connect(state, send, normalize) {
-         send("FOCUS");
+@@ -427,9 +427,6 @@ function connect(state, send, normalize) {
+         send("BLUR");
        },
        onChange(event) {
 -        const evt = getNativeEvent(event);
@@ -13,11 +13,11 @@ index 483261c6f0797f7f0e9fb50b3691505b0e50ac7f..0b4a58533c883b7d198a70745a66e9b8
        },
        onKeyDown(event) {
 diff --git a/dist/index.mjs b/dist/index.mjs
-index 1be945fbeafe93e2858c280a71666d5f1a2b7fe3..9d6bc0999d8ca6c5e7be207725726307405cad27 100644
+index 8fed36613f84775a4779d4a7ee59d1ef555d9703..d64712ffb1774b87a842d5e354a09a89ab610ab0 100644
 --- a/dist/index.mjs
 +++ b/dist/index.mjs
-@@ -393,9 +393,6 @@ function connect(state, send, normalize) {
-         send("FOCUS");
+@@ -399,9 +399,6 @@ function connect(state, send, normalize) {
+         send("BLUR");
        },
        onChange(event) {
 -        const evt = getNativeEvent(event);

@@ -34,7 +34,7 @@ export const RouteDialog = (props: RouteDialogProps) => {
 	return (
 		<Portal>
 			<div class="fixed inset-0 z-10 bg-black/50 backdrop-blur-sm" {...api().backdropProps} />
-			<div {...api().underlayProps}>
+			<div {...api().containerProps}>
 				<div
 					{...api().contentProps}
 					class="bg-primary ring-primary fixed top-1/2 left-1/2 z-20 max-h-[calc(100%-4rem)] w-[calc(100%-4rem)] max-w-2xl translate-x--1/2 translate-y--1/2 overflow-y-auto rounded-lg p-8 shadow-md shadow-black/50 dark:shadow-black/90"
