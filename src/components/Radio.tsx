@@ -1,6 +1,6 @@
 // @refresh reload
 import { Motion, Presence } from '@motionone/solid';
-import * as radio from '@zag-js/radio';
+import * as radio from '@zag-js/radio-group';
 import { normalizeProps, useMachine } from '@zag-js/solid';
 import {
 	type Accessor,
@@ -67,11 +67,11 @@ const Item = (props: ItemProps) => {
 	return (
 		<label
 			class="text-secondary [&[data-checked]]:text-primary flex items-center text-sm outline-offset-2 transition-colors"
-			{...api().getItemProps({ value: props.value })}
+			{...api().getRadioProps({ value: props.value })}
 		>
 			<div
 				class="b-primary b-2 [&[data-focus]]:ring-primary-force mr-2 grid h-6 w-6 place-items-center rounded-full outline-offset-2"
-				{...api().getItemControlProps({ value: props.value })}
+				{...api().getRadioControlProps({ value: props.value })}
 			>
 				<Presence>
 					<Show when={api().value === props.value}>
@@ -85,8 +85,8 @@ const Item = (props: ItemProps) => {
 					</Show>
 				</Presence>
 			</div>
-			<span {...api().getItemLabelProps({ value: props.value })}>{props.children}</span>
-			<input {...api().getItemInputProps({ value: props.value })} />
+			<span {...api().getRadioLabelProps({ value: props.value })}>{props.children}</span>
+			<input {...api().getRadioInputProps({ value: props.value })} />
 		</label>
 	);
 };

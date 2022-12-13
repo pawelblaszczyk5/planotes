@@ -22,7 +22,7 @@ specifiers:
   '@zag-js/checkbox': ^0.2.5
   '@zag-js/combobox': ^0.2.5
   '@zag-js/dialog': ^0.2.4
-  '@zag-js/radio': ^0.1.4
+  '@zag-js/radio-group': ^0.1.5
   '@zag-js/solid': ^0.2.3
   clsx: ^1.2.1
   eslint: ^8.29.0
@@ -52,7 +52,7 @@ dependencies:
   '@zag-js/checkbox': 0.2.5
   '@zag-js/combobox': 0.2.5_bmtsdm34vllhs6ix3p6kjaxlq4
   '@zag-js/dialog': 0.2.4
-  '@zag-js/radio': 0.1.4
+  '@zag-js/radio-group': 0.1.5
   '@zag-js/solid': 0.2.3_solid-js@1.6.5
   clsx: 1.2.1
   nodemailer: 6.8.0
@@ -2432,13 +2432,6 @@ packages:
     dev: false
     patched: true
 
-  /@zag-js/core/0.2.2:
-    resolution: {integrity: sha512-Zqzm8qa8S/LrAIGsjSy7g/XU0G2QUfWvwguGOtuJabunYGtaEE5vl4aX3qJE2QkTWb0rLalowushlPdOe6pUAw==}
-    dependencies:
-      '@zag-js/store': 0.2.0
-      klona: 2.0.5
-    dev: false
-
   /@zag-js/core/0.2.3:
     resolution: {integrity: sha512-+YjI1cPnvd3DEuWEO/MWg88OrV6Wh5uO1c0Azb6+9QOrlKfBTEGPJUy5KWd2greyTw9oXyUJX3CsEw8YbRVTIw==}
     dependencies:
@@ -2478,11 +2471,11 @@ packages:
       '@floating-ui/dom': 1.0.10
     dev: false
 
-  /@zag-js/radio/0.1.4:
-    resolution: {integrity: sha512-3T5Zu/S/3NQVMzOUAWAOI6SXnft4fg5EnyzfWK9Cn7xo8CxFXAAfIKjiKCZeKQl0s3bXX210fVds9X1M9y7i6Q==}
+  /@zag-js/radio-group/0.1.5:
+    resolution: {integrity: sha512-jvZYLrReMEaGfgK/5491ujePJoTe9OsxZVHDeeygvtEpMtfBeAMGKSP4LQqKMqMqN7v3kcLTWuZZ2xrd8yqJjw==}
     dependencies:
       '@zag-js/anatomy': 0.1.1
-      '@zag-js/core': 0.2.2
+      '@zag-js/core': 0.2.3
       '@zag-js/types': 0.3.1
     dev: false
 
@@ -2500,12 +2493,6 @@ packages:
       '@zag-js/types': 0.3.1
       hyphenate-style-name: 1.0.4
       solid-js: 1.6.5
-    dev: false
-
-  /@zag-js/store/0.2.0:
-    resolution: {integrity: sha512-B9PxSMTYu9KXEMFoyB2El+mey41eqVMVKU6cqE8GlbzNu71rdlSz2mPzvK3qQVXA0rXBhB4xapj3ScosSMyhTg==}
-    dependencies:
-      proxy-compare: 2.3.0
     dev: false
 
   /@zag-js/store/0.2.1:
