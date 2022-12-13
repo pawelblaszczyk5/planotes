@@ -83,7 +83,7 @@ export const Combobox = (props: ComboboxProps) => {
 			positioning: {
 				flip: true,
 			},
-			// eslint-disable-next-line solid/reactivity -- it's synced via createEffetc below
+			// eslint-disable-next-line solid/reactivity -- it's synced via createEffect below
 			selectionData: propsWithDefaults.value,
 			translations: {
 				countAnnouncement: count => `Found ${count} options`,
