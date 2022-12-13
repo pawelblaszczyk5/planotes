@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { createEffect, Show, Suspense } from 'solid-js';
 import { Body, ErrorBoundary, FileRoutes, Head, Html, Link, Meta, Routes, Scripts } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
+import { RESOURCE_KEY } from '~/constants/resourceKeys';
 import { type ColorScheme, getColorScheme } from '~/utils/colorScheme';
 
 import '@unocss/reset/tailwind.css';
@@ -48,7 +49,9 @@ const SystemPreferenceDetector = (props: { colorScheme: ColorScheme }) => {
 };
 
 const Root = () => {
-	const colorScheme = createServerData$(async (_, { request }) => getColorScheme(request));
+	const colorScheme = createServerData$(async (_, { request }) => getColorScheme(request), {
+		key: RESOURCE_KEY.COLOR_SCHEME,
+	});
 
 	return (
 		<Suspense>

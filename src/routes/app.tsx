@@ -1,8 +1,8 @@
 import { type User } from '@prisma/client';
 import clsx from 'clsx';
-import { For, Show } from 'solid-js';
-import { A, FormError, Outlet, useRouteData } from 'solid-start';
-import { createServerAction$, createServerData$, redirect } from 'solid-start/server';
+import { createEffect, For, Show } from 'solid-js';
+import { A, FormError, Outlet, refetchRouteData, useRouteData } from 'solid-start';
+import { createServerAction$, createServerData$, json, redirect } from 'solid-start/server';
 import { z } from 'zod';
 import logo from '~/assets/logo.webp';
 import { Button } from '~/components/Button';
@@ -10,6 +10,7 @@ import { type ComboboxOption, Combobox } from '~/components/Combobox';
 import { RouteDialog } from '~/components/Dialog';
 import { Input } from '~/components/Input';
 import { LinkWithIcon } from '~/components/Link';
+import { RESOURCE_KEY } from '~/constants/resourceKeys';
 import { type ColorScheme, createColorSchemeCookie, getColorScheme } from '~/utils/colorScheme';
 import { db } from '~/utils/db';
 import {
@@ -197,19 +198,23 @@ export const routeData = () => {
 		return user;
 	});
 
-	const colorSchemeResource = createServerData$(async (_, { request }) => getColorScheme(request));
+	const colorSchemeResource = createServerData$(async (_, { request }) => getColorScheme(request), {
+		key: RESOURCE_KEY.COLOR_SCHEME,
+	});
 
 	return [userResource, colorSchemeResource] as const;
 };
 
 const App = () => {
 	const [user, colorScheme] = useRouteData<typeof routeData>();
-	const [, changeColorSchemeTrigger] = createServerAction$(async (_: FormData, { request }) => {
+	const [changeColorScheme, changeColorSchemeTrigger] = createServerAction$(async (_: FormData, { request }) => {
 		const currentColorScheme = await getColorScheme(request);
 		const nextColorScheme = getNextColorScheme(currentColorScheme);
 		const cookie = await createColorSchemeCookie(nextColorScheme);
 
-		return redirect(request.headers.get('referer') ?? REDIRECTS.HOME, { headers: { 'Set-Cookie': cookie } });
+		if (request.headers.get('x-solidstart-origin') === 'client') return json({}, { headers: { 'Set-Cookie': cookie } });
+
+		throw redirect(`${request.headers.get('referer')}` ?? REDIRECTS.HOME, { headers: { 'Set-Cookie': cookie } });
 	});
 
 	const [, signOutTrigger] = createServerAction$<FormData>(async (_, { request }) => {
@@ -235,6 +240,12 @@ const App = () => {
 		if (currentColorScheme === 'DARK') return 'Change color scheme - currently dark';
 		return 'Change color scheme - currently light';
 	};
+
+	createEffect(() => {
+		if (!changeColorScheme.result) return;
+
+		void refetchRouteData(RESOURCE_KEY.COLOR_SCHEME);
+	});
 
 	return (
 		<>
