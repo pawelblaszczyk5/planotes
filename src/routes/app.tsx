@@ -4,7 +4,6 @@ import { For, Show } from 'solid-js';
 import { A, FormError, Outlet, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect } from 'solid-start/server';
 import { z } from 'zod';
-import { zfd } from 'zod-form-data';
 import logo from '~/assets/logo.webp';
 import { Button } from '~/components/Button';
 import { type ComboboxOption, Combobox } from '~/components/Combobox';
@@ -13,7 +12,12 @@ import { Input } from '~/components/Input';
 import { LinkWithIcon } from '~/components/Link';
 import { type ColorScheme, createColorSchemeCookie, getColorScheme } from '~/utils/colorScheme';
 import { db } from '~/utils/db';
-import { COMMON_FORM_ERRORS, createFormFieldsErrors, zodErrorToFieldErrors } from '~/utils/formError';
+import {
+	COMMON_FORM_ERRORS,
+	convertFormDataIntoObject,
+	createFormFieldsErrors,
+	zodErrorToFieldErrors,
+} from '~/utils/form';
 import { createDebouncedSignal } from '~/utils/primitives';
 import { REDIRECTS } from '~/utils/redirects';
 import { createSignOutCookie, requireUserId } from '~/utils/session';
@@ -81,29 +85,31 @@ const FORM_ERRORS = {
 	NAME_REQUIRED: 'Name is required',
 } as const satisfies FormErrors;
 
-const userSettingsFormSchema = zfd.formData({
-	avatarSeed: zfd.text(
-		z.string({
+const userSettingsFormSchema = z.object({
+	avatarSeed: z
+		.string({
 			invalid_type_error: FORM_ERRORS.AVATAR_SEED_REQUIRED,
 			required_error: FORM_ERRORS.AVATAR_SEED_REQUIRED,
-		}),
-	),
-	name: zfd.text(
-		z.string({ invalid_type_error: FORM_ERRORS.NAME_REQUIRED, required_error: FORM_ERRORS.NAME_REQUIRED }),
-	),
-	timezone: zfd.text(
-		z.enum(IANA_TIMEZONES, {
-			invalid_type_error: FORM_ERRORS.INCORRECT_TIMEZONE,
-			required_error: FORM_ERRORS.INCORRECT_TIMEZONE,
-		}),
-	),
+		})
+		.min(1, FORM_ERRORS.AVATAR_SEED_REQUIRED),
+	name: z
+		.string({
+			invalid_type_error: FORM_ERRORS.NAME_REQUIRED,
+			required_error: FORM_ERRORS.NAME_REQUIRED,
+		})
+		.trim()
+		.min(1, FORM_ERRORS.NAME_REQUIRED),
+	timezone: z.enum(IANA_TIMEZONES, {
+		invalid_type_error: FORM_ERRORS.INCORRECT_TIMEZONE,
+		required_error: FORM_ERRORS.INCORRECT_TIMEZONE,
+	}),
 });
 
 const UserSettingsForm = (props: { user: User }) => {
 	const [onboard, onboardTrigger] = createServerAction$(async (formData: FormData, { request }) => {
 		const userId = await requireUserId(request);
 
-		const parsedFormData = userSettingsFormSchema.safeParse(formData);
+		const parsedFormData = userSettingsFormSchema.safeParse(convertFormDataIntoObject(formData));
 
 		if (!parsedFormData.success) {
 			const errors = parsedFormData.error.formErrors;

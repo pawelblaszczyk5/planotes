@@ -33,8 +33,7 @@
 		"solid-js": "^1.6.5",
 		"solid-start": "^0.2.7",
 		"undici": "^5.14.0",
-		"zod": "^3.20.2",
-		"zod-form-data": "^1.2.4"
+		"zod": "^3.20.2"
 	},
 	"devDependencies": {
 		"@iconify/json": "^2.1.151",

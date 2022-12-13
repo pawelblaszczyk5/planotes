@@ -41,3 +41,23 @@ export const zodErrorToFieldErrors = (errors: ZodError['formErrors']) => ({
 			.map(([key, fieldErrors]) => [key, fieldErrors![0]]),
 	),
 });
+
+export const convertFormDataIntoObject = (formData: FormData) =>
+	Array.from(formData.entries()).reduce<Record<string, unknown>>((result, [key, value]) => {
+		if (value === '') return result;
+
+		const currentKeyValue = result[key];
+
+		if (!currentKeyValue) {
+			result[key] = value;
+			return result;
+		}
+
+		if (Array.isArray(currentKeyValue)) {
+			currentKeyValue.push(value);
+			return result;
+		}
+
+		result[key] = [currentKeyValue, value];
+		return result;
+	}, {});

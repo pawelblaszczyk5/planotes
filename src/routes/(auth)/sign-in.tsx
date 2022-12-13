@@ -4,12 +4,16 @@ import { Show } from 'solid-js';
 import { FormError, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect, ServerError } from 'solid-start/server';
 import { z } from 'zod';
-import { zfd } from 'zod-form-data';
 import { Button } from '~/components/Button';
 import { Checkbox } from '~/components/Checkbox';
 import { Input } from '~/components/Input';
 import { db } from '~/utils/db';
-import { COMMON_FORM_ERRORS, createFormFieldsErrors, zodErrorToFieldErrors } from '~/utils/formError';
+import {
+	COMMON_FORM_ERRORS,
+	convertFormDataIntoObject,
+	createFormFieldsErrors,
+	zodErrorToFieldErrors,
+} from '~/utils/form';
 import { sendEmailWithMagicLink } from '~/utils/mail';
 import { REDIRECTS } from '~/utils/redirects';
 import {
@@ -34,13 +38,11 @@ const FORM_ERRORS = {
 	TOO_MANY_REQUESTS: 'Too many magic link requests for the same email address and device',
 } as const satisfies FormErrors;
 
-const signInSchema = zfd.formData({
-	email: zfd.text(
-		z
-			.string({ invalid_type_error: FORM_ERRORS.EMAIL_INVALID, required_error: FORM_ERRORS.EMAIL_REQUIRED })
-			.email(FORM_ERRORS.EMAIL_INVALID),
-	),
-	rememberMe: zfd.checkbox(),
+const signInSchema = z.object({
+	email: z
+		.string({ invalid_type_error: FORM_ERRORS.EMAIL_INVALID, required_error: FORM_ERRORS.EMAIL_REQUIRED })
+		.email(FORM_ERRORS.EMAIL_INVALID),
+	rememberMe: z.coerce.boolean(),
 });
 
 const SignIn = () => {
@@ -49,7 +51,7 @@ const SignIn = () => {
 	const [signIn, signInTrigger] = createServerAction$(async (formData: FormData, { request }) => {
 		if (await isUserSignedIn(request)) throw redirect(REDIRECTS.HOME);
 
-		const parsedFormData = signInSchema.safeParse(formData);
+		const parsedFormData = signInSchema.safeParse(convertFormDataIntoObject(formData));
 
 		if (!parsedFormData.success) {
 			const errors = parsedFormData.error.formErrors;

@@ -1,10 +1,10 @@
 import { createEffect, createSignal, Show } from 'solid-js';
 import { FormError, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect } from 'solid-start/server';
-import { zfd } from 'zod-form-data';
+import { z } from 'zod';
 import { Button } from '~/components/Button';
 import { db } from '~/utils/db';
-import { createFormFieldsErrors } from '~/utils/formError';
+import { convertFormDataIntoObject, createFormFieldsErrors } from '~/utils/form';
 import { REDIRECTS } from '~/utils/redirects';
 import { createSessionCookie, getMagicIdentifier, isUserSignedIn } from '~/utils/session';
 import { isDateInPast, convertEpochSecondsToDate } from '~/utils/time';
@@ -21,8 +21,8 @@ export const routeData = () =>
 		return token;
 	});
 
-const redeemMagicTokenSchema = zfd.formData({
-	token: zfd.text(),
+const redeemMagicTokenSchema = z.object({
+	token: z.string(),
 });
 
 const FORM_ERRORS = {
@@ -37,7 +37,7 @@ const Magic = () => {
 	const [formRef, setFormRef] = createSignal<HTMLFormElement>();
 
 	const [redeemMagicToken, redeemMagicTokenTrigger] = createServerAction$(async (formData: FormData, { request }) => {
-		const parsedFormData = redeemMagicTokenSchema.safeParse(formData);
+		const parsedFormData = redeemMagicTokenSchema.safeParse(convertFormDataIntoObject(formData));
 
 		if (!parsedFormData.success) throw new FormError(FORM_ERRORS.INVALID_TOKEN);
 
