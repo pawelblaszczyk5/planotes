@@ -185,28 +185,28 @@ const UserSettingsForm = (props: { user: User }) => {
 };
 
 export const routeData = () => {
-	const userResource = createServerData$(async (_, { request }) => {
+	const user = createServerData$(async (_, { request }) => {
 		const userId = await requireUserId(request);
-		const user = await db.user.findUnique({ where: { id: userId } });
+		const userFromDb = await db.user.findUnique({ where: { id: userId } });
 
-		if (!user) {
+		if (!userFromDb) {
 			const cookie = await createSignOutCookie(request);
 
 			throw redirect(REDIRECTS.MAIN, { headers: { 'Set-Cookie': cookie } });
 		}
 
-		return user;
+		return userFromDb;
 	});
 
-	const colorSchemeResource = createServerData$(async (_, { request }) => getColorScheme(request), {
+	const colorScheme = createServerData$(async (_, { request }) => getColorScheme(request), {
 		key: RESOURCE_KEY.COLOR_SCHEME,
 	});
 
-	return [userResource, colorSchemeResource] as const;
+	return { colorScheme, user } as const;
 };
 
 const App = () => {
-	const [user, colorScheme] = useRouteData<typeof routeData>();
+	const { user, colorScheme } = useRouteData<typeof routeData>();
 	const [changeColorScheme, changeColorSchemeTrigger] = createServerAction$(async (_: FormData, { request }) => {
 		const currentColorScheme = await getColorScheme(request);
 		const nextColorScheme = getNextColorScheme(currentColorScheme);
