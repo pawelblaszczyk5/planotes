@@ -1,0 +1,28 @@
+diff --git a/dist/index.js b/dist/index.js
+index aff21939137fbdb4cd62a39bdb84b6f37a8565eb..9971f14300e6176f97669691e001dac4065f5e80 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -427,9 +427,6 @@ function connect(state, send, normalize) {
+         send("BLUR");
+       },
+       onChange(event) {
+-        const evt = getNativeEvent(event);
+-        if (evt.isComposing)
+-          return;
+         send({ type: "CHANGE", value: event.currentTarget.value });
+       },
+       onKeyDown(event) {
+diff --git a/dist/index.mjs b/dist/index.mjs
+index 2a97607f44752cea18fcdde567b92644981626a6..6b47fa6c617c3acf5cbf6e8ba092e12c5e0dadbf 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -399,9 +399,6 @@ function connect(state, send, normalize) {
+         send("BLUR");
+       },
+       onChange(event) {
+-        const evt = getNativeEvent(event);
+-        if (evt.isComposing)
+-          return;
+         send({ type: "CHANGE", value: event.currentTarget.value });
+       },
+       onKeyDown(event) {

@@ -4,12 +4,12 @@ overrides:
   esbuild: 0.15.13
 
 patchedDependencies:
-  '@zag-js/combobox@0.2.5':
-    hash: bmtsdm34vllhs6ix3p6kjaxlq4
-    path: patches/@zag-js__combobox@0.2.5.patch
+  '@zag-js/combobox@0.2.7':
+    hash: meojdp4umm4m2kiaizmc2q4dla
+    path: patches/@zag-js__combobox@0.2.7.patch
 
 specifiers:
-  '@iconify/json': ^2.1.151
+  '@iconify/json': ^2.1.153
   '@js-temporal/polyfill': ^0.4.3
   '@motionone/solid': ^10.15.3
   '@prisma/client': ^4.7.1
@@ -19,10 +19,10 @@ specifiers:
   '@types/nodemailer': ^6.4.6
   '@unocss/preset-mini': ^0.47.6
   '@unocss/reset': ^0.47.6
-  '@zag-js/checkbox': ^0.2.5
-  '@zag-js/combobox': ^0.2.5
-  '@zag-js/dialog': ^0.2.4
-  '@zag-js/radio-group': ^0.1.5
+  '@zag-js/checkbox': ^0.2.6
+  '@zag-js/combobox': ^0.2.7
+  '@zag-js/dialog': ^0.2.5
+  '@zag-js/radio-group': ^0.1.6
   '@zag-js/solid': ^0.2.3
   clsx: ^1.2.1
   eslint: ^8.29.0
@@ -49,10 +49,10 @@ dependencies:
   '@solidjs/meta': 0.28.2_solid-js@1.6.5
   '@solidjs/router': 0.5.1_solid-js@1.6.5
   '@unocss/reset': 0.47.6
-  '@zag-js/checkbox': 0.2.5
-  '@zag-js/combobox': 0.2.5_bmtsdm34vllhs6ix3p6kjaxlq4
-  '@zag-js/dialog': 0.2.4
-  '@zag-js/radio-group': 0.1.5
+  '@zag-js/checkbox': 0.2.6
+  '@zag-js/combobox': 0.2.7_meojdp4umm4m2kiaizmc2q4dla
+  '@zag-js/dialog': 0.2.5
+  '@zag-js/radio-group': 0.1.6
   '@zag-js/solid': 0.2.3_solid-js@1.6.5
   clsx: 1.2.1
   nodemailer: 6.8.0
@@ -62,7 +62,7 @@ dependencies:
   zod: 3.20.2
 
 devDependencies:
-  '@iconify/json': 2.1.151
+  '@iconify/json': 2.1.153
   '@tsconfig/strictest': 1.0.2
   '@types/nodemailer': 6.4.6
   '@unocss/preset-mini': 0.47.6
@@ -1582,8 +1582,8 @@ packages:
     resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}
     dev: true
 
-  /@iconify/json/2.1.151:
-    resolution: {integrity: sha512-TFGrS/mVeIbxVHoc1nOKMJnKq0G8FPCeLL3SAcBd+ZHXriqsWjklyMkwf4SHkLhUhMYNEoyXpHxry6PxgUf1xw==}
+  /@iconify/json/2.1.153:
+    resolution: {integrity: sha512-9DSzK1DIbrbjDK+LV8PTF/pTM8wJOrmRETEvVP47na093F6LEvcOQnq7Ett51e/WW0mA32GIj7LpO9opyJ/gtQ==}
     dependencies:
       '@iconify/types': 2.0.0
       pathe: 0.3.9
@@ -2403,26 +2403,26 @@ packages:
       - encoding
     dev: true
 
-  /@zag-js/anatomy/0.1.1:
-    resolution: {integrity: sha512-OpeEVfQ8ITDA1hQRtRNCUC+FiQiPwwDjoeyNR161p/Pt212l/YbZdVP8Q72TQG2wQTtjoJ5qKB6da++KFjoNIg==}
+  /@zag-js/anatomy/0.1.2:
+    resolution: {integrity: sha512-sj+KuCdPG+wAkAeyROXbN9FbVLTrDZk3N/Am1lL+TQKmZH28NRezt0Wf9arVHCJ+mDnZhW173CoxZ8B5cKT8Kw==}
     dev: false
 
   /@zag-js/aria-hidden/0.2.0:
     resolution: {integrity: sha512-NjCybo9zICpJh/eVnckzNFqqoC5tEyXpogjudqWAxLPVewp+plmOBfqtrYwWMbRJ87mtxkCUUpWKTP3en4WtmQ==}
     dev: false
 
-  /@zag-js/checkbox/0.2.5:
-    resolution: {integrity: sha512-Jilc0bUELWV7WEN8Uj3y3mCGRvKxLmvXA/rKHcZ+H6OdBwG7dEghPIrXP21iPOLV7W92Ociu4Vg8HXL3M3qxkw==}
+  /@zag-js/checkbox/0.2.6:
+    resolution: {integrity: sha512-yrqQIlNVI0/klkcQF0ladrMpJRJ5M3rNSnDb579gHw1njJS/PNBpztUmp1xOTW+CflgSooclWc0CWYHmJbjBcQ==}
     dependencies:
-      '@zag-js/anatomy': 0.1.1
+      '@zag-js/anatomy': 0.1.2
       '@zag-js/core': 0.2.3
       '@zag-js/types': 0.3.1
     dev: false
 
-  /@zag-js/combobox/0.2.5_bmtsdm34vllhs6ix3p6kjaxlq4:
-    resolution: {integrity: sha512-rSgOmY0LXKeio+aE0mhviSxQCHniJe+gHRjgkpm8plzcnuJTqeXOhCTIO5T17BnPKs4WD4CxAejpTUWJlUnxhw==}
+  /@zag-js/combobox/0.2.7_meojdp4umm4m2kiaizmc2q4dla:
+    resolution: {integrity: sha512-oG2scVR2XMOd3mLk5tGuAqm/A65yGvLn25lrM9HwPDLmpQyqdy5Q5JtPwCSUiAKpZu4RJGAWgsj9In/XW2MCcQ==}
     dependencies:
-      '@zag-js/anatomy': 0.1.1
+      '@zag-js/anatomy': 0.1.2
       '@zag-js/aria-hidden': 0.2.0
       '@zag-js/core': 0.2.3
       '@zag-js/interact-outside': 0.2.0
@@ -2439,10 +2439,10 @@ packages:
       klona: 2.0.5
     dev: false
 
-  /@zag-js/dialog/0.2.4:
-    resolution: {integrity: sha512-8BmJOROSxlYGSvscQEFNvMCfj7X+rlxc0epmbgq4EfGXEFe74R15heFwtqiWxlZheB0IcK4A7IRyPZrp7c7Vcg==}
+  /@zag-js/dialog/0.2.5:
+    resolution: {integrity: sha512-bL3k5Hx68n8ZaiwaSHMciL/lrkdnwY8oxK/3pBAojbiuiUVg0XtlZxRNKZhkbHtHNBp5YVLQI2tYK8vijVU6hg==}
     dependencies:
-      '@zag-js/anatomy': 0.1.1
+      '@zag-js/anatomy': 0.1.2
       '@zag-js/aria-hidden': 0.2.0
       '@zag-js/core': 0.2.3
       '@zag-js/dismissable': 0.2.0
@@ -2471,10 +2471,10 @@ packages:
       '@floating-ui/dom': 1.0.10
     dev: false
 
-  /@zag-js/radio-group/0.1.5:
-    resolution: {integrity: sha512-jvZYLrReMEaGfgK/5491ujePJoTe9OsxZVHDeeygvtEpMtfBeAMGKSP4LQqKMqMqN7v3kcLTWuZZ2xrd8yqJjw==}
+  /@zag-js/radio-group/0.1.6:
+    resolution: {integrity: sha512-yVsTcl4R6yxZKks3BzjbeI+5srMnNuUFAdLhqo2a/BsWbxCFVJjk+I0POWL5aU6BIu5B82Vqor9osIy2SjiNtA==}
     dependencies:
-      '@zag-js/anatomy': 0.1.1
+      '@zag-js/anatomy': 0.1.2
       '@zag-js/core': 0.2.3
       '@zag-js/types': 0.3.1
     dev: false

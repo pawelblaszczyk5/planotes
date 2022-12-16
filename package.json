@@ -23,10 +23,10 @@
 		"@solidjs/meta": "^0.28.2",
 		"@solidjs/router": "^0.5.1",
 		"@unocss/reset": "^0.47.6",
-		"@zag-js/checkbox": "^0.2.5",
-		"@zag-js/combobox": "^0.2.5",
-		"@zag-js/dialog": "^0.2.4",
-		"@zag-js/radio-group": "^0.1.5",
+		"@zag-js/checkbox": "^0.2.6",
+		"@zag-js/combobox": "^0.2.7",
+		"@zag-js/dialog": "^0.2.5",
+		"@zag-js/radio-group": "^0.1.6",
 		"@zag-js/solid": "^0.2.3",
 		"clsx": "^1.2.1",
 		"nodemailer": "^6.8.0",
@@ -36,7 +36,7 @@
 		"zod": "^3.20.2"
 	},
 	"devDependencies": {
-		"@iconify/json": "^2.1.151",
+		"@iconify/json": "^2.1.153",
 		"@tsconfig/strictest": "^1.0.2",
 		"@types/nodemailer": "^6.4.6",
 		"@unocss/preset-mini": "^0.47.6",
@@ -57,7 +57,7 @@
 			"esbuild": "0.15.13"
 		},
 		"patchedDependencies": {
-			"@zag-js/combobox@0.2.5": "patches/@zag-js__combobox@0.2.5.patch"
+			"@zag-js/combobox@0.2.7": "patches/@zag-js__combobox@0.2.7.patch"
 		}
 	},
 	"engines": {
