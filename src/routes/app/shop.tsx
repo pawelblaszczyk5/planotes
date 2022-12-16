@@ -1,10 +1,10 @@
-import { Title } from 'solid-start';
+import { Outlet, Title } from 'solid-start';
 
 const Shop = () => {
 	return (
 		<>
 			<Title>Shop | Planotes</Title>
-			<h1>Shop</h1>
+			<Outlet />
 		</>
 	);
 };
