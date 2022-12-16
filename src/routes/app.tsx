@@ -54,7 +54,7 @@ const SideNavLink = (props: { external?: boolean; href: string; icon: string; ti
 			target={linkTarget()}
 			rel={linkRel()}
 		>
-			<i class={clsx('text-3xl', props.icon)} aria-hidden="true" />
+			<i class={clsx('text-3xl', props.icon)} />
 		</A>
 	);
 };
@@ -65,7 +65,7 @@ const SideNavButton = (props: { icon: string; onClick?: () => void; title: strin
 		class="ring-primary text-primary pointer:text-secondary pointer:hover:text-primary pointer:transition-colors flex h-10 w-10 items-center justify-center rounded-sm p-2"
 		aria-label={props.title}
 	>
-		<i class={clsx('text-3xl', props.icon)} aria-hidden="true" />
+		<i class={clsx('text-3xl', props.icon)} />
 	</button>
 );
 

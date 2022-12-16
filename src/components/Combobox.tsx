@@ -120,7 +120,7 @@ export const Combobox = (props: ComboboxProps) => {
 						{...api().inputProps}
 					/>
 					<button class="h-full w-10" {...api().toggleButtonProps}>
-						<i class="i-lucide-chevron-down" aria-hidden />
+						<i class="i-lucide-chevron-down" />
 					</button>
 				</div>
 				<Show when={hasError()}>
