@@ -39,7 +39,6 @@ const sessionSchema = z.object({
 });
 
 const magicIdentifier = createCookie('magid', {
-	domain: env.COOKIE_DOMAIN,
 	httpOnly: true,
 	maxAge: MAGIC_LINK_VALIDITY_IN_MINUTES * 60,
 	path: '/',
