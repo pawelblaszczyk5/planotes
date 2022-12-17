@@ -87,7 +87,7 @@ export const Combobox = (props: ComboboxProps) => {
 			selectionData: propsWithDefaults.value,
 			translations: {
 				countAnnouncement: count => `Found ${count} options`,
-				toggleButtonLabel: 'Show available options',
+				triggerLabel: 'Show available options',
 			},
 		}),
 	);
@@ -119,7 +119,7 @@ export const Combobox = (props: ComboboxProps) => {
 						class="h-full flex-1 bg-transparent outline-0"
 						{...api().inputProps}
 					/>
-					<button class="h-full w-10" {...api().toggleButtonProps}>
+					<button class="h-full w-10" {...api().triggerProps}>
 						<i class="i-lucide-chevron-down" />
 					</button>
 				</div>
@@ -134,7 +134,7 @@ export const Combobox = (props: ComboboxProps) => {
 				<Show when={optionsToDisplay().length}>
 					<ul
 						class="bg-primary max-h-[calc(41px*6)] overflow-y-auto shadow-md shadow-black/50 dark:shadow-black/90"
-						{...api().listboxProps}
+						{...api().contentProps}
 					>
 						<For each={optionsToDisplay()}>
 							{(item, index) => (
