@@ -16,7 +16,6 @@ const SESSION_DURATION_IN_DAYS = {
 
 const sessionStorage = createCookieSessionStorage({
 	cookie: {
-		domain: env.COOKIE_DOMAIN,
 		httpOnly: true,
 		name: 'sesid',
 		path: '/',
