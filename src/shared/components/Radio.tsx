@@ -14,7 +14,7 @@ import {
 	untrack,
 	mergeProps,
 } from 'solid-js';
-import { type DefaultProps } from '~/utils/types';
+import { type DefaultProps } from '~/shared/types';
 
 type Api = Accessor<ReturnType<typeof radio.connect>>;
 

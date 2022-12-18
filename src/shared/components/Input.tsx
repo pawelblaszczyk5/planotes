@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { type JSXElement, createUniqueId, Show, mergeProps } from 'solid-js';
-import { type DefaultProps } from '~/utils/types';
+import { type DefaultProps } from '~/shared/types';
 
 type InputProps = {
 	autocomplete?:

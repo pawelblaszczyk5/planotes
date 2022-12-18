@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { mergeProps, type JSXElement } from 'solid-js';
 import { A } from 'solid-start';
-import { type DefaultProps } from '~/utils/types';
+import { type DefaultProps } from '~/shared/types';
 
 type LinkProps = {
 	children: JSXElement;

@@ -12,7 +12,7 @@ import {
 	createEffect,
 	untrack,
 } from 'solid-js';
-import { type DefaultProps } from '~/utils/types';
+import { type DefaultProps } from '~/shared/types';
 
 type Option = {
 	label: string;
