@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { Button } from '~/shared/components/Button';
 import { Checkbox } from '~/shared/components/Checkbox';
 import { Input } from '~/shared/components/Input';
+import { REDIRECTS } from '~/shared/constants/redirects';
 import { db } from '~/shared/utils/db';
 import {
 	type FormErrors,
@@ -16,7 +17,6 @@ import {
 	zodErrorToFieldErrors,
 } from '~/shared/utils/form';
 import { sendEmailWithMagicLink } from '~/shared/utils/mail';
-import { REDIRECTS } from '~/shared/constants/redirects';
 import {
 	createMagicIdentifierCookie,
 	getMagicIdentifier,

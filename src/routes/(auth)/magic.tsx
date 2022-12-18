@@ -3,9 +3,9 @@ import { FormError, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect } from 'solid-start/server';
 import { z } from 'zod';
 import { Button } from '~/shared/components/Button';
+import { REDIRECTS } from '~/shared/constants/redirects';
 import { db } from '~/shared/utils/db';
 import { type FormErrors, convertFormDataIntoObject, createFormFieldsErrors } from '~/shared/utils/form';
-import { REDIRECTS } from '~/shared/constants/redirects';
 import { createSessionCookie, getMagicIdentifier, isSignedIn } from '~/shared/utils/session';
 import { isDateInPast, convertEpochSecondsToDate } from '~/shared/utils/time';
 

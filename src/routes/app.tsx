@@ -9,10 +9,10 @@ import { getRandomGreeting } from '~/app/utils/greeting';
 import logo from '~/shared/assets/logo.webp';
 import { RouteDialog } from '~/shared/components/Dialog';
 import { LinkWithIcon } from '~/shared/components/Link';
+import { REDIRECTS } from '~/shared/constants/redirects';
 import { RESOURCE_KEY } from '~/shared/constants/resourceKeys';
 import { getColorScheme, createColorSchemeCookie, getNextColorScheme } from '~/shared/utils/colorScheme';
 import { db } from '~/shared/utils/db';
-import { REDIRECTS } from '~/shared/constants/redirects';
 import { createSignOutCookie, requireUserId } from '~/shared/utils/session';
 import { isUserOnboarded } from '~/shared/utils/user';
 

@@ -2,8 +2,8 @@ import { SessionDuration } from '@prisma/client';
 import { redirect } from 'solid-start';
 import { createCookie, createCookieSessionStorage } from 'solid-start/session';
 import { z } from 'zod';
-import { env } from '~/shared/utils/env';
 import { REDIRECTS } from '~/shared/constants/redirects';
+import { env } from '~/shared/utils/env';
 import {
 	convertEpochSecondsToDate,
 	getCurrentEpochSeconds,
