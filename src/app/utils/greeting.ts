@@ -1,8 +1,19 @@
-// TODO: Add more of these
-const NAMED_GREETINGS = ['Hi {name}', 'Hello {name}', 'Howdy {name}', 'Good to see you {name}'] as const;
-const ANONYMOUS_GREETINGS = ['Hello', 'Hi', 'Hey there'] as const;
+const NAMED_GREETINGS = [
+	'Hi {name}',
+	'Hello {name}',
+	'Howdy {name}',
+	'Cześć {name}',
+	'Bonjour {name}',
+	'Hola {name}',
+	'Ciao {name}',
+	'Kia Ora {name}',
+	"G'day {name}",
+	'Geia {name}',
+	'Nǐ hǎo {name}',
+] as const;
+const ANONYMOUS_GREETINGS = NAMED_GREETINGS.map(greeting => greeting.replace(' {name}', ''));
 
-const getRandomArrayElement = <T>(array: Array<T> | ReadonlyArray<T>) =>
+const getRandomArrayElement = <Item>(array: Array<Item> | ReadonlyArray<Item>) =>
 	array[Math.floor(Math.random() * array.length)]!;
 
 export const getRandomGreeting = (name?: string | null) => {
