@@ -5,7 +5,7 @@ type BadgeType = 'info' | 'warn';
 
 const BADGE_ICON = {
 	info: 'i-lucide-info',
-	warn: 'i-lucide-alert-circle',
+	warn: 'i-lucide-alert-triangle',
 } as const satisfies Record<BadgeType, string>;
 
 const BADGE_ARIA = {
