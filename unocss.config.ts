@@ -2,6 +2,7 @@ import { variantMatcher } from '@unocss/preset-mini/utils';
 import { defineConfig, presetIcons, presetWind } from 'unocss';
 
 export default defineConfig({
+	include: ['**/*.{ts,tsx}'],
 	presets: [
 		presetWind(),
 		presetIcons({
