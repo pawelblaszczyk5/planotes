@@ -95,7 +95,7 @@ export const requireUserId = async (request: Request) => {
 	return parsedSession.data.userId;
 };
 
-export const isUserSignedIn = async (request: Request) => {
+export const isSignedIn = async (request: Request) => {
 	const session = await getSession(request);
 	const parsedSession = sessionSchema.safeParse(session.data);
 

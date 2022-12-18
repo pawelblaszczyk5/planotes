@@ -20,7 +20,7 @@ import { REDIRECTS } from '~/shared/utils/redirects';
 import {
 	createMagicIdentifierCookie,
 	getMagicIdentifier,
-	isUserSignedIn,
+	isSignedIn,
 	MAGIC_LINK_REQUIRED_GENERATION_DELAY_IN_MINUTES,
 	MAGIC_LINK_VALIDITY_IN_MINUTES,
 } from '~/shared/utils/session';
@@ -28,7 +28,7 @@ import { getDateWithOffset } from '~/shared/utils/time';
 
 export const routeData = () =>
 	createServerData$(async (_, { request }) => {
-		if (await isUserSignedIn(request)) throw redirect(REDIRECTS.HOME);
+		if (await isSignedIn(request)) throw redirect(REDIRECTS.HOME);
 	});
 
 const FORM_ERRORS = {
@@ -49,7 +49,7 @@ const SignIn = () => {
 	useRouteData<typeof routeData>()();
 
 	const [signIn, signInTrigger] = createServerAction$(async (formData: FormData, { request }) => {
-		if (await isUserSignedIn(request)) throw redirect(REDIRECTS.HOME);
+		if (await isSignedIn(request)) throw redirect(REDIRECTS.HOME);
 
 		const parsedFormData = signInSchema.safeParse(convertFormDataIntoObject(formData));
 

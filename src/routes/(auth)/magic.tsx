@@ -6,12 +6,12 @@ import { Button } from '~/shared/components/Button';
 import { db } from '~/shared/utils/db';
 import { type FormErrors, convertFormDataIntoObject, createFormFieldsErrors } from '~/shared/utils/form';
 import { REDIRECTS } from '~/shared/utils/redirects';
-import { createSessionCookie, getMagicIdentifier, isUserSignedIn } from '~/shared/utils/session';
+import { createSessionCookie, getMagicIdentifier, isSignedIn } from '~/shared/utils/session';
 import { isDateInPast, convertEpochSecondsToDate } from '~/shared/utils/time';
 
 export const routeData = () =>
 	createServerData$(async (_, { request }) => {
-		if (await isUserSignedIn(request)) throw redirect(REDIRECTS.HOME);
+		if (await isSignedIn(request)) throw redirect(REDIRECTS.HOME);
 
 		const token = new URL(request.url).searchParams.get('token');
 
@@ -36,6 +36,8 @@ const Magic = () => {
 	const [formRef, setFormRef] = createSignal<HTMLFormElement>();
 
 	const [redeemMagicToken, redeemMagicTokenTrigger] = createServerAction$(async (formData: FormData, { request }) => {
+		if (await isSignedIn(request)) throw redirect(REDIRECTS.HOME);
+
 		const parsedFormData = redeemMagicTokenSchema.safeParse(convertFormDataIntoObject(formData));
 
 		if (!parsedFormData.success) throw new FormError(FORM_ERRORS.INVALID_TOKEN);
