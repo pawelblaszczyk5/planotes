@@ -52,12 +52,14 @@ const Magic = () => {
 
 		if (!magicLink) throw new FormError(FORM_ERRORS.INVALID_TOKEN);
 
-		const { validUntil, token, userId, sessionDuration } = magicLink;
+		const { validUntil, token, userId, sessionDuration, id } = magicLink;
 
 		if (isDateInPast(convertEpochSecondsToDate(validUntil)) || userProvidedToken !== token)
 			throw new FormError(FORM_ERRORS.EXPIRED_TOKEN);
 
 		const cookie = await createSessionCookie({ request, sessionDuration, userId });
+
+		await db.magicLink.delete({ where: { id } });
 
 		return redirect(REDIRECTS.HOME, { headers: { 'Set-Cookie': cookie } });
 	});
