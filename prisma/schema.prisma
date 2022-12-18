@@ -10,6 +10,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Enums
+
+enum SessionDuration {
+  EPHEMERAL
+  PERSISTENT
+}
+
+enum ItemType {
+  RECURRING
+  ONE_TIME
+}
+
+enum ItemStatus {
+  AVAILABLE
+  UNAVAILABLE
+}
+
+// Models
+
 model User {
   id         String      @id @default(cuid())
   email      String      @unique
@@ -17,6 +36,8 @@ model User {
   name       String?
   avatarSeed String?
   timezone   String?
+  balance    Int         @default(0)
+  Item       Item[]
 }
 
 model MagicLink {
@@ -28,7 +49,13 @@ model MagicLink {
   userId          String
 }
 
-enum SessionDuration {
-  EPHEMERAL
-  PERSISTENT
+model Item {
+  id     String     @id @default(cuid())
+  name   String
+  icon   String?
+  type   ItemType
+  price  Int
+  status ItemStatus @default(AVAILABLE)
+  user   User       @relation(fields: [userId], references: [id])
+  userId String
 }
