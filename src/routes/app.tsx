@@ -95,7 +95,7 @@ const App = () => {
 				</nav>
 				<main class="top-18 fixed h-[calc(100%-4.5rem)] w-full overflow-y-auto p-6 md:right-0 md:left-16 md:top-0 md:h-full md:w-[calc(100%-4rem)]">
 					<div class="items-start md:flex">
-						<h1 class="text-4xl font-bold md:mr-6">{getRandomGreeting(user()?.name)}!</h1>
+						<span class="font-500 text-3xl md:mr-6 md:w-64">{getRandomGreeting(user()?.name)}!</span>
 						<nav class="mt-6 flex flex-wrap gap-x-6 gap-y-4 md:ml-auto md:mt-0">
 							<For each={ROUTES}>
 								{route => (
@@ -106,7 +106,7 @@ const App = () => {
 							</For>
 						</nav>
 					</div>
-					<div class="mt-12">
+					<div class="mt-10">
 						<Outlet />
 					</div>
 				</main>
