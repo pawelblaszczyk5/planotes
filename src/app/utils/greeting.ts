@@ -1,3 +1,4 @@
+// TODO: Add more of these
 const NAMED_GREETINGS = ['Hi {name}', 'Hello {name}', 'Howdy {name}', 'Good to see you {name}'] as const;
 const ANONYMOUS_GREETINGS = ['Hello', 'Hi', 'Hey there'] as const;
 
