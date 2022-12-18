@@ -22,7 +22,7 @@ export const Button = (props: ButtonProps) => {
 	return (
 		<Motion.button
 			press={{ scale: 0.95 }}
-			class={clsx('ring-primary b-2 rounded-sm py-2 px-6 font-medium outline-offset-2', propsWithDefaults.class, {
+			class={clsx('ring-primary b-2 font-500 rounded-sm py-2 px-6 outline-offset-2', propsWithDefaults.class, {
 				'b-accent': propsWithDefaults.variant === 'primary',
 				'b-destructive': propsWithDefaults.variant === 'destructive',
 				'b-primary': propsWithDefaults.variant === 'secondary',
@@ -68,7 +68,7 @@ export const ButtonLink = (props: LinkButtonProps) => {
 		<Motion.a
 			press={{ scale: 0.95 }}
 			class={clsx(
-				'ring-primary b-2 rounded-sm py-2 px-6 text-center font-medium outline-offset-2',
+				'ring-primary b-2 font-500 rounded-sm py-2 px-6 text-center outline-offset-2',
 				propsWithDefaults.class,
 				{
 					'b-accent': propsWithDefaults.variant === 'primary',

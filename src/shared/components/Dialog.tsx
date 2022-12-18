@@ -39,7 +39,7 @@ export const RouteDialog = (props: RouteDialogProps) => {
 					{...api().contentProps}
 					class="bg-primary ring-primary fixed top-1/2 left-1/2 z-20 max-h-[calc(100%-4rem)] w-[calc(100%-4rem)] max-w-2xl translate-x--1/2 translate-y--1/2 overflow-y-auto rounded-lg p-8 shadow-md shadow-black/50 dark:shadow-black/90"
 				>
-					<h3 class="b-b-1 b-primary mb-4 pb-2 text-3xl font-medium" {...api().titleProps}>
+					<h3 class="b-b-1 b-primary font-500 mb-4 pb-2 text-3xl" {...api().titleProps}>
 						{props.title}
 					</h3>
 					<p class="text-secondary mb-6 text-sm" {...api().descriptionProps}>
