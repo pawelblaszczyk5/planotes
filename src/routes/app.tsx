@@ -24,7 +24,7 @@ export const routeData = () => {
 		if (!userFromDb) {
 			const cookie = await createSignOutCookie(request);
 
-			throw redirect(REDIRECTS.MAIN, { headers: { 'Set-Cookie': cookie } });
+			throw redirect(REDIRECTS.SIGN_IN, { headers: { 'Set-Cookie': cookie } });
 		}
 
 		return userFromDb;

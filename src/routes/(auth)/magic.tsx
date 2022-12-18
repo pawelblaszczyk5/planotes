@@ -15,7 +15,7 @@ export const routeData = () =>
 
 		const token = new URL(request.url).searchParams.get('token');
 
-		if (!token) throw redirect(REDIRECTS.MAIN);
+		if (!token) throw redirect(REDIRECTS.SIGN_IN);
 
 		return token;
 	});
