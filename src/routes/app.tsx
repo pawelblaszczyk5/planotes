@@ -5,6 +5,7 @@ import { SideNavImageLink, SideNavButton, SideNavLink } from '~/app/components/N
 import { UserSettingsForm } from '~/app/components/UserSettingsForm';
 import { COLOR_SCHEME_ICON, COLOR_SCHEME_TITLE } from '~/app/constants/colorScheme';
 import { ROUTES } from '~/app/constants/routes';
+import { getRandomGreeting } from '~/app/utils/greeting';
 import logo from '~/shared/assets/logo.webp';
 import { RouteDialog } from '~/shared/components/Dialog';
 import { LinkWithIcon } from '~/shared/components/Link';
@@ -94,8 +95,7 @@ const App = () => {
 				</nav>
 				<main class="top-18 fixed h-[calc(100%-4.5rem)] w-full overflow-y-auto p-6 md:right-0 md:left-16 md:top-0 md:h-full md:w-[calc(100%-4rem)]">
 					<div class="items-start md:flex">
-						{/* TODO: I'd like it to be randomly generated each time from some predefined ones */}
-						<h1 class="text-4xl font-bold md:mr-6">Hello{user()?.name ? ` ${user()?.name}` : ''}!</h1>
+						<h1 class="text-4xl font-bold md:mr-6">{getRandomGreeting(user()?.name)}!</h1>
 						<nav class="mt-6 flex flex-wrap gap-x-6 gap-y-4 md:ml-auto md:mt-0">
 							<For each={ROUTES}>
 								{route => (
