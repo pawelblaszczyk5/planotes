@@ -3,8 +3,8 @@ import clsx from 'clsx';
 import { createEffect, Show, Suspense } from 'solid-js';
 import { Body, ErrorBoundary, FileRoutes, Head, Html, Link, Meta, Routes, Scripts } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
-import { RESOURCE_KEY } from '~/constants/resourceKeys';
-import { type ColorScheme, getColorScheme } from '~/utils/colorScheme';
+import { RESOURCE_KEY } from '~/shared/constants/resourceKeys';
+import { type ColorScheme, getColorScheme } from '~/shared/utils/colorScheme';
 
 import '@unocss/reset/tailwind.css';
 import 'uno.css';

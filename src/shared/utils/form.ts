@@ -1,7 +1,8 @@
 import { type Accessor, createMemo } from 'solid-js';
 import { FormError, ServerError } from 'solid-start';
 import { type ZodError } from 'zod';
-import { type FormErrors } from '~/utils/types';
+
+export type FormErrors = Record<string, string>;
 
 export const COMMON_FORM_ERRORS = {
 	BAD_REQUEST: 'Incorrect request data',

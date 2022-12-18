@@ -23,5 +23,14 @@ export const getColorScheme = async (request: Request) => {
 	return parsedColorScheme.data;
 };
 
+const NEXT_COLOR_SCHEME = {
+	DARK: 'LIGHT',
+	LIGHT: 'SYSTEM',
+	SYSTEM: 'DARK',
+} as const satisfies Record<ColorScheme, ColorScheme>;
+
+export const getNextColorScheme = (currentColorScheme: ColorScheme): ColorScheme =>
+	NEXT_COLOR_SCHEME[currentColorScheme];
+
 export const createColorSchemeCookie = async (preferedColorScheme: ColorScheme) =>
 	colorSchemeCookie.serialize(preferedColorScheme);

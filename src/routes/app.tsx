@@ -1,188 +1,19 @@
-import { type User } from '@prisma/client';
-import clsx from 'clsx';
 import { createEffect, For, Show } from 'solid-js';
-import { A, FormError, Outlet, refetchRouteData, useRouteData } from 'solid-start';
+import { Outlet, refetchRouteData, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, json, redirect } from 'solid-start/server';
-import { z } from 'zod';
-import logo from '~/assets/logo.webp';
-import { Button } from '~/components/Button';
-import { type ComboboxOption, Combobox } from '~/components/Combobox';
-import { RouteDialog } from '~/components/Dialog';
-import { Input } from '~/components/Input';
-import { LinkWithIcon } from '~/components/Link';
-import { RESOURCE_KEY } from '~/constants/resourceKeys';
-import { type ColorScheme, createColorSchemeCookie, getColorScheme } from '~/utils/colorScheme';
-import { db } from '~/utils/db';
-import {
-	COMMON_FORM_ERRORS,
-	convertFormDataIntoObject,
-	createFormFieldsErrors,
-	zodErrorToFieldErrors,
-} from '~/utils/form';
-import { createDebouncedSignal } from '~/utils/primitives';
-import { REDIRECTS } from '~/utils/redirects';
-import { createSignOutCookie, requireUserId } from '~/utils/session';
-import { IANA_TIMEZONES } from '~/utils/timezones';
-import { type FormErrors } from '~/utils/types';
-
-const ROUTES = [
-	{ href: '/app/home', icon: 'i-lucide-home', title: 'Home' },
-	{ href: '/app/habits', icon: 'i-lucide-recycle', title: 'Habits' },
-	{ href: '/app/goals', icon: 'i-lucide-compass', title: 'Goals' },
-	{ href: '/app/tasks', icon: 'i-lucide-clipboard-check', title: 'Tasks' },
-	{ href: '/app/notes', icon: 'i-lucide-sticky-note', title: 'Notes' },
-	{ href: '/app/shop', icon: 'i-lucide-coins', title: 'Shop' },
-] as const satisfies ReadonlyArray<Readonly<{ href: string; icon: string; title: string }>>;
-
-const getNextColorScheme = (currentColorScheme: ColorScheme) => {
-	if (currentColorScheme === 'DARK') return 'LIGHT';
-	if (currentColorScheme === 'LIGHT') return 'SYSTEM';
-	return 'DARK';
-};
-
-const isUserOnboarded = (user: User) => user.avatarSeed !== null && user.name !== null;
-
-const SideNavLink = (props: { external?: boolean; href: string; icon: string; title: string }) => {
-	const linkTarget = () => (props.external ? '_blank' : '_self');
-	const linkRel = () => (props.external ? 'noopener noreferrer' : '');
-
-	return (
-		<A
-			class="ring-primary text-primary pointer:text-secondary pointer:hover:text-primary pointer:transition-colors flex h-10 w-10 items-center justify-center rounded-sm p-2"
-			href={props.href}
-			title={props.title}
-			target={linkTarget()}
-			rel={linkRel()}
-		>
-			<i class={clsx('text-3xl', props.icon)} />
-		</A>
-	);
-};
-
-const SideNavButton = (props: { icon: string; onClick?: () => void; title: string }) => (
-	<button
-		onClick={() => props.onClick?.()}
-		class="ring-primary text-primary pointer:text-secondary pointer:hover:text-primary pointer:transition-colors flex h-10 w-10 items-center justify-center rounded-sm p-2"
-		aria-label={props.title}
-	>
-		<i class={clsx('text-3xl', props.icon)} />
-	</button>
-);
-
-const SideNavImageLink = (props: { href: string; src: string; title: string }) => (
-	<A class="ring-primary flex h-12 w-12 items-center justify-center rounded-sm p-1" href={props.href}>
-		<img class="h-full w-full" src={props.src} alt={props.title} />
-	</A>
-);
-
-const timezonesComboboxOptions = IANA_TIMEZONES.map<ComboboxOption>(timezone => ({
-	label: timezone.replaceAll('_', ' '),
-	value: timezone,
-}));
-
-const FORM_ERRORS = {
-	AVATAR_SEED_REQUIRED: 'Avatar seed is required',
-	INCORRECT_TIMEZONE: 'Make sure you choosed a proper timezone',
-	NAME_REQUIRED: 'Name is required',
-} as const satisfies FormErrors;
-
-const userSettingsFormSchema = z.object({
-	avatarSeed: z
-		.string({
-			invalid_type_error: FORM_ERRORS.AVATAR_SEED_REQUIRED,
-			required_error: FORM_ERRORS.AVATAR_SEED_REQUIRED,
-		})
-		.min(1, FORM_ERRORS.AVATAR_SEED_REQUIRED),
-	name: z
-		.string({
-			invalid_type_error: FORM_ERRORS.NAME_REQUIRED,
-			required_error: FORM_ERRORS.NAME_REQUIRED,
-		})
-		.trim()
-		.min(1, FORM_ERRORS.NAME_REQUIRED),
-	timezone: z.enum(IANA_TIMEZONES, {
-		invalid_type_error: FORM_ERRORS.INCORRECT_TIMEZONE,
-		required_error: FORM_ERRORS.INCORRECT_TIMEZONE,
-	}),
-});
-
-const UserSettingsForm = (props: { user: User }) => {
-	const [onboard, onboardTrigger] = createServerAction$(async (formData: FormData, { request }) => {
-		const userId = await requireUserId(request);
-
-		const parsedFormData = userSettingsFormSchema.safeParse(convertFormDataIntoObject(formData));
-
-		if (!parsedFormData.success) {
-			const errors = parsedFormData.error.formErrors;
-
-			throw new FormError(COMMON_FORM_ERRORS.BAD_REQUEST, {
-				fieldErrors: zodErrorToFieldErrors(errors),
-			});
-		}
-
-		await db.user.update({
-			data: {
-				avatarSeed: parsedFormData.data.avatarSeed,
-				name: parsedFormData.data.name,
-				timezone: parsedFormData.data.timezone,
-			},
-			where: { id: userId },
-		});
-
-		return redirect(request.headers.get('referer') ?? REDIRECTS.HOME);
-	});
-
-	const onboardErrors = createFormFieldsErrors(() => onboard.error);
-
-	const [avatarSeed, setAvatarSeed] = createDebouncedSignal('');
-
-	const avatarUrl = () =>
-		`/api/avatar/${encodeURIComponent(avatarSeed() || props.user.avatarSeed || props.user.email)}`;
-
-	const userTimezone = () => {
-		if (import.meta.env.SSR) return null;
-
-		return (
-			timezonesComboboxOptions.find(
-				timezone => timezone.value === new Intl.DateTimeFormat().resolvedOptions().timeZone,
-			) ?? null
-		);
-	};
-
-	const handleInputsChange = (
-		event: InputEvent & {
-			currentTarget: HTMLDivElement;
-			target: Element;
-		},
-	) => {
-		if (!(event.target instanceof HTMLInputElement) || event.target.name !== 'avatarSeed') return;
-
-		setAvatarSeed(event.target.value);
-	};
-
-	return (
-		<onboardTrigger.Form class="flex flex-col gap-6">
-			<div class="flex flex w-full flex-col flex-col items-center gap-6 md:flex-row-reverse">
-				<img class="max-w-32 block" src={avatarUrl()} alt="New avatar preview" />
-				<div class="flex w-full flex-col gap-6" onInput={handleInputsChange}>
-					<Input error={onboardErrors()['name']} name="name">
-						Name
-					</Input>
-					<Input name="avatarSeed" error={onboardErrors()['avatarSeed']}>
-						Avatar seed
-					</Input>
-				</div>
-			</div>
-			<Combobox options={timezonesComboboxOptions} maxOptions={20} value={userTimezone()} name="timezone">
-				Timezone
-			</Combobox>
-			<Show when={onboardErrors()['other']}>
-				<p class="text-destructive text-sm">{onboardErrors()['other']}</p>
-			</Show>
-			<Button class="max-w-48 mx-auto w-full">Save profile</Button>
-		</onboardTrigger.Form>
-	);
-};
+import { SideNavImageLink, SideNavButton, SideNavLink } from '~/app/components/Nav';
+import { UserSettingsForm } from '~/app/components/UserSettingsForm';
+import { COLOR_SCHEME_ICON, COLOR_SCHEME_TITLE } from '~/app/constants/colorScheme';
+import { ROUTES } from '~/app/constants/routes';
+import logo from '~/shared/assets/logo.webp';
+import { RouteDialog } from '~/shared/components/Dialog';
+import { LinkWithIcon } from '~/shared/components/Link';
+import { RESOURCE_KEY } from '~/shared/constants/resourceKeys';
+import { getColorScheme, createColorSchemeCookie, getNextColorScheme } from '~/shared/utils/colorScheme';
+import { db } from '~/shared/utils/db';
+import { REDIRECTS } from '~/shared/utils/redirects';
+import { createSignOutCookie, requireUserId } from '~/shared/utils/session';
+import { isUserOnboarded } from '~/shared/utils/user';
 
 export const routeData = () => {
 	const user = createServerData$(async (_, { request }) => {
@@ -225,21 +56,9 @@ const App = () => {
 		throw redirect(REDIRECTS.MAIN, { headers: { 'Set-Cookie': cookie } });
 	});
 
-	const getColorSchemeIcon = () => {
-		const currentColorScheme = colorScheme();
+	const getColorSchemeIcon = () => COLOR_SCHEME_ICON[colorScheme() ?? 'SYSTEM'];
 
-		if (!currentColorScheme || currentColorScheme === 'SYSTEM') return 'i-lucide-laptop-2';
-		if (currentColorScheme === 'DARK') return 'i-lucide-moon';
-		return 'i-lucide-sun';
-	};
-
-	const getColorSchemeChangeButtonTitle = () => {
-		const currentColorScheme = colorScheme();
-
-		if (!currentColorScheme || currentColorScheme === 'SYSTEM') return 'Change color scheme - currently system';
-		if (currentColorScheme === 'DARK') return 'Change color scheme - currently dark';
-		return 'Change color scheme - currently light';
-	};
+	const getColorSchemeChangeButtonTitle = () => COLOR_SCHEME_TITLE[colorScheme() ?? 'SYSTEM'];
 
 	createEffect(() => {
 		if (!changeColorScheme.result) return;

@@ -4,27 +4,27 @@ import { Show } from 'solid-js';
 import { FormError, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect, ServerError } from 'solid-start/server';
 import { z } from 'zod';
-import { Button } from '~/components/Button';
-import { Checkbox } from '~/components/Checkbox';
-import { Input } from '~/components/Input';
-import { db } from '~/utils/db';
+import { Button } from '~/shared/components/Button';
+import { Checkbox } from '~/shared/components/Checkbox';
+import { Input } from '~/shared/components/Input';
+import { db } from '~/shared/utils/db';
 import {
+	type FormErrors,
 	COMMON_FORM_ERRORS,
 	convertFormDataIntoObject,
 	createFormFieldsErrors,
 	zodErrorToFieldErrors,
-} from '~/utils/form';
-import { sendEmailWithMagicLink } from '~/utils/mail';
-import { REDIRECTS } from '~/utils/redirects';
+} from '~/shared/utils/form';
+import { sendEmailWithMagicLink } from '~/shared/utils/mail';
+import { REDIRECTS } from '~/shared/utils/redirects';
 import {
 	createMagicIdentifierCookie,
 	getMagicIdentifier,
 	isUserSignedIn,
 	MAGIC_LINK_REQUIRED_GENERATION_DELAY_IN_MINUTES,
 	MAGIC_LINK_VALIDITY_IN_MINUTES,
-} from '~/utils/session';
-import { getDateWithOffset } from '~/utils/time';
-import { type FormErrors } from '~/utils/types';
+} from '~/shared/utils/session';
+import { getDateWithOffset } from '~/shared/utils/time';
 
 export const routeData = () =>
 	createServerData$(async (_, { request }) => {
