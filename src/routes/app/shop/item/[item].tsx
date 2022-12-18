@@ -1,5 +1,5 @@
-const AddItem = () => {
-	return <h1>Add item to shop</h1>;
+const EditItem = () => {
+	return <h1>Edit item</h1>;
 };
 
-export default AddItem;
+export default EditItem;
