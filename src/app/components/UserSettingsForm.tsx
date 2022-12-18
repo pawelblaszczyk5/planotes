@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { Button } from '~/shared/components/Button';
 import { type ComboboxOption, Combobox } from '~/shared/components/Combobox';
 import { Input } from '~/shared/components/Input';
+import { REDIRECTS } from '~/shared/constants/redirects';
 import { IANA_TIMEZONES } from '~/shared/constants/timezones';
 import { createDebouncedSignal } from '~/shared/primitives/debouncedSignal';
 import { db } from '~/shared/utils/db';
@@ -16,7 +17,6 @@ import {
 	zodErrorToFieldErrors,
 	createFormFieldsErrors,
 } from '~/shared/utils/form';
-import { REDIRECTS } from '~/shared/utils/redirects';
 import { requireUserId } from '~/shared/utils/session';
 
 const timezonesComboboxOptions = IANA_TIMEZONES.map<ComboboxOption>(timezone => ({
@@ -26,8 +26,8 @@ const timezonesComboboxOptions = IANA_TIMEZONES.map<ComboboxOption>(timezone => 
 
 const FORM_ERRORS = {
 	AVATAR_SEED_REQUIRED: 'Avatar seed is required',
-	INCORRECT_TIMEZONE: 'Make sure you choosed a proper timezone',
 	NAME_REQUIRED: 'Name is required',
+	TIMEZONE_INVALID: 'Make sure you choosed a proper timezone',
 } as const satisfies FormErrors;
 
 const userSettingsFormSchema = z.object({
@@ -45,8 +45,8 @@ const userSettingsFormSchema = z.object({
 		.trim()
 		.min(1, FORM_ERRORS.NAME_REQUIRED),
 	timezone: z.enum(IANA_TIMEZONES, {
-		invalid_type_error: FORM_ERRORS.INCORRECT_TIMEZONE,
-		required_error: FORM_ERRORS.INCORRECT_TIMEZONE,
+		invalid_type_error: FORM_ERRORS.TIMEZONE_INVALID,
+		required_error: FORM_ERRORS.TIMEZONE_INVALID,
 	}),
 });
 

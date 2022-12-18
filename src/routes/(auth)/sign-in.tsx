@@ -16,7 +16,7 @@ import {
 	zodErrorToFieldErrors,
 } from '~/shared/utils/form';
 import { sendEmailWithMagicLink } from '~/shared/utils/mail';
-import { REDIRECTS } from '~/shared/utils/redirects';
+import { REDIRECTS } from '~/shared/constants/redirects';
 import {
 	createMagicIdentifierCookie,
 	getMagicIdentifier,

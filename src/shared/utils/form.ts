@@ -6,8 +6,8 @@ export type FormErrors = Record<string, string>;
 
 export const COMMON_FORM_ERRORS = {
 	BAD_REQUEST: 'Incorrect request data',
+	FORM_DATA_INVALID: "Make sure you're properly submitting form and try again",
 	INTERNAL_SERVER_ERROR: 'Internal server error, try again',
-	INVALID_FORM_DATA: "Make sure you're properly submitting form and try again",
 } as const satisfies FormErrors;
 
 export const isFormError = (error: unknown): error is FormError => Boolean(error instanceof FormError);
@@ -35,7 +35,7 @@ export const createFormFieldsErrors = (error: Accessor<unknown>) => {
 };
 
 export const zodErrorToFieldErrors = (errors: ZodError['formErrors']) => ({
-	...(errors.formErrors.length ? { other: COMMON_FORM_ERRORS.INVALID_FORM_DATA } : {}),
+	...(errors.formErrors.length ? { other: COMMON_FORM_ERRORS.FORM_DATA_INVALID } : {}),
 	...Object.fromEntries(
 		Object.entries(errors.fieldErrors)
 			.filter(([, fieldErrors]) => typeof fieldErrors !== 'undefined')

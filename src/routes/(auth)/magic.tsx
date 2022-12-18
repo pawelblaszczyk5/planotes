@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { Button } from '~/shared/components/Button';
 import { db } from '~/shared/utils/db';
 import { type FormErrors, convertFormDataIntoObject, createFormFieldsErrors } from '~/shared/utils/form';
-import { REDIRECTS } from '~/shared/utils/redirects';
+import { REDIRECTS } from '~/shared/constants/redirects';
 import { createSessionCookie, getMagicIdentifier, isSignedIn } from '~/shared/utils/session';
 import { isDateInPast, convertEpochSecondsToDate } from '~/shared/utils/time';
 
@@ -25,9 +25,9 @@ const redeemMagicTokenSchema = z.object({
 });
 
 const FORM_ERRORS = {
-	EXPIRED_TOKEN: 'Provided token has already expired or been used, sign in again',
-	INVALID_DEVICE: "Provided token can't be matched with your device sign in again",
-	INVALID_TOKEN: 'Provided token is invalid, sign in again',
+	DEVICE_INVALID: "Provided token can't be matched with your device sign in again",
+	TOKEN_EXPIRED: 'Provided token has already expired or been used, sign in again',
+	TOKEN_INVALID: 'Provided token is invalid, sign in again',
 } as const satisfies FormErrors;
 
 const Magic = () => {
@@ -40,11 +40,11 @@ const Magic = () => {
 
 		const parsedFormData = redeemMagicTokenSchema.safeParse(convertFormDataIntoObject(formData));
 
-		if (!parsedFormData.success) throw new FormError(FORM_ERRORS.INVALID_TOKEN);
+		if (!parsedFormData.success) throw new FormError(FORM_ERRORS.TOKEN_INVALID);
 
 		const magicIdentifierId = await getMagicIdentifier(request);
 
-		if (!magicIdentifierId) throw new FormError(FORM_ERRORS.INVALID_DEVICE);
+		if (!magicIdentifierId) throw new FormError(FORM_ERRORS.DEVICE_INVALID);
 
 		const userProvidedToken = parsedFormData.data.token;
 
@@ -52,12 +52,12 @@ const Magic = () => {
 			where: { id: magicIdentifierId },
 		});
 
-		if (!magicLink) throw new FormError(FORM_ERRORS.INVALID_TOKEN);
+		if (!magicLink) throw new FormError(FORM_ERRORS.TOKEN_INVALID);
 
 		const { validUntil, token, userId, sessionDuration, id } = magicLink;
 
 		if (isDateInPast(convertEpochSecondsToDate(validUntil)) || userProvidedToken !== token)
-			throw new FormError(FORM_ERRORS.EXPIRED_TOKEN);
+			throw new FormError(FORM_ERRORS.TOKEN_EXPIRED);
 
 		const cookie = await createSessionCookie({ request, sessionDuration, userId });
 

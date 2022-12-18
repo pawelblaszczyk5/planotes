@@ -50,12 +50,12 @@ model MagicLink {
 }
 
 model Item {
-  id     String     @id @default(cuid())
-  name   String
-  icon   String?
-  type   ItemType
-  price  Int
-  status ItemStatus @default(AVAILABLE)
-  user   User       @relation(fields: [userId], references: [id])
-  userId String
+  id      String     @id @default(cuid())
+  name    String
+  iconUrl String?
+  type    ItemType
+  price   Int
+  status  ItemStatus @default(AVAILABLE)
+  user    User       @relation(fields: [userId], references: [id])
+  userId  String
 }

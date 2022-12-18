@@ -23,7 +23,7 @@ export const NumberInput = (props: NumberInputProps) => {
 		numberInput.machine({
 			id,
 			maxFractionDigits: 0,
-			min: 0,
+			min: 1,
 			// eslint-disable-next-line solid/reactivity -- there is no way to set name programatically after init
 			name: propsWithDefaults.name,
 			translations: { decrementLabel: 'Decrease value', incrementLabel: 'Increase value' },
