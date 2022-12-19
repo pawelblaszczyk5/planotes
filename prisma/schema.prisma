@@ -30,14 +30,15 @@ enum ItemStatus {
 // Models
 
 model User {
-  id         String      @id @default(cuid())
-  email      String      @unique
-  magicLinks MagicLink[]
-  name       String?
-  avatarSeed String?
-  timezone   String?
-  balance    Int         @default(0)
-  Item       Item[]
+  id           String         @id @default(cuid())
+  email        String         @unique
+  magicLinks   MagicLink[]
+  name         String?
+  avatarSeed   String?
+  timezone     String?
+  balance      Int            @default(0)
+  Item         Item[]
+  BalanceEntry BalanceEntry[]
 }
 
 model MagicLink {
@@ -58,4 +59,12 @@ model Item {
   status  ItemStatus @default(AVAILABLE)
   user    User       @relation(fields: [userId], references: [id])
   userId  String
+}
+
+model BalanceEntry {
+  id        String @id @default(cuid())
+  change    Int
+  createdAt Int
+  user      User   @relation(fields: [userId], references: [id])
+  userId    String
 }

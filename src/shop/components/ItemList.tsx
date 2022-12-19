@@ -47,6 +47,13 @@ export const ItemList = (props: ItemListProps) => {
 
 		const promises: Array<Promise<any>> = [
 			db.user.update({ data: { balance: user.balance - itemToBuy.price }, where: { id: userId } }),
+			db.balanceEntry.create({
+				data: {
+					change: -itemToBuy.price,
+					createdAt: getCurrentEpochSeconds(),
+					userId,
+				},
+			}),
 		];
 
 		if (itemToBuy.type !== 'RECURRING')
