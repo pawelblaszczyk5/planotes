@@ -76,7 +76,7 @@ export const UserSettingsForm = (props: { user: User }) => {
 		return redirect(request.headers.get('referer') ?? REDIRECTS.HOME);
 	});
 
-	const onboardErrors = createFormFieldsErrors(() => onboard.error);
+	const onboardErrors = createFormFieldsErrors<typeof userSettingsFormSchema>(() => onboard.error);
 
 	const [avatarSeed, setAvatarSeed] = createDebouncedSignal('');
 
@@ -109,10 +109,10 @@ export const UserSettingsForm = (props: { user: User }) => {
 			<div class="flex flex w-full flex-col flex-col items-center gap-6 md:flex-row-reverse">
 				<img class="max-w-32 block" src={avatarUrl()} alt="New avatar preview" />
 				<div class="flex w-full flex-col gap-6" onInput={handleInputsChange}>
-					<Input error={onboardErrors()['name']} name="name">
+					<Input error={onboardErrors().name} name="name">
 						Name
 					</Input>
-					<Input name="avatarSeed" error={onboardErrors()['avatarSeed']}>
+					<Input name="avatarSeed" error={onboardErrors().avatarSeed}>
 						Avatar seed
 					</Input>
 				</div>
@@ -120,8 +120,8 @@ export const UserSettingsForm = (props: { user: User }) => {
 			<Combobox options={timezonesComboboxOptions} maxOptions={20} value={userTimezone()} name="timezone">
 				Timezone
 			</Combobox>
-			<Show when={onboardErrors()['other']}>
-				<p class="text-destructive text-sm">{onboardErrors()['other']}</p>
+			<Show when={onboardErrors().other}>
+				<p class="text-destructive text-sm">{onboardErrors().other}</p>
 			</Show>
 			<Button class="max-w-48 mx-auto w-full">Save profile</Button>
 		</onboardTrigger.Form>

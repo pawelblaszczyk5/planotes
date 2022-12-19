@@ -66,7 +66,7 @@ const Magic = () => {
 		return redirect(REDIRECTS.HOME, { headers: { 'Set-Cookie': cookie } });
 	});
 
-	const redeemMagicTokenErrors = createFormFieldsErrors(() => redeemMagicToken.error);
+	const redeemMagicTokenErrors = createFormFieldsErrors<typeof redeemMagicTokenSchema>(() => redeemMagicToken.error);
 
 	createEffect(() => {
 		const timeoutRef = setTimeout(() => {
@@ -84,8 +84,8 @@ const Magic = () => {
 				You'll be signed in and redirected to the application automatically. In case of problems you can also press the
 				below button yourself
 			</p>
-			<Show when={redeemMagicTokenErrors()['other']}>
-				<p class="text-destructive text-sm">{redeemMagicTokenErrors()['other']}</p>
+			<Show when={redeemMagicTokenErrors().other}>
+				<p class="text-destructive text-sm">{redeemMagicTokenErrors().other}</p>
 			</Show>
 			<input name="token" type="hidden" value={tokenFromUrl() ?? ''} />
 			<Button class="max-w-48 mx-auto w-full">Sign in</Button>

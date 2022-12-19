@@ -59,7 +59,7 @@ const AddItem = () => {
 		return redirect(REDIRECTS.SHOP);
 	});
 
-	const addItemErrors = createFormFieldsErrors(() => addItem.error);
+	const addItemErrors = createFormFieldsErrors<typeof addItemSchema>(() => addItem.error);
 
 	return (
 		<ItemForm
