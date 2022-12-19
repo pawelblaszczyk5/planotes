@@ -14,11 +14,13 @@ export const isFormError = (error: unknown): error is FormError => Boolean(error
 
 export const isServerError = (error: unknown): error is ServerError => error instanceof ServerError;
 
-type ZodErrorsExtracter<Schema extends ZodSchema> = keyof Schema['_output'] extends never
-	? never
-	: Partial<Record<keyof Schema['_output'] | 'other', string>> & Record<string, string>;
+type ZodErrorsExtracter<Schema> = Schema extends ZodSchema
+	? keyof Schema['_output'] extends never
+		? Record<string, string> & { other?: string }
+		: Partial<Record<keyof Schema['_output'] | 'other', string>> & Record<string, string>
+	: Record<string, string> & { other?: string };
 
-export const createFormFieldsErrors = <Schema extends ZodSchema>(error: Accessor<unknown>) => {
+export const createFormFieldsErrors = <Schema>(error: Accessor<unknown>) => {
 	const formFieldsErrorsMemo = createMemo(() => {
 		const currentError = error();
 
@@ -38,9 +40,7 @@ export const createFormFieldsErrors = <Schema extends ZodSchema>(error: Accessor
 	return formFieldsErrorsMemo as Accessor<ZodErrorsExtracter<Schema>>;
 };
 
-export const zodErrorToFieldErrors = <Schema extends ZodSchema>(
-	errors: ZodError['formErrors'],
-): ZodErrorsExtracter<Schema> =>
+export const zodErrorToFieldErrors = <Schema>(errors: ZodError['formErrors']): ZodErrorsExtracter<Schema> =>
 	({
 		...(errors.formErrors.length ? { other: COMMON_FORM_ERRORS.FORM_DATA_INVALID } : {}),
 		...Object.fromEntries(
