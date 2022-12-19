@@ -1,7 +1,7 @@
 import { Show } from 'solid-js';
 import { FormError, useRouteData, type RouteDataFunc } from 'solid-start';
 import { createServerData$, HttpStatusCode, createServerAction$, redirect } from 'solid-start/server';
-import { Link } from '~/shared/components/Link';
+import { LinkWithIcon } from '~/shared/components/Link';
 import { REDIRECTS } from '~/shared/constants/redirects';
 import { db } from '~/shared/utils/db';
 import {
@@ -93,9 +93,9 @@ const EditItem = () => {
 					<div class="flex max-w-3xl flex-col gap-6">
 						<h2 class="text-xl">We can't find an item with given ID 😔</h2>
 						<p class="text-secondary text-sm">Make sure you're not using a saved link to a non-existing anymore item</p>
-						<Link class="mr-auto" href="/app/shop">
+						<LinkWithIcon icon="i-lucide-coins" class="mr-auto" href="/app/shop">
 							Go back to shop
-						</Link>
+						</LinkWithIcon>
 					</div>
 				</>
 			}
