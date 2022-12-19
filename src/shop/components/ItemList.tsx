@@ -10,6 +10,7 @@ import { REDIRECTS } from '~/shared/constants/redirects';
 import { db } from '~/shared/utils/db';
 import { type FormErrors, convertFormDataIntoObject, createFormFieldsErrors } from '~/shared/utils/form';
 import { requireUserId } from '~/shared/utils/session';
+import { getCurrentEpochSeconds } from '~/shared/utils/time';
 
 type ItemListProps = {
 	currentPage: number;
@@ -90,7 +91,7 @@ export const ItemList = (props: ItemListProps) => {
 			<ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
 				<For
 					fallback={
-						<h2 class="text-secondary text-center text-sm">
+						<h2 class="text-secondary col-span-full text-center text-sm">
 							You don't have any items yet. Go add your first one and start earning prizes for your hard work!
 						</h2>
 					}
@@ -99,7 +100,7 @@ export const ItemList = (props: ItemListProps) => {
 					{item => (
 						<li
 							role="listitem"
-							class="bg-secondary flex flex-col justify-between gap-9 p-6 shadow shadow-black/50 dark:shadow-black/90"
+							class="bg-secondary flex flex-col justify-between gap-9 rounded p-6 shadow shadow-black/50 dark:shadow-black/90"
 						>
 							<div class="flex justify-between gap-6">
 								<div class="flex-1">
@@ -124,8 +125,8 @@ export const ItemList = (props: ItemListProps) => {
 										</span>
 									</p>
 								</div>
-								<div class="h-20 w-20">
-									<Show when={item.iconUrl} fallback={<i class="i-lucide-box text-8xl" aria-hidden />}>
+								<div class="flex h-20 w-20 items-center justify-center">
+									<Show when={item.iconUrl} fallback={<i class="i-lucide-box text-7xl" aria-hidden />}>
 										<img class="object-cover" src={item.iconUrl!} alt="" />
 									</Show>
 								</div>
