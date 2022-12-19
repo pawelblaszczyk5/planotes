@@ -62,7 +62,7 @@ export const ItemList = (props: ItemListProps) => {
 	createEffect(() => {
 		const error = errorElement();
 
-		if (error && buyItemErrors()) {
+		if (error && Object.values(buyItemErrors()).length) {
 			error.scrollIntoView();
 		}
 	});
