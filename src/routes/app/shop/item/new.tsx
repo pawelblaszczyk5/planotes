@@ -1,4 +1,4 @@
-import { FormError } from 'solid-start';
+import { FormError, Title } from 'solid-start';
 import { createServerAction$, redirect } from 'solid-start/server';
 import { REDIRECTS } from '~/shared/constants/redirects';
 import { db } from '~/shared/utils/db';
@@ -41,12 +41,15 @@ const AddItem = () => {
 	const addItemErrors = createFormFieldsErrors<typeof addItemSchema>(() => addItem.error);
 
 	return (
-		<ItemForm
-			form={addItemTrigger.Form}
-			errors={addItemErrors()}
-			description="Here you can add a new item that will be available in the shop for your precious points. Remember that prize can't be too easy. However, it also needs to be worth the hassle!"
-			title="Add new item to shop"
-		/>
+		<>
+			<Title>Add item | Planotes</Title>
+			<ItemForm
+				form={addItemTrigger.Form}
+				errors={addItemErrors()}
+				description="Here you can add a new item that will be available in the shop for your precious points. Remember that prize can't be too easy. However, it also needs to be worth the hassle!"
+				title="Add new item to shop"
+			/>
+		</>
 	);
 };
 

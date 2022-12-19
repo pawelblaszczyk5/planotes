@@ -1,5 +1,5 @@
 import { Show } from 'solid-js';
-import { FormError, useRouteData, type RouteDataFunc } from 'solid-start';
+import { FormError, Title, useRouteData, type RouteDataFunc } from 'solid-start';
 import { createServerData$, HttpStatusCode, createServerAction$, redirect } from 'solid-start/server';
 import { LinkWithIcon } from '~/shared/components/Link';
 import { REDIRECTS } from '~/shared/constants/redirects';
@@ -89,6 +89,7 @@ const EditItem = () => {
 			when={item()}
 			fallback={
 				<>
+					<Title>Item not found 😔 | Planotes</Title>
 					<HttpStatusCode code={404} />
 					<div class="flex max-w-3xl flex-col gap-6">
 						<h2 class="text-xl">We can't find an item with given ID 😔</h2>
@@ -100,6 +101,7 @@ const EditItem = () => {
 				</>
 			}
 		>
+			<Title>{item()!.name} | Planotes</Title>
 			<ItemForm
 				form={editItemTrigger.Form}
 				errors={editItemErrors()}
