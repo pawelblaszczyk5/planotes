@@ -1,6 +1,5 @@
 import { FormError } from 'solid-start';
 import { createServerAction$, redirect } from 'solid-start/server';
-import { z } from 'zod';
 import { REDIRECTS } from '~/shared/constants/redirects';
 import { db } from '~/shared/utils/db';
 import {
@@ -8,30 +7,10 @@ import {
 	convertFormDataIntoObject,
 	createFormFieldsErrors,
 	zodErrorToFieldErrors,
-	type FormErrors,
 } from '~/shared/utils/form';
 import { requireUserId } from '~/shared/utils/session';
 import { ItemForm } from '~/shop/components/ItemForm';
-
-const FORM_ERRORS = {
-	ICON_URL_INVALID: 'Icon URL must be a valid link',
-	NAME_REQUIRED: 'Name is required',
-	NAME_TOO_SHORT: 'Name must have at least 3 characters',
-	PRICE_INVALID: 'Price must be a valid integer',
-	PRICE_MIN: 'Price must be bigger than 0',
-} as const satisfies FormErrors;
-
-const addItemSchema = z.object({
-	iconUrl: z.string().url(FORM_ERRORS.ICON_URL_INVALID).optional(),
-	isRecurring: z.coerce.boolean(),
-	name: z
-		.string({ invalid_type_error: FORM_ERRORS.NAME_REQUIRED, required_error: FORM_ERRORS.NAME_REQUIRED })
-		.trim()
-		.min(3, FORM_ERRORS.NAME_TOO_SHORT),
-	price: z.coerce
-		.number({ invalid_type_error: FORM_ERRORS.PRICE_INVALID, required_error: FORM_ERRORS.PRICE_INVALID })
-		.min(1, FORM_ERRORS.PRICE_MIN),
-});
+import { addItemSchema } from '~/shop/schemas/item';
 
 const AddItem = () => {
 	const [addItem, addItemTrigger] = createServerAction$(async (formData: FormData, { request }) => {

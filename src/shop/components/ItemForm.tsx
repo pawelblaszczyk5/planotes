@@ -32,10 +32,16 @@ export const ItemForm = (props: ItemFormProps) => (
 			<Checkbox checked={props.item?.type === 'RECURRING'} name="isRecurring">
 				Recurring item
 			</Checkbox>
+			<Show when={props.item}>
+				<input name="id" type="hidden" value={props.item!.id} />
+			</Show>
+			<Show when={props.errors['id']}>
+				<p class="text-destructive text-sm">{props.errors['id']}</p>
+			</Show>
 			<Show when={props.errors['other']}>
 				<p class="text-destructive text-sm">{props.errors['other']}</p>
 			</Show>
-			<Button class="max-w-48 w-full">Add item</Button>
+			<Button class="max-w-48 w-full">{props.item ? 'Save item' : 'Add item'}</Button>
 		</Dynamic>
 	</div>
 );
