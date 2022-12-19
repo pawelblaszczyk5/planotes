@@ -80,7 +80,7 @@ export const ItemList = (props: ItemListProps) => {
 				<p class="text-destructive mb-6 text-sm">{buyItemErrors().other}</p>
 			</Show>
 			<p class="text-destructive text-sm" />
-			<ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+			<ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
 				<For
 					fallback={
 						<h2 class="text-secondary text-center text-sm">
@@ -92,7 +92,7 @@ export const ItemList = (props: ItemListProps) => {
 					{item => (
 						<li
 							role="listitem"
-							class="flex flex-col justify-between gap-9 p-4 shadow shadow-black/50 dark:shadow-black/90"
+							class="bg-secondary flex flex-col justify-between gap-9 p-6 shadow shadow-black/50 dark:shadow-black/90"
 						>
 							<div class="flex justify-between gap-6">
 								<div class="flex-1">
