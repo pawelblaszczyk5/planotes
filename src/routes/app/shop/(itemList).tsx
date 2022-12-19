@@ -11,7 +11,7 @@ export const routeData = () =>
 
 		const items = await db.item.findMany({
 			skip: 0,
-			take: ITEMS_PER_PAGE,
+			take: ITEMS_PER_PAGE + 1,
 			where: {
 				status: 'AVAILABLE',
 				userId,

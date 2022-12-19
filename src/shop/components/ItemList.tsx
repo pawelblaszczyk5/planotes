@@ -2,6 +2,7 @@ import { type Item } from '@prisma/client';
 import clsx from 'clsx';
 import { For, Show } from 'solid-js';
 import { Button, ButtonLink } from '~/shared/components/Button';
+import { LinkWithIcon } from '~/shared/components/Link';
 
 type ItemListProps = {
 	currentPage: number;
@@ -68,5 +69,29 @@ export const ItemList = (props: ItemListProps) => (
 				)}
 			</For>
 		</ul>
+		<Show when={props.currentPage !== 1 || props.hasNextPage}>
+			<div class="my-6 flex">
+				<Show when={props.currentPage !== 1}>
+					<LinkWithIcon
+						class="mr-auto"
+						icon="i-lucide-arrow-big-left"
+						href={props.currentPage === 2 ? '/app/shop' : `/app/shop/page/${props.currentPage - 1}`}
+						end
+					>
+						Previous
+					</LinkWithIcon>
+				</Show>
+				<Show when={props.hasNextPage}>
+					<LinkWithIcon
+						class="ml-auto"
+						icon="i-lucide-arrow-big-right"
+						href={`/app/shop/page/${props.currentPage + 1}`}
+						end
+					>
+						Next
+					</LinkWithIcon>
+				</Show>
+			</div>
+		</Show>
 	</>
 );

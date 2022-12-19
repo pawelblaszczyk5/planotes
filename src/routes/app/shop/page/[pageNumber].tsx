@@ -23,7 +23,7 @@ export const routeData = (({ params }) => {
 
 			const itemsPage = items.slice(0, ITEMS_PER_PAGE);
 
-			return { hasNextPage: items.length === ITEMS_PER_PAGE + 1, items: itemsPage };
+			return { hasNextPage: items.length === ITEMS_PER_PAGE + 1, items: itemsPage, page };
 		},
 		{
 			key: () => Number(pageNumber),
@@ -34,7 +34,9 @@ export const routeData = (({ params }) => {
 const ItemListPage = () => {
 	const data = useRouteData<typeof routeData>();
 
-	return <ItemList items={data()?.items ?? []} hasNextPage={data()?.hasNextPage ?? false} currentPage={1} />;
+	return (
+		<ItemList items={data()?.items ?? []} hasNextPage={data()?.hasNextPage ?? false} currentPage={data()?.page ?? 1} />
+	);
 };
 
 export default ItemListPage;
