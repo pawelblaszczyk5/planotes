@@ -20,7 +20,7 @@ const FORM_ERRORS = {
 } as const satisfies FormErrors;
 
 export const routeData = (({ params }) => {
-	const itemId = params['item'];
+	const { item } = params;
 
 	return createServerData$(
 		async (id, { request }) => {
@@ -37,7 +37,7 @@ export const routeData = (({ params }) => {
 			return itemToEdit;
 		},
 		{
-			key: () => itemId,
+			key: () => item,
 		},
 	);
 }) satisfies RouteDataFunc;

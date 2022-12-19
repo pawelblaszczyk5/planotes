@@ -138,7 +138,7 @@ const AvatarBeam = (props: ReturnType<typeof generateAvatarData>) => (
 );
 
 export const GET = ({ params }: APIEvent) => {
-	const seed = params['seed'];
+	const { seed } = params;
 
 	if (!seed) return json('Seed parameter is required', 400);
 
