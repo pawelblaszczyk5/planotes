@@ -1,4 +1,5 @@
 import { type User } from '@prisma/client';
+import clsx from 'clsx';
 import { Show } from 'solid-js';
 import { FormError, redirect } from 'solid-start';
 import { createServerAction$ } from 'solid-start/server';
@@ -50,7 +51,10 @@ const userSettingsFormSchema = z.object({
 	}),
 });
 
-export const UserSettingsForm = (props: { user: User }) => {
+const findTimezoneOption = (userTimezone: string) =>
+	timezonesComboboxOptions.find(timezone => timezone.value === userTimezone) ?? null;
+
+export const UserSettingsForm = (props: { isProfileSection?: boolean; user: User }) => {
 	const [onboard, onboardTrigger] = createServerAction$(async (formData: FormData, { request }) => {
 		const userId = await requireUserId(request);
 
@@ -84,13 +88,10 @@ export const UserSettingsForm = (props: { user: User }) => {
 		`/api/avatar/${encodeURIComponent(avatarSeed() || props.user.avatarSeed || props.user.email)}`;
 
 	const userTimezone = () => {
+		if (props.user.timezone) return findTimezoneOption(props.user.timezone);
 		if (import.meta.env.SSR) return null;
 
-		return (
-			timezonesComboboxOptions.find(
-				timezone => timezone.value === new Intl.DateTimeFormat().resolvedOptions().timeZone,
-			) ?? null
-		);
+		return findTimezoneOption(new Intl.DateTimeFormat().resolvedOptions().timeZone);
 	};
 
 	const handleInputsChange = (
@@ -109,10 +110,10 @@ export const UserSettingsForm = (props: { user: User }) => {
 			<div class="flex flex w-full flex-col flex-col items-center gap-6 md:flex-row-reverse">
 				<img class="max-w-32 block" src={avatarUrl()} alt="New avatar preview" />
 				<div class="flex w-full flex-col gap-6" onInput={handleInputsChange}>
-					<Input error={onboardErrors().name} name="name">
+					<Input error={onboardErrors().name} value={props.user.name ?? ''} name="name">
 						Name
 					</Input>
-					<Input name="avatarSeed" error={onboardErrors().avatarSeed}>
+					<Input name="avatarSeed" error={onboardErrors().avatarSeed} value={props.user.avatarSeed ?? ''}>
 						Avatar seed
 					</Input>
 				</div>
@@ -123,7 +124,7 @@ export const UserSettingsForm = (props: { user: User }) => {
 			<Show when={onboardErrors().other}>
 				<p class="text-destructive text-sm">{onboardErrors().other}</p>
 			</Show>
-			<Button class="max-w-48 mx-auto w-full">Save profile</Button>
+			<Button class={clsx('max-w-48 w-full', props.isProfileSection ? 'mr-auto' : 'mx-auto')}>Save profile</Button>
 		</onboardTrigger.Form>
 	);
 };
