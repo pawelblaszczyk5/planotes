@@ -14,7 +14,8 @@
 		"prisma:dev": "prisma db push",
 		"prisma:generate": "prisma generate",
 		"prisma:migrate": "prisma migrate dev",
-		"prisma:studio": "prisma studio"
+		"prisma:studio": "prisma studio",
+		"prisma:seed": "prisma db seed"
 	},
 	"dependencies": {
 		"@js-temporal/polyfill": "^0.4.3",
@@ -37,6 +38,8 @@
 		"zod": "^3.20.2"
 	},
 	"devDependencies": {
+		"@digitak/esrun": "^3.2.15",
+		"@faker-js/faker": "^7.6.0",
 		"@iconify/json": "^2.1.153",
 		"@tsconfig/strictest": "^1.0.2",
 		"@types/nodemailer": "^6.4.7",
@@ -64,5 +67,8 @@
 	"engines": {
 		"node": ">=18 <19",
 		"pnpm": ">=7"
+	},
+	"prisma": {
+		"seed": "esrun prisma/seed.ts"
 	}
 }

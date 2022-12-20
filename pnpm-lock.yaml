@@ -9,6 +9,8 @@ patchedDependencies:
     path: patches/@zag-js__combobox@0.2.7.patch
 
 specifiers:
+  '@digitak/esrun': ^3.2.15
+  '@faker-js/faker': ^7.6.0
   '@iconify/json': ^2.1.153
   '@js-temporal/polyfill': ^0.4.3
   '@motionone/solid': ^10.15.4
@@ -64,6 +66,8 @@ dependencies:
   zod: 3.20.2
 
 devDependencies:
+  '@digitak/esrun': 3.2.15
+  '@faker-js/faker': 7.6.0
   '@iconify/json': 2.1.153
   '@tsconfig/strictest': 1.0.2
   '@types/nodemailer': 6.4.7
@@ -1236,6 +1240,21 @@ packages:
       '@jridgewell/trace-mapping': 0.3.9
     dev: true
 
+  /@digitak/esrun/3.2.15:
+    resolution: {integrity: sha512-lVWOG3+1Fd9/hZgaKaf/E4w5llt4Zh2k84+owRdqXBv3oZq9soCQg1ALoWmzBtGpIsdtdOgCrMzLiCAN6wykQA==}
+    engines: {node: '>=14.0'}
+    hasBin: true
+    dependencies:
+      '@digitak/grubber': 3.1.3
+      chokidar: 3.5.3
+      cuid: 2.1.8
+      esbuild: 0.15.13
+    dev: true
+
+  /@digitak/grubber/3.1.3:
+    resolution: {integrity: sha512-7PV6XCS5qC28oaEKWUUXLxiewoj3Z0EfdCdxX5D6Vy5wtC/rYuCO15XOOupUcnwBaNR+Xm/bfmsCe1KJtEfE7g==}
+    dev: true
+
   /@es-joy/jsdoccomment/0.36.0:
     resolution: {integrity: sha512-u0XZyvUF6Urb2cSivSXA8qXIpT/CxkHcdtZKoWusAzgzmsTWpg0F2FpWXsolHmMUyVY3dLWaoy+0ccJ5uf2QjA==}
     engines: {node: ^14 || ^16 || ^17 || ^18 || ^19}
@@ -1276,6 +1295,11 @@ packages:
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /@faker-js/faker/7.6.0:
+    resolution: {integrity: sha512-XK6BTq1NDMo9Xqw/YkYyGjSsg44fbNwYRx7QK2CuoQgyy+f1rrTDHoExVM5PsyXCtfl2vs2vVJ0MN0yN6LppRw==}
+    engines: {node: '>=14.0.0', npm: '>=6.0.0'}
     dev: true
 
   /@floating-ui/core/1.0.4:
@@ -2988,6 +3012,10 @@ packages:
 
   /csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
+
+  /cuid/2.1.8:
+    resolution: {integrity: sha512-xiEMER6E7TlTPnDxrM4eRiC6TRgjNX9xzEZ5U/Se2YJKr7Mq4pJn/2XEHjl3STcSh96GmkHPcBXLES8M29wyyg==}
+    dev: true
 
   /damerau-levenshtein/1.0.8:
     resolution: {integrity: sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==}
