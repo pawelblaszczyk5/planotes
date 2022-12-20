@@ -1,5 +1,5 @@
 import { variantMatcher } from '@unocss/preset-mini/utils';
-import { defineConfig, presetIcons, presetWind } from 'unocss';
+import { defineConfig, presetIcons, presetWind, presetTypography } from 'unocss';
 
 export default defineConfig({
 	include: ['**/*.{ts,tsx}'],
@@ -11,6 +11,7 @@ export default defineConfig({
 				'vertical-align': 'middle',
 			},
 		}),
+		presetTypography(),
 	],
 	shortcuts: {
 		'b-accent': 'b-fuchsia-600 dark:b-fuchsia-400',
