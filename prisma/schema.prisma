@@ -27,6 +27,12 @@ enum ItemStatus {
   UNAVAILABLE
 }
 
+enum Entity {
+  ITEM
+  TASK
+  GOAL
+}
+
 // Models
 
 model User {
@@ -67,4 +73,6 @@ model BalanceEntry {
   createdAt Int
   user      User   @relation(fields: [userId], references: [id])
   userId    String
+  itemId    String
+  entity    Entity
 }

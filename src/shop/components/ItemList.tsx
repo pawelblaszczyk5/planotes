@@ -52,6 +52,8 @@ export const ItemList = (props: ItemListProps) => {
 				data: {
 					change: -itemToBuy.price,
 					createdAt: getCurrentEpochSeconds(),
+					entity: 'ITEM',
+					itemId: itemToBuy.id,
 					userId,
 				},
 			}),
