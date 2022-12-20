@@ -71,7 +71,9 @@ export const ItemList = (props: ItemListProps) => {
 		const error = errorElement();
 
 		if (error && Object.values(buyItemErrors()).length) {
-			error.scrollIntoView();
+			error.scrollIntoView({
+				behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+			});
 		}
 	});
 
