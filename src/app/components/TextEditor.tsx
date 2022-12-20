@@ -97,7 +97,7 @@ const TextEditor = (props: { onInput: (content: string) => void }) => {
 		content: '<h1>bla bla</h1>',
 		editorProps: {
 			attributes: {
-				class: 'p-3 ring-primary prose prose:text- max-w-full',
+				class: 'px-6 py-3 ring-primary prose max-w-full h-80 overflow-auto b-2 b-primary rounded-md outline-offset-1',
 			},
 		},
 		// @ts-expect-error - something off with typings
