@@ -9,8 +9,8 @@ const BADGE_ICON = {
 } as const satisfies Record<BadgeType, string>;
 
 const BADGE_ARIA = {
-	info: '',
-	warn: '',
+	info: 'Information',
+	warn: 'Caution',
 } as const satisfies Record<BadgeType, string>;
 
 export const Badge = (props: { children: JSXElement; type: BadgeType }) => (
