@@ -129,7 +129,7 @@ export const ItemList = (props: ItemListProps) => {
 								</div>
 								<div class="flex h-20 w-20 items-center justify-center">
 									<Show when={item.iconUrl} fallback={<i class="i-lucide-box text-7xl" aria-hidden />}>
-										<img class="object-cover" src={item.iconUrl!} alt="" />
+										<img class="max-h-full max-w-full object-cover" src={item.iconUrl!} alt="" />
 									</Show>
 								</div>
 							</div>
