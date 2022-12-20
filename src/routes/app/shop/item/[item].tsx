@@ -19,10 +19,8 @@ const FORM_ERRORS = {
 	ITEM_UNEXISTING: "Item with a given ID doesn't exist, make sure you're editing properly",
 } as const satisfies FormErrors;
 
-export const routeData = (({ params }) => {
-	const { item } = params;
-
-	return createServerData$(
+export const routeData = (({ params }) =>
+	createServerData$(
 		async (id, { request }) => {
 			const userId = await requireUserId(request);
 
@@ -37,10 +35,9 @@ export const routeData = (({ params }) => {
 			return itemToEdit;
 		},
 		{
-			key: () => item,
+			key: () => params['item'],
 		},
-	);
-}) satisfies RouteDataFunc;
+	)) satisfies RouteDataFunc;
 
 const EditItem = () => {
 	const item = useRouteData<typeof routeData>();

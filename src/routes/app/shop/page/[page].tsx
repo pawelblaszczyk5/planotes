@@ -5,15 +5,14 @@ import { db } from '~/shared/utils/db';
 import { requireUserId } from '~/shared/utils/session';
 import { ItemList } from '~/shop/components/ItemList';
 
-export const routeData = (({ params }) => {
-	const { pageNumber } = params;
-
-	return createServerData$(
+export const routeData = (({ params }) =>
+	createServerData$(
 		async (page, { request }) => {
 			const userId = await requireUserId(request);
+			const numericPage = Number(page);
 
 			const items = await db.item.findMany({
-				skip: (page - 1) * ITEMS_PER_PAGE,
+				skip: (numericPage - 1) * ITEMS_PER_PAGE,
 				take: ITEMS_PER_PAGE + 1,
 				where: {
 					status: 'AVAILABLE',
@@ -23,13 +22,12 @@ export const routeData = (({ params }) => {
 
 			const itemsPage = items.slice(0, ITEMS_PER_PAGE);
 
-			return { hasNextPage: items.length === ITEMS_PER_PAGE + 1, items: itemsPage, page };
+			return { hasNextPage: items.length === ITEMS_PER_PAGE + 1, items: itemsPage, page: numericPage };
 		},
 		{
-			key: () => Number(pageNumber),
+			key: () => params['page'],
 		},
-	);
-}) satisfies RouteDataFunc;
+	)) satisfies RouteDataFunc;
 
 const ItemListPage = () => {
 	const data = useRouteData<typeof routeData>();
