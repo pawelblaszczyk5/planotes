@@ -1,7 +1,6 @@
 import { createSignal } from 'solid-js';
-import { Title, unstable_clientOnly } from 'solid-start';
-
-const TextEditor = unstable_clientOnly(async () => import('~/app/components/TextEditor'));
+import { Title } from 'solid-start';
+import TextEditor from '~/app/components/TextEditor';
 
 const Notes = () => {
 	const [content, setContent] = createSignal('');
