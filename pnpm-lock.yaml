@@ -18,6 +18,7 @@ specifiers:
   '@solidjs/meta': ^0.28.2
   '@solidjs/router': ^0.6.0
   '@tiptap/core': 2.0.0-beta.209
+  '@tiptap/extension-character-count': 2.0.0-beta.209
   '@tiptap/extension-highlight': 2.0.0-beta.209
   '@tiptap/extension-text-align': 2.0.0-beta.209
   '@tiptap/starter-kit': 2.0.0-beta.209
@@ -67,6 +68,7 @@ dependencies:
   '@solidjs/meta': 0.28.2_solid-js@1.6.6
   '@solidjs/router': 0.6.0_solid-js@1.6.6
   '@tiptap/core': 2.0.0-beta.209_rd5pjtxohzfgv2zee3iufpqkay
+  '@tiptap/extension-character-count': 2.0.0-beta.209_kdf7tbeyuz6zzmi7724b5ghupu
   '@tiptap/extension-highlight': 2.0.0-beta.209_f4ffqkgz5d3wev7su7t7l2rrua
   '@tiptap/extension-text-align': 2.0.0-beta.209_f4ffqkgz5d3wev7su7t7l2rrua
   '@tiptap/starter-kit': 2.0.0-beta.209_jpbjcwtxtditttqwduift4tnzi
@@ -2020,6 +2022,18 @@ packages:
       '@tiptap/core': ^2.0.0-beta.193
     dependencies:
       '@tiptap/core': 2.0.0-beta.209_rd5pjtxohzfgv2zee3iufpqkay
+    dev: false
+
+  /@tiptap/extension-character-count/2.0.0-beta.209_kdf7tbeyuz6zzmi7724b5ghupu:
+    resolution: {integrity: sha512-ejye00l40wwzycNj86fHbWxngl8IiE+eQm1juUGK0ztR+r/P4MpgdeatjTLchtY79wd9qR3hON2+pcNwy9KKew==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0-beta.193
+      prosemirror-model: ^1.18.1
+      prosemirror-state: ^1.4.1
+    dependencies:
+      '@tiptap/core': 2.0.0-beta.209_rd5pjtxohzfgv2zee3iufpqkay
+      prosemirror-model: 1.18.3
+      prosemirror-state: 1.4.2
     dev: false
 
   /@tiptap/extension-code-block/2.0.0-beta.209_prfudu5zgovreazvyjp3brspre:

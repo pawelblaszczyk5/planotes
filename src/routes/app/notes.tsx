@@ -6,7 +6,7 @@ const Notes = () => {
 		<>
 			<Title>Notes | Planotes</Title>
 			<h1>Notes</h1>
-			<TextEditor />
+			<TextEditor maxLength={250} name="test" content="<h1>test</h1>" />
 		</>
 	);
 };

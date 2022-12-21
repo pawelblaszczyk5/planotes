@@ -1,10 +1,12 @@
 import { type Editor } from '@tiptap/core';
+import { CharacterCount } from '@tiptap/extension-character-count';
 import { Highlight } from '@tiptap/extension-highlight';
 import { TextAlign } from '@tiptap/extension-text-align';
 import { StarterKit } from '@tiptap/starter-kit';
 import clsx from 'clsx';
-import { type JSXElement, createEffect, createSignal, Show } from 'solid-js';
+import { type JSXElement, createSignal, Show, mergeProps, createUniqueId } from 'solid-js';
 import { createEditorTransaction, createTiptapEditor, useEditorHTML } from 'solid-tiptap';
+import { type DefaultProps } from '~/shared/types';
 
 type ToggleProps = {
 	children: JSXElement;
@@ -16,7 +18,7 @@ type ToggleProps = {
 const Toggle = (props: ToggleProps) => {
 	return (
 		<button
-			class="[[aria-pressed=true]&]:bg-primary [[aria-pressed=true]&]:text-accent ring-primary grid h-10 w-10 place-items-center rounded-sm text-xl -outline-offset-1"
+			class="[[aria-pressed=true]&]:bg-primary [[aria-pressed=true]&]:text-accent ring-primary grid h-10 w-10 place-items-center rounded-sm text-xl"
 			aria-pressed={props.isActive}
 			aria-label={props.label}
 			onClick={() => props.onChange(!props.isActive)}
@@ -47,9 +49,14 @@ const ToggleControl = (props: ToggleControlProps) => {
 	);
 };
 
-const Toolbar = (props: { editor: Editor }) => {
+const Toolbar = (props: { editor: Editor; hasError: boolean }) => {
 	return (
-		<div class="bg-secondary b-b-2 b-primary flex flex-wrap items-center gap-y-1">
+		<div
+			class={clsx('bg-secondary b-b-2 b-destructive flex flex-wrap items-center gap-y-1 p-1', {
+				'b-destructive': props.hasError,
+				'b-primary': !props.hasError,
+			})}
+		>
 			<div class="flex">
 				<ToggleControl
 					key="heading-1"
@@ -199,11 +206,29 @@ const Toolbar = (props: { editor: Editor }) => {
 	);
 };
 
-const TextEditor = () => {
+type TextEditorProps = {
+	class?: string;
+	content?: string;
+	error?: string | undefined;
+	maxLength: number;
+	name: string;
+};
+
+const DEFAULT_TEXT_EDITOR_PROPS = {
+	class: '',
+	content: '',
+} as const satisfies DefaultProps<TextEditorProps>;
+
+const TextEditor = (props: TextEditorProps) => {
+	const propsWithDefaults = mergeProps(DEFAULT_TEXT_EDITOR_PROPS, props);
 	const [editorContainer, setEditorContainer] = createSignal<HTMLDivElement>();
 
+	const id = createUniqueId();
+
+	const hasError = () => Boolean(propsWithDefaults.error);
+
 	const editor = createTiptapEditor(() => ({
-		content: '<h1>bla bla</h1>',
+		content: propsWithDefaults.content,
 		editorProps: {
 			attributes: {
 				class:
@@ -218,18 +243,45 @@ const TextEditor = () => {
 				alignments: ['left', 'center', 'right'],
 				types: ['heading', 'paragraph'],
 			}),
+			CharacterCount.configure({ limit: propsWithDefaults.maxLength }),
 			Highlight,
 		],
 	}));
 
 	const html = useEditorHTML(editor);
+	const characterCount = createEditorTransaction(editor, instance =>
+		instance ? instance.storage['characterCount'].characters() : 0,
+	);
 
 	return (
-		<div class={clsx(editor() && 'b-2 b-primary overflow-hidden rounded-lg')}>
+		<div class={propsWithDefaults.class}>
+			<div
+				class={clsx(
+					editor() && {
+						'b-2 overflow-hidden rounded-lg': true,
+						'b-destructive': hasError(),
+						'b-primary': !hasError(),
+					},
+				)}
+			>
+				<Show when={editor()}>
+					<Toolbar hasError={hasError()} editor={editor()!} />
+				</Show>
+				<div ref={setEditorContainer} />
+			</div>
 			<Show when={editor()}>
-				<Toolbar editor={editor()!} />
+				<div class="flex items-start justify-between pt-3">
+					<Show when={hasError()}>
+						<p class="text-destructive text-sm" id={`${id}-error`} role="alert">
+							{propsWithDefaults.error}
+						</p>
+					</Show>
+					<p class="text-secondary ml-auto text-sm">
+						Characters count: {characterCount()}/{propsWithDefaults.maxLength}
+					</p>
+				</div>
+				<input type="hidden" name={propsWithDefaults.name} value={html() ?? ''} />
 			</Show>
-			<div ref={setEditorContainer} />
 		</div>
 	);
 };
