@@ -6,7 +6,7 @@ const AddNote = () => {
 		<>
 			<Title>Add note | Planotes</Title>
 			<NoteForm
-				description="Here you can add a new to keep some thoughts handy. Later it'll be possible to convert this note into either a goal or a task. It's useful to don't lose plans until they clarify! "
+				description="Here you can add a new note to keep some thoughts handy. Later it'll be possible to convert this note into either a goal or a task. It's useful to don't lose plans until they clarify! "
 				title="Add a new note"
 			/>
 		</>

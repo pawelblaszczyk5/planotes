@@ -33,9 +33,9 @@ const EditNote = () => {
 		<Show when={note()} fallback={<EntityNotFound module="notes" />}>
 			<Title>{note()!.name} | Planotes</Title>
 			<NoteForm
-				title="Edit existing item"
+				title="Edit note"
 				note={note()!}
-				description="Here you can edit previously created item. Edition won't impact existing purchases prices. However, it will impact the history of purchases."
+				description="Here you can edit a previously created note. You can further polish your plans or just straight up rework some stuff!"
 			/>
 		</Show>
 	);

@@ -33,7 +33,7 @@ const EditItem = () => {
 		<Show when={item()} fallback={<EntityNotFound module="shop" />}>
 			<Title>{item()!.name} | Planotes</Title>
 			<ItemForm
-				title="Edit existing item"
+				title="Edit item"
 				item={item()!}
 				description="Here you can edit previously created item. Edition won't impact existing purchases prices. However, it will impact the history of purchases."
 			/>
