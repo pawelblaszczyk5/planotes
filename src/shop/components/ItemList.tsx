@@ -82,14 +82,16 @@ export const ItemList = (props: ItemListProps) => {
 	return (
 		<>
 			<div class="mb-6 flex items-center justify-between gap-12">
-				<p ref={setErrorElement} class="text-secondary max-w-3xl text-sm">
+				<p class="text-secondary max-w-3xl text-sm">
 					Here you can find all items that you previously added and buy them! You can also add a new item by using the
 					button next to this text.
 				</p>
 				<ButtonLink href="/app/shop/item/new">Add</ButtonLink>
 			</div>
 			<Show when={buyItemErrors().other}>
-				<p class="text-destructive mb-6 text-sm">{buyItemErrors().other}</p>
+				<p ref={setErrorElement} class="text-destructive mb-6 text-sm">
+					{buyItemErrors().other}
+				</p>
 			</Show>
 			<p class="text-destructive text-sm" />
 			<ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
