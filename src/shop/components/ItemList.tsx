@@ -5,7 +5,7 @@ import { FormError } from 'solid-start';
 import { createServerAction$, redirect } from 'solid-start/server';
 import { z } from 'zod';
 import { Button, ButtonLink } from '~/shared/components/Button';
-import { LinkWithIcon } from '~/shared/components/Link';
+import { Pagination } from '~/shared/components/Pagination';
 import { REDIRECTS } from '~/shared/constants/redirects';
 import { db } from '~/shared/utils/db';
 import { type FormErrors, convertFormDataIntoObject, createFormFieldsErrors } from '~/shared/utils/form';
@@ -151,28 +151,7 @@ export const ItemList = (props: ItemListProps) => {
 				</For>
 			</ul>
 			<Show when={props.currentPage !== 1 || props.hasNextPage}>
-				<div class="my-6 flex">
-					<Show when={props.currentPage !== 1}>
-						<LinkWithIcon
-							class="mr-auto"
-							icon="i-lucide-arrow-big-left"
-							href={props.currentPage === 2 ? '/app/shop' : `/app/shop/page/${props.currentPage - 1}`}
-							end
-						>
-							Previous
-						</LinkWithIcon>
-					</Show>
-					<Show when={props.hasNextPage}>
-						<LinkWithIcon
-							class="ml-auto"
-							icon="i-lucide-arrow-big-right"
-							href={`/app/shop/page/${props.currentPage + 1}`}
-							end
-						>
-							Next
-						</LinkWithIcon>
-					</Show>
-				</div>
+				<Pagination currentPage={props.currentPage} hasNextPage={props.hasNextPage} module="shop" class="my-6" />
 			</Show>
 		</>
 	);
