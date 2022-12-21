@@ -1,36 +1,15 @@
 import { type RouteDataFunc, useRouteData } from 'solid-start';
-import { createServerData$, redirect } from 'solid-start/server';
-import { ITEMS_PER_PAGE } from '~/shared/constants/pagination';
-import { REDIRECTS } from '~/shared/constants/redirects';
-import { db } from '~/shared/utils/db';
+import { createServerData$ } from 'solid-start/server';
 import { requireUserId } from '~/shared/utils/session';
 import { ItemList } from '~/shop/components/ItemList';
+import { getPaginatedItems } from '~/shop/utilts/getPaginatedItems';
 
 export const routeData = (({ params }) =>
 	createServerData$(
 		async (page, { request }) => {
 			const userId = await requireUserId(request);
-			const numericPage = Number(page);
 
-			if (Number.isNaN(numericPage) || numericPage < 1) throw redirect(REDIRECTS.SHOP);
-
-			const items = await db.item.findMany({
-				orderBy: {
-					createdAt: 'desc',
-				},
-				skip: (numericPage - 1) * ITEMS_PER_PAGE,
-				take: ITEMS_PER_PAGE + 1,
-				where: {
-					status: 'AVAILABLE',
-					userId,
-				},
-			});
-
-			const itemsPage = items.slice(0, ITEMS_PER_PAGE);
-
-			if (numericPage > 1 && !itemsPage.length) throw redirect(REDIRECTS.SHOP);
-
-			return { hasNextPage: items.length === ITEMS_PER_PAGE + 1, items: itemsPage, page: numericPage };
+			return getPaginatedItems(page, userId);
 		},
 		{
 			key: () => params['page'],
