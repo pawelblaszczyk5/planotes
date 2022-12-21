@@ -6,6 +6,7 @@ export type FormErrors = Record<string, string>;
 
 export const COMMON_FORM_ERRORS = {
 	BAD_REQUEST: 'Incorrect request data',
+	ENTITY_UNEXISTING: "Entity with a given ID doesn't exist. Are you doing something weird?",
 	FORM_DATA_INVALID: "Make sure you're properly submitting form and try again",
 	INTERNAL_SERVER_ERROR: 'Internal server error, try again',
 } as const satisfies FormErrors;
