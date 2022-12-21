@@ -1,9 +1,10 @@
 import { faker } from '@faker-js/faker';
-import { type Item, PrismaClient } from '@prisma/client';
+import { type Note, type Item, PrismaClient } from '@prisma/client';
 
 const db = new PrismaClient();
 
 const ITEMS_IN_SHOP_COUNT = 36;
+const NOTES_COUNT = 36;
 const USER_EMAIL = 'test@example.com';
 
 const onboardUser = async (id: string) => {
@@ -19,8 +20,9 @@ const onboardUser = async (id: string) => {
 };
 
 const generateItem = (userId: string): Omit<Item, 'id'> => ({
-	iconUrl: faker.helpers.unique(() =>
-		faker.image.imageUrl(faker.datatype.number({ max: 500, min: 200 }), faker.datatype.number({ max: 500, min: 200 })),
+	iconUrl: faker.image.imageUrl(
+		faker.datatype.number({ max: 500, min: 200 }),
+		faker.datatype.number({ max: 500, min: 200 }),
 	),
 	name: faker.commerce.product(),
 	price: faker.datatype.number({ max: 250, min: 100 }),
@@ -35,11 +37,26 @@ const createItemsForUser = async (userId: string, count: number) => {
 	});
 };
 
+const generateNote = (userId: string): Omit<Note, 'id'> => ({
+	content: `<h1>${faker.random.words(faker.datatype.number({ max: 5, min: 2 }))}</h1><p>${faker.random.words(
+		faker.datatype.number({ max: 50, min: 25 }),
+	)}</p>`,
+	name: faker.random.word(),
+	userId,
+});
+
+const createNotesForUser = async (userId: string, count: number) => {
+	await db.note.createMany({
+		data: Array.from({ length: count }, () => generateNote(userId)),
+	});
+};
+
 const seed = async () => {
 	const { id } = await db.user.create({ data: { email: USER_EMAIL } });
 
 	await onboardUser(id);
 	await createItemsForUser(id, ITEMS_IN_SHOP_COUNT);
+	await createNotesForUser(id, NOTES_COUNT);
 };
 
 try {
