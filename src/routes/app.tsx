@@ -1,4 +1,4 @@
-import { createEffect, For, Show } from 'solid-js';
+import { createEffect, For, lazy, Show } from 'solid-js';
 import { Outlet, refetchRouteData, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, json, redirect } from 'solid-start/server';
 import { SideNavImageLink, SideNavButton, SideNavLink } from '~/app/components/Nav';
@@ -6,9 +6,7 @@ import { COLOR_SCHEME_ICON, COLOR_SCHEME_TITLE } from '~/app/constants/colorSche
 import { ROUTES } from '~/app/constants/routes';
 import { getRandomGreeting } from '~/app/utils/greeting';
 import logo from '~/shared/assets/logo.webp';
-import { RouteDialog } from '~/shared/components/Dialog';
 import { LinkWithIcon } from '~/shared/components/Link';
-import { UserSettingsForm } from '~/shared/components/UserSettingsForm';
 import { REDIRECTS } from '~/shared/constants/redirects';
 import { RESOURCE_KEY } from '~/shared/constants/resourceKeys';
 import { getColorScheme, createColorSchemeCookie, getNextColorScheme } from '~/shared/utils/colorScheme';
@@ -36,6 +34,8 @@ export const routeData = () => {
 
 	return { colorScheme, user } as const;
 };
+
+const UserSettingsModal = lazy(async () => import('~/app/components/UserSettingsModal'));
 
 const App = () => {
 	const { user, colorScheme } = useRouteData<typeof routeData>();
@@ -112,12 +112,7 @@ const App = () => {
 				</main>
 			</div>
 			<Show when={user() && !isUserOnboarded(user()!)}>
-				<RouteDialog
-					title="Finish your onboarding!"
-					description="There are few additional things to make your experience with Planotes awesomely personalized 😊 You can edit these options on your profile anytime!"
-				>
-					<UserSettingsForm user={user()!} />
-				</RouteDialog>
+				<UserSettingsModal user={user()!} />
 			</Show>
 		</>
 	);
