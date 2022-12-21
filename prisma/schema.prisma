@@ -61,6 +61,7 @@ model User {
   BalanceEntry BalanceEntry[]
   Task         Task[]
   Goal         Goal[]
+  Note         Note[]
 }
 
 model MagicLink {
@@ -113,4 +114,12 @@ model Goal {
   Task        Task[]
   user        User   @relation(fields: [userId], references: [id])
   userId      String
+}
+
+model Note {
+  id      String @id @default(cuid())
+  name    String
+  content String
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String
 }
