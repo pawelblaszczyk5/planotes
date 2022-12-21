@@ -1,7 +1,7 @@
 import { Show } from 'solid-js';
 import { Title, useRouteData, type RouteDataFunc } from 'solid-start';
-import { createServerData$, HttpStatusCode } from 'solid-start/server';
-import { LinkWithIcon } from '~/shared/components/Link';
+import { createServerData$ } from 'solid-start/server';
+import { EntityNotFound } from '~/shared/components/EntityNotFound';
 import { db } from '~/shared/utils/db';
 import { requireUserId } from '~/shared/utils/session';
 import { ItemForm } from '~/shop/components/ItemForm';
@@ -30,22 +30,7 @@ const EditItem = () => {
 	const item = useRouteData<typeof routeData>();
 
 	return (
-		<Show
-			when={item()}
-			fallback={
-				<>
-					<Title>Item not found 😔 | Planotes</Title>
-					<HttpStatusCode code={404} />
-					<div class="flex max-w-3xl flex-col gap-6">
-						<h2 class="text-xl">We can't find an item with given ID 😔</h2>
-						<p class="text-secondary text-sm">Make sure you're not using a saved link to a non-existing anymore item</p>
-						<LinkWithIcon icon="i-lucide-coins" class="mr-auto" href="/app/shop">
-							Go back to shop
-						</LinkWithIcon>
-					</div>
-				</>
-			}
-		>
+		<Show when={item()} fallback={<EntityNotFound module="shop" />}>
 			<Title>{item()!.name} | Planotes</Title>
 			<ItemForm
 				title="Edit existing item"

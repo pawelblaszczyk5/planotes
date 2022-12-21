@@ -1,11 +1,59 @@
 import { type Note } from '@prisma/client';
 import { Show, type JSXElement } from 'solid-js';
-import { unstable_clientOnly } from 'solid-start';
-import { createServerAction$ } from 'solid-start/server';
+import { FormError, unstable_clientOnly } from 'solid-start';
+import { createServerAction$, redirect } from 'solid-start/server';
+import { z } from 'zod';
 import { Button } from '~/shared/components/Button';
 import { Input } from '~/shared/components/Input';
-import { createFormFieldsErrors } from '~/shared/utils/form';
+import { REDIRECTS } from '~/shared/constants/redirects';
+import { db } from '~/shared/utils/db';
+import {
+	type FormErrors,
+	COMMON_FORM_ERRORS,
+	createFormFieldsErrors,
+	convertFormDataIntoObject,
+	zodErrorToFieldErrors,
+} from '~/shared/utils/form';
+import { countHtmlCharacters, sanitizeHtml } from '~/shared/utils/html';
 import { requireUserId } from '~/shared/utils/session';
+import { getCurrentEpochSeconds } from '~/shared/utils/time';
+
+const NOTE_CONTENT_MAX_LENGTH = 500;
+
+const FORM_ERRORS = {
+	CONTENT_REQUIRED: 'Content is required',
+	CONTENT_TOO_LONG: `Content mustn't be longer than ${NOTE_CONTENT_MAX_LENGTH} characters`,
+	NAME_REQUIRED: 'Name is required',
+	NAME_TOO_SHORT: 'Name must have at least 3 characters',
+} as const satisfies FormErrors;
+
+const upsertNoteSchema = z.object({
+	content: z
+		.string({ invalid_type_error: FORM_ERRORS.CONTENT_REQUIRED, required_error: FORM_ERRORS.CONTENT_REQUIRED })
+		.superRefine((val, ctx) => {
+			const charactersCount = countHtmlCharacters(val);
+
+			if (charactersCount === 0)
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					message: FORM_ERRORS.CONTENT_REQUIRED,
+				});
+
+			if (charactersCount > NOTE_CONTENT_MAX_LENGTH)
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					message: FORM_ERRORS.CONTENT_TOO_LONG,
+				});
+		}),
+	id: z
+		.string({ invalid_type_error: COMMON_FORM_ERRORS.ID_INVALID, required_error: COMMON_FORM_ERRORS.ID_INVALID })
+		.cuid(COMMON_FORM_ERRORS.ID_INVALID)
+		.optional(),
+	name: z
+		.string({ invalid_type_error: FORM_ERRORS.NAME_REQUIRED, required_error: FORM_ERRORS.NAME_REQUIRED })
+		.trim()
+		.min(3, FORM_ERRORS.NAME_TOO_SHORT),
+});
 
 type NoteFormProps = {
 	description: JSXElement;
@@ -18,21 +66,73 @@ const TextEditor = unstable_clientOnly(async () => import('~/shared/components/T
 export const NoteForm = (props: NoteFormProps) => {
 	const [upsertNote, upsertNoteTrigger] = createServerAction$(async (formData: FormData, { request }) => {
 		const userId = await requireUserId(request);
+		const parsedUpsertNotePayload = upsertNoteSchema.safeParse(convertFormDataIntoObject(formData));
+
+		if (!parsedUpsertNotePayload.success) {
+			const errors = parsedUpsertNotePayload.error.formErrors;
+
+			throw new FormError(COMMON_FORM_ERRORS.BAD_REQUEST, {
+				fieldErrors: zodErrorToFieldErrors<typeof upsertNoteSchema>(errors),
+			});
+		}
+
+		if (!parsedUpsertNotePayload.data.id) {
+			await db.note.create({
+				data: {
+					content: sanitizeHtml(parsedUpsertNotePayload.data.content),
+					createdAt: getCurrentEpochSeconds(),
+					name: parsedUpsertNotePayload.data.name,
+					userId,
+				},
+			});
+
+			return redirect(REDIRECTS.NOTES);
+		}
+
+		const currentlyEditingNote = await db.note.findUnique({
+			where: {
+				id: parsedUpsertNotePayload.data.id,
+			},
+		});
+
+		if (!currentlyEditingNote || currentlyEditingNote.userId !== userId)
+			throw new FormError(COMMON_FORM_ERRORS.ENTITY_UNEXISTING);
+
+		await db.note.update({
+			data: {
+				content: sanitizeHtml(parsedUpsertNotePayload.data.content),
+				name: parsedUpsertNotePayload.data.name,
+			},
+			where: {
+				id: parsedUpsertNotePayload.data.id,
+			},
+		});
+
+		return redirect(REDIRECTS.NOTES);
 	});
 
-	const upsertNoteErrors = createFormFieldsErrors(() => upsertNote.error);
+	const upsertNoteErrors = createFormFieldsErrors<typeof upsertNoteSchema>(() => upsertNote.error);
 
 	return (
 		<div class="flex max-w-3xl flex-col gap-6">
 			<h2 class="text-xl">{props.title}</h2>
 			<p class="text-secondary text-sm">{props.description}</p>
 			<upsertNoteTrigger.Form class="flex max-w-xl flex-col gap-6">
-				<Input name="name" value={props.note?.name ?? ''}>
+				<Input error={upsertNoteErrors().name} name="name" value={props.note?.name ?? ''}>
 					Name
 				</Input>
-				<TextEditor name="content" maxLength={250} class="lg:-mr-48">
+				<TextEditor
+					error={upsertNoteErrors().content}
+					name="content"
+					content={props.note?.content ?? ''}
+					maxLength={NOTE_CONTENT_MAX_LENGTH}
+					class="lg:-mr-48"
+				>
 					Content
 				</TextEditor>
+				<Show when={props.note}>
+					<input name="id" type="hidden" value={props.note!.id} />
+				</Show>
 				<Show when={upsertNoteErrors().id}>
 					<p class="text-destructive text-sm">{upsertNoteErrors().id}</p>
 				</Show>

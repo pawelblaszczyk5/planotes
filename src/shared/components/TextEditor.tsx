@@ -4,7 +4,7 @@ import { Highlight } from '@tiptap/extension-highlight';
 import { TextAlign } from '@tiptap/extension-text-align';
 import { StarterKit } from '@tiptap/starter-kit';
 import clsx from 'clsx';
-import { type JSXElement, createSignal, Show, mergeProps, createUniqueId } from 'solid-js';
+import { type JSXElement, createSignal, Show, mergeProps, createUniqueId, createEffect, untrack } from 'solid-js';
 import { createEditorTransaction, createTiptapEditor, useEditorHTML } from 'solid-tiptap';
 import { type DefaultProps } from '~/shared/types';
 
@@ -253,6 +253,10 @@ const TextEditor = (props: TextEditorProps) => {
 	const characterCount = createEditorTransaction(editor, instance =>
 		instance ? instance.storage['characterCount'].characters() : 0,
 	);
+
+	createEffect(() => {
+		untrack(editor)?.setOptions({ content: props.content ?? '' });
+	});
 
 	return (
 		<div class={propsWithDefaults.class}>

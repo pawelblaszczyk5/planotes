@@ -1,13 +1,13 @@
 import clsx from 'clsx';
 import { mergeProps, Show } from 'solid-js';
 import { LinkWithIcon } from '~/shared/components/Link';
-import { type DefaultProps } from '~/shared/types';
+import { type Module, type DefaultProps } from '~/shared/types';
 
 type PaginationProps = {
 	class?: string;
 	currentPage: number;
 	hasNextPage: boolean;
-	module: 'goals' | 'notes' | 'shop' | 'tasks';
+	module: Module;
 };
 
 const DEFAULT_PAGINATION_PROPS = {

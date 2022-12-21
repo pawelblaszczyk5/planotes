@@ -21,7 +21,6 @@ import { getCurrentEpochSeconds } from '~/shared/utils/time';
 
 const FORM_ERRORS = {
 	ICON_URL_INVALID: 'Icon URL must be a valid link',
-	ID_INVALID: 'Invalid item ID, there is something off',
 	NAME_REQUIRED: 'Name is required',
 	NAME_TOO_SHORT: 'Name must have at least 3 characters',
 	PRICE_INVALID: 'Price must be a valid integer',
@@ -31,8 +30,8 @@ const FORM_ERRORS = {
 const upsertItemSchema = z.object({
 	iconUrl: z.string().url(FORM_ERRORS.ICON_URL_INVALID).optional(),
 	id: z
-		.string({ invalid_type_error: FORM_ERRORS.ID_INVALID, required_error: FORM_ERRORS.ID_INVALID })
-		.cuid(FORM_ERRORS.ID_INVALID)
+		.string({ invalid_type_error: COMMON_FORM_ERRORS.ID_INVALID, required_error: COMMON_FORM_ERRORS.ID_INVALID })
+		.cuid(COMMON_FORM_ERRORS.ID_INVALID)
 		.optional(),
 	isRecurring: z.coerce.boolean(),
 	name: z
@@ -53,50 +52,49 @@ type ItemFormProps = {
 export const ItemForm = (props: ItemFormProps) => {
 	const [upsertItem, upsertItemTrigger] = createServerAction$(async (formData: FormData, { request }) => {
 		const userId = await requireUserId(request);
+		const parsedUpsertItemPayload = upsertItemSchema.safeParse(convertFormDataIntoObject(formData));
 
-		const parsedEditItemPayload = upsertItemSchema.safeParse(convertFormDataIntoObject(formData));
-
-		if (!parsedEditItemPayload.success) {
-			const errors = parsedEditItemPayload.error.formErrors;
+		if (!parsedUpsertItemPayload.success) {
+			const errors = parsedUpsertItemPayload.error.formErrors;
 
 			throw new FormError(COMMON_FORM_ERRORS.BAD_REQUEST, {
 				fieldErrors: zodErrorToFieldErrors<typeof upsertItemSchema>(errors),
 			});
 		}
 
-		if (parsedEditItemPayload.data.id) {
-			const currentlyEditingItem = await db.item.findUnique({
-				where: {
-					id: parsedEditItemPayload.data.id,
-				},
-			});
-
-			if (!currentlyEditingItem || currentlyEditingItem.userId !== userId)
-				throw new FormError(COMMON_FORM_ERRORS.ENTITY_UNEXISTING);
-
-			await db.item.update({
+		if (!parsedUpsertItemPayload.data.id) {
+			await db.item.create({
 				data: {
-					iconUrl: parsedEditItemPayload.data.iconUrl ?? null,
-					name: parsedEditItemPayload.data.name,
-					price: parsedEditItemPayload.data.price,
-					type: parsedEditItemPayload.data.isRecurring ? 'RECURRING' : 'ONE_TIME',
-				},
-				where: {
-					id: parsedEditItemPayload.data.id,
+					createdAt: getCurrentEpochSeconds(),
+					iconUrl: parsedUpsertItemPayload.data.iconUrl ?? null,
+					name: parsedUpsertItemPayload.data.name,
+					price: parsedUpsertItemPayload.data.price,
+					type: parsedUpsertItemPayload.data.isRecurring ? 'RECURRING' : 'ONE_TIME',
+					userId,
 				},
 			});
 
 			return redirect(REDIRECTS.SHOP);
 		}
 
-		await db.item.create({
+		const currentlyEditingItem = await db.item.findUnique({
+			where: {
+				id: parsedUpsertItemPayload.data.id,
+			},
+		});
+
+		if (!currentlyEditingItem || currentlyEditingItem.userId !== userId)
+			throw new FormError(COMMON_FORM_ERRORS.ENTITY_UNEXISTING);
+
+		await db.item.update({
 			data: {
-				createdAt: getCurrentEpochSeconds(),
-				iconUrl: parsedEditItemPayload.data.iconUrl ?? null,
-				name: parsedEditItemPayload.data.name,
-				price: parsedEditItemPayload.data.price,
-				type: parsedEditItemPayload.data.isRecurring ? 'RECURRING' : 'ONE_TIME',
-				userId,
+				iconUrl: parsedUpsertItemPayload.data.iconUrl ?? null,
+				name: parsedUpsertItemPayload.data.name,
+				price: parsedUpsertItemPayload.data.price,
+				type: parsedUpsertItemPayload.data.isRecurring ? 'RECURRING' : 'ONE_TIME',
+			},
+			where: {
+				id: parsedUpsertItemPayload.data.id,
 			},
 		});
 

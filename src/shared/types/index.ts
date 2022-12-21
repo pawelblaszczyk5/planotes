@@ -1,4 +1,4 @@
-export type GetOptional<ObjectToRetrieveOptional extends Record<string, unknown>> = {
+type GetOptional<ObjectToRetrieveOptional extends Record<string, unknown>> = {
 	[Key in keyof ObjectToRetrieveOptional as Partial<Pick<ObjectToRetrieveOptional, Key>> extends Pick<
 		ObjectToRetrieveOptional,
 		Key
@@ -8,3 +8,5 @@ export type GetOptional<ObjectToRetrieveOptional extends Record<string, unknown>
 };
 
 export type DefaultProps<Props extends Record<string, unknown>> = GetOptional<Props>;
+
+export type Module = 'goals' | 'notes' | 'shop' | 'tasks';
