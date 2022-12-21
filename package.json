@@ -24,6 +24,8 @@
 		"@solidjs/meta": "^0.28.2",
 		"@solidjs/router": "^0.6.0",
 		"@tiptap/core": "2.0.0-beta.209",
+		"@tiptap/extension-highlight": "2.0.0-beta.209",
+		"@tiptap/extension-text-align": "2.0.0-beta.209",
 		"@tiptap/starter-kit": "2.0.0-beta.209",
 		"@unocss/reset": "^0.48.0",
 		"@zag-js/checkbox": "^0.2.6",

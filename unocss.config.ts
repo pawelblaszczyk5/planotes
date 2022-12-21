@@ -29,6 +29,7 @@ export default defineConfig({
 		'text-secondary': 'text-neutral-600 dark:text-neutral-400',
 	},
 	variants: [
+		// @ts-expect-error - config erorr, it works though
 		variantMatcher('pointer', input => {
 			return {
 				parent: `${input.parent ? `${input.parent} $$ ` : ''}@media (hover: hover) and (pointer: fine)`,
