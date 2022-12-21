@@ -209,15 +209,15 @@ const Toolbar = (props: { editor: Editor; hasError: boolean }) => {
 type TextEditorProps = {
 	children: JSXElement;
 	class?: string;
-	content?: string;
 	error?: string | undefined;
 	maxLength: number;
 	name: string;
+	value?: string;
 };
 
 const DEFAULT_TEXT_EDITOR_PROPS = {
 	class: '',
-	content: '',
+	value: '',
 } as const satisfies DefaultProps<TextEditorProps>;
 
 const TextEditor = (props: TextEditorProps) => {
@@ -229,7 +229,7 @@ const TextEditor = (props: TextEditorProps) => {
 	const hasError = () => Boolean(propsWithDefaults.error);
 
 	const editor = createTiptapEditor(() => ({
-		content: propsWithDefaults.content,
+		content: propsWithDefaults.value,
 		editorProps: {
 			attributes: {
 				class:
@@ -255,7 +255,7 @@ const TextEditor = (props: TextEditorProps) => {
 	);
 
 	createEffect(() => {
-		untrack(editor)?.setOptions({ content: props.content ?? '' });
+		untrack(editor)?.setOptions({ content: props.value ?? '' });
 	});
 
 	return (

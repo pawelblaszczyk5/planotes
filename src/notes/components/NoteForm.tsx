@@ -124,7 +124,7 @@ export const NoteForm = (props: NoteFormProps) => {
 				<TextEditor
 					error={upsertNoteErrors().content}
 					name="content"
-					content={props.note?.content ?? ''}
+					value={props.note?.content ?? ''}
 					maxLength={NOTE_CONTENT_MAX_LENGTH}
 					class="lg:-mr-48"
 				>
