@@ -8,6 +8,7 @@ export const COMMON_FORM_ERRORS = {
 	BAD_REQUEST: 'Incorrect request data',
 	ENTITY_UNEXISTING: "Entity with a given ID doesn't exist. Are you doing something weird?",
 	FORM_DATA_INVALID: "Make sure you're properly submitting form and try again",
+	ID_INVALID: 'Invalid item ID, there is something off',
 	INTERNAL_SERVER_ERROR: 'Internal server error, try again',
 } as const satisfies FormErrors;
 
@@ -22,10 +23,10 @@ type ZodErrorsExtracter<Schema> = Schema extends ZodSchema
 	: Record<string, string> & { other?: string };
 
 export const createFormFieldsErrors = <Schema>(error: Accessor<unknown>) => {
-	const formFieldsErrorsMemo = createMemo(() => {
+	const formFieldsErrorsMemo = createMemo(currentValue => {
 		const currentError = error();
 
-		if (!currentError) return {};
+		if (!currentError) return currentValue;
 		if (!isFormError(currentError)) {
 			if (isServerError(currentError)) return { other: currentError.message };
 
@@ -36,7 +37,7 @@ export const createFormFieldsErrors = <Schema>(error: Accessor<unknown>) => {
 			return { other: currentError.message };
 
 		return currentError.fieldErrors;
-	});
+	}, {});
 
 	return formFieldsErrorsMemo as Accessor<ZodErrorsExtracter<Schema>>;
 };
