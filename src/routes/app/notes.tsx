@@ -1,12 +1,13 @@
-import { Title } from 'solid-start';
-import TextEditor from '~/shared/components/TextEditor';
+import { Outlet, Title } from 'solid-start';
+import { AppMainLayout } from '~/shared/components/AppMainLayout';
 
 const Notes = () => {
 	return (
 		<>
 			<Title>Notes | Planotes</Title>
-			<h1>Notes</h1>
-			<TextEditor maxLength={250} name="test" content="<h1>test</h1>" />
+			<AppMainLayout heading="Notes">
+				<Outlet />
+			</AppMainLayout>
 		</>
 	);
 };
