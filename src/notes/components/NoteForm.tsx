@@ -40,6 +40,7 @@ export const NoteForm = (props: NoteFormProps) => {
 		const upsertNoteSchema = z.object({
 			content: z
 				.string({ invalid_type_error: FORM_ERRORS.CONTENT_REQUIRED, required_error: FORM_ERRORS.CONTENT_REQUIRED })
+				.transform(val => sanitizeHtml(val))
 				.superRefine((val, ctx) => {
 					const charactersCount = countHtmlCharacters(val);
 
@@ -79,7 +80,7 @@ export const NoteForm = (props: NoteFormProps) => {
 		if (!parsedUpsertNotePayload.data.id) {
 			await db.note.create({
 				data: {
-					content: sanitizeHtml(parsedUpsertNotePayload.data.content),
+					content: parsedUpsertNotePayload.data.content,
 					createdAt: getCurrentEpochSeconds(),
 					name: parsedUpsertNotePayload.data.name,
 					userId,
