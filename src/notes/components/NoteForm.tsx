@@ -33,9 +33,9 @@ type NoteFormProps = {
 	title: JSXElement;
 };
 
-const TextEditor = unstable_clientOnly(async () => import('~/shared/components/TextEditor'));
-
 export const NoteForm = (props: NoteFormProps) => {
+	const TextEditor = unstable_clientOnly(async () => import('~/shared/components/TextEditor'));
+
 	const [upsertNote, upsertNoteTrigger] = createServerAction$(async (formData: FormData, { request }) => {
 		const upsertNoteSchema = z.object({
 			content: z
