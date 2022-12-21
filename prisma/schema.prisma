@@ -74,14 +74,15 @@ model MagicLink {
 }
 
 model Item {
-  id      String     @id @default(cuid())
-  name    String
-  iconUrl String?
-  type    ItemType
-  price   Int
-  status  ItemStatus @default(AVAILABLE)
-  user    User       @relation(fields: [userId], references: [id])
-  userId  String
+  id        String     @id @default(cuid())
+  name      String
+  iconUrl   String?
+  type      ItemType
+  price     Int
+  status    ItemStatus @default(AVAILABLE)
+  createdAt Int
+  user      User       @relation(fields: [userId], references: [id])
+  userId    String
 }
 
 model BalanceEntry {
@@ -100,6 +101,7 @@ model Task {
   description String
   status      TASK_STATUS @default(TO_DO)
   size        Size
+  createdAt   Int
   goal        Goal?       @relation(fields: [goalId], references: [id])
   goalId      String?
   user        User        @relation(fields: [userId], references: [id])
@@ -111,15 +113,17 @@ model Goal {
   title       String
   description String
   size        Size
+  createdAt   Int
   Task        Task[]
   user        User   @relation(fields: [userId], references: [id])
   userId      String
 }
 
 model Note {
-  id      String @id @default(cuid())
-  name    String
-  content String
-  user    User   @relation(fields: [userId], references: [id])
-  userId  String
+  id        String @id @default(cuid())
+  name      String
+  content   String
+  createdAt Int
+  user      User   @relation(fields: [userId], references: [id])
+  userId    String
 }

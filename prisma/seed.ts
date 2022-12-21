@@ -20,6 +20,7 @@ const onboardUser = async (id: string) => {
 };
 
 const generateItem = (userId: string): Omit<Item, 'id'> => ({
+	createdAt: Math.round(faker.date.past().getTime() / 1_000),
 	iconUrl: faker.image.imageUrl(
 		faker.datatype.number({ max: 500, min: 200 }),
 		faker.datatype.number({ max: 500, min: 200 }),
@@ -41,6 +42,7 @@ const generateNote = (userId: string): Omit<Note, 'id'> => ({
 	content: `<h1>${faker.random.words(faker.datatype.number({ max: 5, min: 2 }))}</h1><p>${faker.random.words(
 		faker.datatype.number({ max: 50, min: 25 }),
 	)}</p>`,
+	createdAt: Math.round(faker.date.past().getTime() / 1_000),
 	name: faker.random.word(),
 	userId,
 });
