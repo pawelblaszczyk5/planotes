@@ -1,6 +1,6 @@
 import { useRouteData } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
-import { ITEMS_PER_PAGE } from '~/app/constants/pagination';
+import { ITEMS_PER_PAGE } from '~/shared/constants/pagination';
 import { db } from '~/shared/utils/db';
 import { requireUserId } from '~/shared/utils/session';
 import { ItemList } from '~/shop/components/ItemList';

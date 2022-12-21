@@ -1,13 +1,15 @@
 import { type Note } from '@prisma/client';
+import { For, Show } from 'solid-js';
 import { ButtonLink } from '~/shared/components/Button';
+import { Pagination } from '~/shared/components/Pagination';
 
 type NotesListProps = {
 	currentPage: number;
 	hasNextPage: boolean;
-	items: Array<Note>;
+	notes: Array<Note>;
 };
 
-export const NotesList = () => {
+export const NotesList = (props: NotesListProps) => {
 	return (
 		<>
 			<div class="mb-6 flex items-center justify-between gap-12">
@@ -17,6 +19,19 @@ export const NotesList = () => {
 				</p>
 				<ButtonLink href="/app/notes/note/new">Add</ButtonLink>
 			</div>
+			<ul>
+				<For each={props.notes}>
+					{note => (
+						<li>
+							{note.name}
+							<p class="prose" innerHTML={note.content} />
+						</li>
+					)}
+				</For>
+			</ul>
+			<Show when={props.currentPage !== 1 || props.hasNextPage}>
+				<Pagination currentPage={props.currentPage} hasNextPage={props.hasNextPage} module="notes" class="my-6" />
+			</Show>
 		</>
 	);
 };

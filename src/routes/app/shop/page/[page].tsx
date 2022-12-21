@@ -1,6 +1,6 @@
 import { type RouteDataFunc, useRouteData } from 'solid-start';
 import { createServerData$, redirect } from 'solid-start/server';
-import { ITEMS_PER_PAGE } from '~/app/constants/pagination';
+import { ITEMS_PER_PAGE } from '~/shared/constants/pagination';
 import { REDIRECTS } from '~/shared/constants/redirects';
 import { db } from '~/shared/utils/db';
 import { requireUserId } from '~/shared/utils/session';
