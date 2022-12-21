@@ -31,32 +31,31 @@ const FORM_ERRORS = {
 	TIMEZONE_INVALID: 'Make sure you choosed a proper timezone',
 } as const satisfies FormErrors;
 
-const userSettingsFormSchema = z.object({
-	avatarSeed: z
-		.string({
-			invalid_type_error: FORM_ERRORS.AVATAR_SEED_REQUIRED,
-			required_error: FORM_ERRORS.AVATAR_SEED_REQUIRED,
-		})
-		.min(1, FORM_ERRORS.AVATAR_SEED_REQUIRED),
-	name: z
-		.string({
-			invalid_type_error: FORM_ERRORS.NAME_REQUIRED,
-			required_error: FORM_ERRORS.NAME_REQUIRED,
-		})
-		.trim()
-		.min(1, FORM_ERRORS.NAME_REQUIRED),
-	timezone: z.enum(IANA_TIMEZONES, {
-		invalid_type_error: FORM_ERRORS.TIMEZONE_INVALID,
-		required_error: FORM_ERRORS.TIMEZONE_INVALID,
-	}),
-});
-
 const findTimezoneOption = (userTimezone: string) =>
 	timezonesComboboxOptions.find(timezone => timezone.value === userTimezone) ?? null;
 
 export const UserSettingsForm = (props: { isProfileSection?: boolean; user: User }) => {
 	const [onboard, onboardTrigger] = createServerAction$(async (formData: FormData, { request }) => {
 		const userId = await requireUserId(request);
+		const userSettingsFormSchema = z.object({
+			avatarSeed: z
+				.string({
+					invalid_type_error: FORM_ERRORS.AVATAR_SEED_REQUIRED,
+					required_error: FORM_ERRORS.AVATAR_SEED_REQUIRED,
+				})
+				.min(1, FORM_ERRORS.AVATAR_SEED_REQUIRED),
+			name: z
+				.string({
+					invalid_type_error: FORM_ERRORS.NAME_REQUIRED,
+					required_error: FORM_ERRORS.NAME_REQUIRED,
+				})
+				.trim()
+				.min(1, FORM_ERRORS.NAME_REQUIRED),
+			timezone: z.enum(IANA_TIMEZONES, {
+				invalid_type_error: FORM_ERRORS.TIMEZONE_INVALID,
+				required_error: FORM_ERRORS.TIMEZONE_INVALID,
+			}),
+		});
 
 		const parsedFormData = userSettingsFormSchema.safeParse(convertFormDataIntoObject(formData));
 
@@ -80,7 +79,7 @@ export const UserSettingsForm = (props: { isProfileSection?: boolean; user: User
 		return redirect(request.headers.get('referer') ?? REDIRECTS.HOME);
 	});
 
-	const onboardErrors = createFormFieldsErrors<typeof userSettingsFormSchema>(() => onboard.error);
+	const onboardErrors = createFormFieldsErrors(() => onboard.error);
 
 	const [avatarSeed, setAvatarSeed] = createDebouncedSignal('');
 
@@ -110,10 +109,10 @@ export const UserSettingsForm = (props: { isProfileSection?: boolean; user: User
 			<div class="flex flex w-full flex-col flex-col items-center gap-6 md:flex-row-reverse">
 				<img class="max-w-32 block" src={avatarUrl()} alt="New avatar preview" />
 				<div class="flex w-full flex-col gap-6" onInput={handleInputsChange}>
-					<Input error={onboardErrors().name} value={props.user.name ?? ''} name="name">
+					<Input error={onboardErrors()['name']} value={props.user.name ?? ''} name="name">
 						Name
 					</Input>
-					<Input name="avatarSeed" error={onboardErrors().avatarSeed} value={props.user.avatarSeed ?? ''}>
+					<Input name="avatarSeed" error={onboardErrors()['avatarSeed']} value={props.user.avatarSeed ?? ''}>
 						Avatar seed
 					</Input>
 				</div>
@@ -121,8 +120,8 @@ export const UserSettingsForm = (props: { isProfileSection?: boolean; user: User
 			<Combobox options={timezonesComboboxOptions} maxOptions={20} value={userTimezone()} name="timezone">
 				Timezone
 			</Combobox>
-			<Show when={onboardErrors().other}>
-				<p class="text-destructive text-sm">{onboardErrors().other}</p>
+			<Show when={onboardErrors()['other']}>
+				<p class="text-destructive text-sm">{onboardErrors()['other']}</p>
 			</Show>
 			<Button class={clsx('max-w-48 w-full', props.isProfileSection ? 'mr-auto' : 'mx-auto')}>Save profile</Button>
 		</onboardTrigger.Form>

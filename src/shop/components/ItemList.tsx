@@ -18,10 +18,6 @@ type ItemListProps = {
 	items: Array<Item>;
 };
 
-const buyItemSchema = z.object({
-	id: z.string().cuid(),
-});
-
 const FORM_ERRORS = {
 	ID_INVALID: 'Invalid item ID, there is something off',
 	ITEM_NOT_FOUND: "Can't find a item with a given id",
@@ -31,6 +27,9 @@ const FORM_ERRORS = {
 export const ItemList = (props: ItemListProps) => {
 	const [errorElement, setErrorElement] = createSignal<HTMLParagraphElement | null>(null);
 	const [buyItem, buyItemTrigger] = createServerAction$(async (formData: FormData, { request }) => {
+		const buyItemSchema = z.object({
+			id: z.string().cuid(),
+		});
 		const userId = await requireUserId(request);
 
 		const parsedBuyItemPayload = buyItemSchema.safeParse(convertFormDataIntoObject(formData));
@@ -88,9 +87,9 @@ export const ItemList = (props: ItemListProps) => {
 				</p>
 				<ButtonLink href="/app/shop/item/new">Add</ButtonLink>
 			</div>
-			<Show when={buyItemErrors().other}>
+			<Show when={buyItemErrors()['other']}>
 				<p ref={setErrorElement} class="text-destructive mb-6 text-sm">
-					{buyItemErrors().other}
+					{buyItemErrors()['other']}
 				</p>
 			</Show>
 			<p class="text-destructive text-sm" />

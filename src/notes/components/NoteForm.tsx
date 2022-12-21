@@ -27,34 +27,6 @@ const FORM_ERRORS = {
 	NAME_TOO_SHORT: 'Name must have at least 3 characters',
 } as const satisfies FormErrors;
 
-const upsertNoteSchema = z.object({
-	content: z
-		.string({ invalid_type_error: FORM_ERRORS.CONTENT_REQUIRED, required_error: FORM_ERRORS.CONTENT_REQUIRED })
-		.superRefine((val, ctx) => {
-			const charactersCount = countHtmlCharacters(val);
-
-			if (charactersCount === 0)
-				ctx.addIssue({
-					code: z.ZodIssueCode.custom,
-					message: FORM_ERRORS.CONTENT_REQUIRED,
-				});
-
-			if (charactersCount > NOTE_CONTENT_MAX_LENGTH)
-				ctx.addIssue({
-					code: z.ZodIssueCode.custom,
-					message: FORM_ERRORS.CONTENT_TOO_LONG,
-				});
-		}),
-	id: z
-		.string({ invalid_type_error: COMMON_FORM_ERRORS.ID_INVALID, required_error: COMMON_FORM_ERRORS.ID_INVALID })
-		.cuid(COMMON_FORM_ERRORS.ID_INVALID)
-		.optional(),
-	name: z
-		.string({ invalid_type_error: FORM_ERRORS.NAME_REQUIRED, required_error: FORM_ERRORS.NAME_REQUIRED })
-		.trim()
-		.min(3, FORM_ERRORS.NAME_TOO_SHORT),
-});
-
 type NoteFormProps = {
 	description: JSXElement;
 	note?: Note;
@@ -65,6 +37,34 @@ const TextEditor = unstable_clientOnly(async () => import('~/shared/components/T
 
 export const NoteForm = (props: NoteFormProps) => {
 	const [upsertNote, upsertNoteTrigger] = createServerAction$(async (formData: FormData, { request }) => {
+		const upsertNoteSchema = z.object({
+			content: z
+				.string({ invalid_type_error: FORM_ERRORS.CONTENT_REQUIRED, required_error: FORM_ERRORS.CONTENT_REQUIRED })
+				.superRefine((val, ctx) => {
+					const charactersCount = countHtmlCharacters(val);
+
+					if (charactersCount === 0)
+						ctx.addIssue({
+							code: z.ZodIssueCode.custom,
+							message: FORM_ERRORS.CONTENT_REQUIRED,
+						});
+
+					if (charactersCount > NOTE_CONTENT_MAX_LENGTH)
+						ctx.addIssue({
+							code: z.ZodIssueCode.custom,
+							message: FORM_ERRORS.CONTENT_TOO_LONG,
+						});
+				}),
+			id: z
+				.string({ invalid_type_error: COMMON_FORM_ERRORS.ID_INVALID, required_error: COMMON_FORM_ERRORS.ID_INVALID })
+				.cuid(COMMON_FORM_ERRORS.ID_INVALID)
+				.optional(),
+			name: z
+				.string({ invalid_type_error: FORM_ERRORS.NAME_REQUIRED, required_error: FORM_ERRORS.NAME_REQUIRED })
+				.trim()
+				.min(3, FORM_ERRORS.NAME_TOO_SHORT),
+		});
+
 		const userId = await requireUserId(request);
 		const parsedUpsertNotePayload = upsertNoteSchema.safeParse(convertFormDataIntoObject(formData));
 
@@ -72,7 +72,7 @@ export const NoteForm = (props: NoteFormProps) => {
 			const errors = parsedUpsertNotePayload.error.formErrors;
 
 			throw new FormError(COMMON_FORM_ERRORS.BAD_REQUEST, {
-				fieldErrors: zodErrorToFieldErrors<typeof upsertNoteSchema>(errors),
+				fieldErrors: zodErrorToFieldErrors(errors),
 			});
 		}
 
@@ -111,18 +111,18 @@ export const NoteForm = (props: NoteFormProps) => {
 		return redirect(REDIRECTS.NOTES);
 	});
 
-	const upsertNoteErrors = createFormFieldsErrors<typeof upsertNoteSchema>(() => upsertNote.error);
+	const upsertNoteErrors = createFormFieldsErrors(() => upsertNote.error);
 
 	return (
 		<div class="flex max-w-3xl flex-col gap-6">
 			<h2 class="text-xl">{props.title}</h2>
 			<p class="text-secondary text-sm">{props.description}</p>
 			<upsertNoteTrigger.Form class="flex max-w-xl flex-col gap-6">
-				<Input error={upsertNoteErrors().name} name="name" value={props.note?.name ?? ''}>
+				<Input error={upsertNoteErrors()['name']} name="name" value={props.note?.name ?? ''}>
 					Name
 				</Input>
 				<TextEditor
-					error={upsertNoteErrors().content}
+					error={upsertNoteErrors()['content']}
 					name="content"
 					value={props.note?.content ?? ''}
 					maxLength={NOTE_CONTENT_MAX_LENGTH}
@@ -133,11 +133,11 @@ export const NoteForm = (props: NoteFormProps) => {
 				<Show when={props.note}>
 					<input name="id" type="hidden" value={props.note!.id} />
 				</Show>
-				<Show when={upsertNoteErrors().id}>
-					<p class="text-destructive text-sm">{upsertNoteErrors().id}</p>
+				<Show when={upsertNoteErrors()['id']}>
+					<p class="text-destructive text-sm">{upsertNoteErrors()['id']}</p>
 				</Show>
-				<Show when={upsertNoteErrors().other}>
-					<p class="text-destructive text-sm">{upsertNoteErrors().other}</p>
+				<Show when={upsertNoteErrors()['other']}>
+					<p class="text-destructive text-sm">{upsertNoteErrors()['other']}</p>
 				</Show>
 				<Button class="max-w-48 w-full">{props.note ? 'Save note' : 'Add note'}</Button>
 			</upsertNoteTrigger.Form>

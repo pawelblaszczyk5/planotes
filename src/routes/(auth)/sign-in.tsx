@@ -38,17 +38,17 @@ const FORM_ERRORS = {
 	TOO_MANY_REQUESTS: 'Too many magic link requests for the same email address and device',
 } as const satisfies FormErrors;
 
-const signInSchema = z.object({
-	email: z
-		.string({ invalid_type_error: FORM_ERRORS.EMAIL_INVALID, required_error: FORM_ERRORS.EMAIL_REQUIRED })
-		.email(FORM_ERRORS.EMAIL_INVALID),
-	rememberMe: z.coerce.boolean(),
-});
-
 const SignIn = () => {
 	useRouteData<typeof routeData>()();
 
 	const [signIn, signInTrigger] = createServerAction$(async (formData: FormData, { request }) => {
+		const signInSchema = z.object({
+			email: z
+				.string({ invalid_type_error: FORM_ERRORS.EMAIL_INVALID, required_error: FORM_ERRORS.EMAIL_REQUIRED })
+				.email(FORM_ERRORS.EMAIL_INVALID),
+			rememberMe: z.coerce.boolean(),
+		});
+
 		if (await isSignedIn(request)) throw redirect(REDIRECTS.HOME);
 
 		const parsedFormData = signInSchema.safeParse(convertFormDataIntoObject(formData));
@@ -122,16 +122,16 @@ const SignIn = () => {
 		});
 	});
 
-	const signInErrors = createFormFieldsErrors<typeof signInSchema>(() => signIn.error);
+	const signInErrors = createFormFieldsErrors(() => signIn.error);
 
 	return (
 		<signInTrigger.Form method="post" class="contents">
-			<Input error={signInErrors().email} name="email" autocomplete="email">
+			<Input error={signInErrors()['email']} name="email" autocomplete="email">
 				Email address
 			</Input>
 			<Checkbox name="rememberMe">Remember me</Checkbox>
-			<Show when={signInErrors().other}>
-				<p class="text-destructive text-sm">{signInErrors().other}</p>
+			<Show when={signInErrors()['other']}>
+				<p class="text-destructive text-sm">{signInErrors()['other']}</p>
 			</Show>
 			<p class="text-secondary text-sm">
 				You don't need to create an account, just use your email address! We'll send you a link that lets you login with

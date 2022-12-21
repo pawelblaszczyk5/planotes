@@ -20,10 +20,6 @@ export const routeData = () =>
 		return token;
 	});
 
-const redeemMagicTokenSchema = z.object({
-	token: z.string(),
-});
-
 const FORM_ERRORS = {
 	DEVICE_INVALID: "Provided token can't be matched with your device sign in again",
 	TOKEN_EXPIRED: 'Provided token has already expired or been used, sign in again',
@@ -37,6 +33,10 @@ const Magic = () => {
 
 	const [redeemMagicToken, redeemMagicTokenTrigger] = createServerAction$(async (formData: FormData, { request }) => {
 		if (await isSignedIn(request)) throw redirect(REDIRECTS.HOME);
+
+		const redeemMagicTokenSchema = z.object({
+			token: z.string(),
+		});
 
 		const parsedFormData = redeemMagicTokenSchema.safeParse(convertFormDataIntoObject(formData));
 
@@ -66,7 +66,7 @@ const Magic = () => {
 		return redirect(REDIRECTS.HOME, { headers: { 'Set-Cookie': cookie } });
 	});
 
-	const redeemMagicTokenErrors = createFormFieldsErrors<typeof redeemMagicTokenSchema>(() => redeemMagicToken.error);
+	const redeemMagicTokenErrors = createFormFieldsErrors(() => redeemMagicToken.error);
 
 	createEffect(() => {
 		const timeoutRef = setTimeout(() => {
@@ -84,8 +84,8 @@ const Magic = () => {
 				You'll be signed in and redirected to the application automatically. In case of problems you can also press the
 				below button yourself
 			</p>
-			<Show when={redeemMagicTokenErrors().other}>
-				<p class="text-destructive text-sm">{redeemMagicTokenErrors().other}</p>
+			<Show when={redeemMagicTokenErrors()['other']}>
+				<p class="text-destructive text-sm">{redeemMagicTokenErrors()['other']}</p>
 			</Show>
 			<input name="token" type="hidden" value={tokenFromUrl() ?? ''} />
 			<Button class="max-w-48 mx-auto w-full">Sign in</Button>

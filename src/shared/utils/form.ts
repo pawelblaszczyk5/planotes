@@ -1,6 +1,6 @@
 import { type Accessor, createMemo } from 'solid-js';
 import { FormError, ServerError } from 'solid-start';
-import { type ZodSchema, type ZodError } from 'zod';
+import { type ZodError } from 'zod';
 
 export type FormErrors = Record<string, string>;
 
@@ -16,13 +16,9 @@ export const isFormError = (error: unknown): error is FormError => Boolean(error
 
 export const isServerError = (error: unknown): error is ServerError => error instanceof ServerError;
 
-type ZodErrorsExtracter<Schema> = Schema extends ZodSchema
-	? keyof Schema['_output'] extends never
-		? Record<string, string> & { other?: string }
-		: Partial<Record<keyof Schema['_output'] | 'other', string>> & Record<string, string>
-	: Record<string, string> & { other?: string };
+type FormFieldErrors = Partial<Record<string | 'other', string>>;
 
-export const createFormFieldsErrors = <Schema>(error: Accessor<unknown>) => {
+export const createFormFieldsErrors = (error: Accessor<unknown>) => {
 	const formFieldsErrorsMemo = createMemo(currentValue => {
 		const currentError = error();
 
@@ -39,18 +35,17 @@ export const createFormFieldsErrors = <Schema>(error: Accessor<unknown>) => {
 		return currentError.fieldErrors;
 	}, {});
 
-	return formFieldsErrorsMemo as Accessor<ZodErrorsExtracter<Schema>>;
+	return formFieldsErrorsMemo as Accessor<FormFieldErrors>;
 };
 
-export const zodErrorToFieldErrors = <Schema>(errors: ZodError['formErrors']): ZodErrorsExtracter<Schema> =>
-	({
-		...(errors.formErrors.length ? { other: COMMON_FORM_ERRORS.FORM_DATA_INVALID } : {}),
-		...Object.fromEntries(
-			Object.entries(errors.fieldErrors)
-				.filter(([, fieldErrors]) => typeof fieldErrors !== 'undefined')
-				.map(([key, fieldErrors]) => [key, fieldErrors![0]]),
-		),
-	} as ZodErrorsExtracter<Schema>);
+export const zodErrorToFieldErrors = (errors: ZodError['formErrors']): FormFieldErrors => ({
+	...(errors.formErrors.length ? { other: COMMON_FORM_ERRORS.FORM_DATA_INVALID } : {}),
+	...Object.fromEntries(
+		Object.entries(errors.fieldErrors)
+			.filter(([, fieldErrors]) => typeof fieldErrors !== 'undefined')
+			.map(([key, fieldErrors]) => [key, fieldErrors![0]]),
+	),
+});
 
 export const convertFormDataIntoObject = (formData: FormData) =>
 	Array.from(formData.entries()).reduce<Record<string, unknown>>((result, [key, value]) => {

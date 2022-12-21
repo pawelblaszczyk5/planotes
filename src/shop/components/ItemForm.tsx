@@ -27,22 +27,6 @@ const FORM_ERRORS = {
 	PRICE_MIN: 'Price must be bigger than 0',
 } as const satisfies FormErrors;
 
-const upsertItemSchema = z.object({
-	iconUrl: z.string().url(FORM_ERRORS.ICON_URL_INVALID).optional(),
-	id: z
-		.string({ invalid_type_error: COMMON_FORM_ERRORS.ID_INVALID, required_error: COMMON_FORM_ERRORS.ID_INVALID })
-		.cuid(COMMON_FORM_ERRORS.ID_INVALID)
-		.optional(),
-	isRecurring: z.coerce.boolean(),
-	name: z
-		.string({ invalid_type_error: FORM_ERRORS.NAME_REQUIRED, required_error: FORM_ERRORS.NAME_REQUIRED })
-		.trim()
-		.min(3, FORM_ERRORS.NAME_TOO_SHORT),
-	price: z.coerce
-		.number({ invalid_type_error: FORM_ERRORS.PRICE_INVALID, required_error: FORM_ERRORS.PRICE_INVALID })
-		.min(1, FORM_ERRORS.PRICE_MIN),
-});
-
 type ItemFormProps = {
 	description: JSXElement;
 	item?: Item;
@@ -51,6 +35,22 @@ type ItemFormProps = {
 
 export const ItemForm = (props: ItemFormProps) => {
 	const [upsertItem, upsertItemTrigger] = createServerAction$(async (formData: FormData, { request }) => {
+		const upsertItemSchema = z.object({
+			iconUrl: z.string().url(FORM_ERRORS.ICON_URL_INVALID).optional(),
+			id: z
+				.string({ invalid_type_error: COMMON_FORM_ERRORS.ID_INVALID, required_error: COMMON_FORM_ERRORS.ID_INVALID })
+				.cuid(COMMON_FORM_ERRORS.ID_INVALID)
+				.optional(),
+			isRecurring: z.coerce.boolean(),
+			name: z
+				.string({ invalid_type_error: FORM_ERRORS.NAME_REQUIRED, required_error: FORM_ERRORS.NAME_REQUIRED })
+				.trim()
+				.min(3, FORM_ERRORS.NAME_TOO_SHORT),
+			price: z.coerce
+				.number({ invalid_type_error: FORM_ERRORS.PRICE_INVALID, required_error: FORM_ERRORS.PRICE_INVALID })
+				.min(1, FORM_ERRORS.PRICE_MIN),
+		});
+
 		const userId = await requireUserId(request);
 		const parsedUpsertItemPayload = upsertItemSchema.safeParse(convertFormDataIntoObject(formData));
 
@@ -58,7 +58,7 @@ export const ItemForm = (props: ItemFormProps) => {
 			const errors = parsedUpsertItemPayload.error.formErrors;
 
 			throw new FormError(COMMON_FORM_ERRORS.BAD_REQUEST, {
-				fieldErrors: zodErrorToFieldErrors<typeof upsertItemSchema>(errors),
+				fieldErrors: zodErrorToFieldErrors(errors),
 			});
 		}
 
@@ -101,20 +101,20 @@ export const ItemForm = (props: ItemFormProps) => {
 		return redirect(REDIRECTS.SHOP);
 	});
 
-	const upsertItemErrors = createFormFieldsErrors<typeof upsertItemSchema>(() => upsertItem.error);
+	const upsertItemErrors = createFormFieldsErrors(() => upsertItem.error);
 
 	return (
 		<div class="flex max-w-3xl flex-col gap-6">
 			<h2 class="text-xl">{props.title}</h2>
 			<p class="text-secondary text-sm">{props.description}</p>
 			<upsertItemTrigger.Form class="flex max-w-xl flex-col gap-6">
-				<Input value={props.item?.name ?? ''} error={upsertItemErrors().name} type="text" name="name">
+				<Input value={props.item?.name ?? ''} error={upsertItemErrors()['name']} type="text" name="name">
 					Name
 				</Input>
-				<Input value={props.item?.iconUrl ?? ''} error={upsertItemErrors().iconUrl} type="text" name="iconUrl">
+				<Input value={props.item?.iconUrl ?? ''} error={upsertItemErrors()['iconUrl']} type="text" name="iconUrl">
 					Icon URL (optional)
 				</Input>
-				<NumberInput value={props.item?.price.toString() ?? '1'} error={upsertItemErrors().price} name="price">
+				<NumberInput value={props.item?.price.toString() ?? '1'} error={upsertItemErrors()['price']} name="price">
 					Price
 				</NumberInput>
 				<Checkbox checked={props.item?.type === 'RECURRING'} name="isRecurring">
@@ -123,11 +123,11 @@ export const ItemForm = (props: ItemFormProps) => {
 				<Show when={props.item}>
 					<input name="id" type="hidden" value={props.item!.id} />
 				</Show>
-				<Show when={upsertItemErrors().id}>
-					<p class="text-destructive text-sm">{upsertItemErrors().id}</p>
+				<Show when={upsertItemErrors()['id']}>
+					<p class="text-destructive text-sm">{upsertItemErrors()['id']}</p>
 				</Show>
-				<Show when={upsertItemErrors().other}>
-					<p class="text-destructive text-sm">{upsertItemErrors().other}</p>
+				<Show when={upsertItemErrors()['other']}>
+					<p class="text-destructive text-sm">{upsertItemErrors()['other']}</p>
 				</Show>
 				<Button class="max-w-48 w-full">{props.item ? 'Save item' : 'Add item'}</Button>
 			</upsertItemTrigger.Form>

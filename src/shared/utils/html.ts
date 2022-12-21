@@ -12,19 +12,27 @@ const SANITIZE_OPTIONS: sanitize.IOptions = {
 	allowedTags: ['h1', 'h2', 'h3', 'p', 'ul', 'ol', 'li', 'code', 'mark', 'pre', 'blockquote', 'strong', 'em', 's'],
 };
 
-export const sanitizeHtml = (html: string) => sanitize(html, SANITIZE_OPTIONS);
+const noop = (() => {
+	throw new Error("This method shouldn't be called");
+}) as never;
 
-export const countHtmlCharacters = (html: string) => {
-	let count = 0;
+export const sanitizeHtml = (html: string) => (import.meta.env.SSR ? sanitize(html, SANITIZE_OPTIONS) : noop);
 
-	sanitize(html, {
-		...SANITIZE_OPTIONS,
-		textFilter: text => {
-			count += text.length;
+export const countHtmlCharacters = import.meta.env.SSR
+	? (html: string) => {
+			if (!import.meta.env.SSR) return 0;
 
-			return text;
-		},
-	});
+			let count = 0;
 
-	return count;
-};
+			sanitize(html, {
+				...SANITIZE_OPTIONS,
+				textFilter: text => {
+					count += text.length;
+
+					return text;
+				},
+			});
+
+			return count;
+	  }
+	: noop;
