@@ -15,6 +15,9 @@ export const routeData = (({ params }) =>
 			if (Number.isNaN(numericPage) || numericPage < 1) throw redirect(REDIRECTS.NOTES);
 
 			const notes = await db.note.findMany({
+				orderBy: {
+					createdAt: 'desc',
+				},
 				skip: (numericPage - 1) * ITEMS_PER_PAGE,
 				take: ITEMS_PER_PAGE + 1,
 				where: {

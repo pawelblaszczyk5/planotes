@@ -24,7 +24,7 @@ export const NotesList = (props: NotesListProps) => {
 					{note => (
 						<li>
 							{note.name}
-							<p class="prose" innerHTML={note.content} />
+							<div class="prose" innerHTML={note.content} />
 						</li>
 					)}
 				</For>
