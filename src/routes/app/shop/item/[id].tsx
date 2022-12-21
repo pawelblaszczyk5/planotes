@@ -35,7 +35,7 @@ export const routeData = (({ params }) =>
 			return itemToEdit;
 		},
 		{
-			key: () => params['item'],
+			key: () => params['id'],
 		},
 	)) satisfies RouteDataFunc;
 
