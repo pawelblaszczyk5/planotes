@@ -29,7 +29,8 @@ export default defineConfig({
 		'text-secondary': 'text-neutral-600 dark:text-neutral-400',
 	},
 	variants: [
-		// @ts-expect-error - config erorr, it works though
+		// eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+		// @ts-ignore - there is something strange with this error
 		variantMatcher('pointer', input => {
 			return {
 				parent: `${input.parent ? `${input.parent} $$ ` : ''}@media (hover: hover) and (pointer: fine)`,
