@@ -37,13 +37,39 @@ const Profile = () => {
 			},
 		});
 
+		const deleteNotes = db.note.deleteMany({
+			where: {
+				userId,
+			},
+		});
+
+		const deleteTasks = db.task.deleteMany({
+			where: {
+				userId,
+			},
+		});
+
+		const deleteGoals = db.goal.deleteMany({
+			where: {
+				userId,
+			},
+		});
+
 		const deleteUser = db.user.delete({
 			where: {
 				id: userId,
 			},
 		});
 
-		await db.$transaction([deleteItems, deleteMagicLinks, deleteBalanceEntries, deleteUser]);
+		await db.$transaction([
+			deleteGoals,
+			deleteTasks,
+			deleteNotes,
+			deleteItems,
+			deleteMagicLinks,
+			deleteBalanceEntries,
+			deleteUser,
+		]);
 
 		const cookie = await createSignOutCookie(request);
 
