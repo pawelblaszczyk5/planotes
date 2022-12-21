@@ -1,10 +1,10 @@
 import { Show } from 'solid-js';
 import { type RouteDataFunc, Title, useRouteData } from 'solid-start';
 import { createServerAction$, redirect } from 'solid-start/server';
-import { UserSettingsForm } from '~/app/components/UserSettingsForm';
 import { type routeData as parentRouteData } from '~/routes/app';
 import { AppMainLayout } from '~/shared/components/AppMainLayout';
 import { Button } from '~/shared/components/Button';
+import { UserSettingsForm } from '~/shared/components/UserSettingsForm';
 import { REDIRECTS } from '~/shared/constants/redirects';
 import { db } from '~/shared/utils/db';
 import { createSignOutCookie, requireUserId } from '~/shared/utils/session';

@@ -1,5 +1,5 @@
 import { Title } from 'solid-start';
-import TextEditor from '~/app/components/TextEditor';
+import TextEditor from '~/shared/components/TextEditor';
 
 const Notes = () => {
 	return (
