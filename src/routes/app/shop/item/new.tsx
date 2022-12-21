@@ -7,7 +7,7 @@ const AddItem = () => {
 			<Title>Add item | Planotes</Title>
 			<ItemForm
 				description="Here you can add a new item that will be available in the shop for your precious points. Remember that prize can't be too easy. However, it also needs to be worth the hassle!"
-				title="Add new item to shop"
+				title="Add a new item to shop"
 			/>
 		</>
 	);

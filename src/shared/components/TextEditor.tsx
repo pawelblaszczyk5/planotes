@@ -207,6 +207,7 @@ const Toolbar = (props: { editor: Editor; hasError: boolean }) => {
 };
 
 type TextEditorProps = {
+	children: JSXElement;
 	class?: string;
 	content?: string;
 	error?: string | undefined;
@@ -255,6 +256,7 @@ const TextEditor = (props: TextEditorProps) => {
 
 	return (
 		<div class={propsWithDefaults.class}>
+			<p class="text-secondary pb-1 text-sm">{propsWithDefaults.children}</p>
 			<div
 				class={clsx(
 					editor() && {
