@@ -33,6 +33,20 @@ enum Entity {
   GOAL
 }
 
+enum TASK_STATUS {
+  TO_DO
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum Size {
+  XS
+  S
+  M
+  L
+  XL
+}
+
 // Models
 
 model User {
@@ -45,6 +59,8 @@ model User {
   balance      Int            @default(0)
   Item         Item[]
   BalanceEntry BalanceEntry[]
+  Task         Task[]
+  Goal         Goal[]
 }
 
 model MagicLink {
@@ -71,8 +87,30 @@ model BalanceEntry {
   id        String @id @default(cuid())
   change    Int
   createdAt Int
-  user      User   @relation(fields: [userId], references: [id])
-  userId    String
   itemId    String
   entity    Entity
+  user      User   @relation(fields: [userId], references: [id])
+  userId    String
+}
+
+model Task {
+  id          String      @id @default(cuid())
+  title       String
+  description String
+  status      TASK_STATUS @default(TO_DO)
+  size        Size
+  goal        Goal?       @relation(fields: [goalId], references: [id])
+  goalId      String?
+  user        User        @relation(fields: [userId], references: [id])
+  userId      String
+}
+
+model Goal {
+  id          String @id @default(cuid())
+  title       String
+  description String
+  size        Size
+  Task        Task[]
+  user        User   @relation(fields: [userId], references: [id])
+  userId      String
 }
