@@ -130,7 +130,7 @@ export const Combobox = (props: ComboboxProps) => {
 				</Show>
 				<input type="hidden" name={propsWithDefaults.name} readonly value={api().selectedValue ?? ''} />
 			</div>
-			<div {...api().positionerProps}>
+			<div class="z-10" {...api().positionerProps}>
 				<Show when={optionsToDisplay().length}>
 					<ul
 						class="bg-primary max-h-[calc(41px*6)] overflow-y-auto shadow-md shadow-black/50 dark:shadow-black/90"
