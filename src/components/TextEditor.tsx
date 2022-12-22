@@ -272,7 +272,7 @@ const TextEditor = (props: TextEditorProps) => {
 
 	return (
 		<div class={propsWithDefaults.class}>
-			<a class="text-secondary cursor-default select-none pb-1 text-sm" href={`#${id}`}>
+			<a class="text-secondary cursor-default select-none pb-1 text-sm" href={`#${id}`} tabIndex={-1}>
 				{propsWithDefaults.children}
 			</a>
 			<div
