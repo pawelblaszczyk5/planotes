@@ -19,6 +19,13 @@ const onboardUser = async (id: string) => {
 	});
 };
 
+const generateHtmlContent = () => {
+	const title = faker.random.words(faker.datatype.number({ max: 5, min: 2 }));
+	const content = faker.random.words(faker.datatype.number({ max: 50, min: 25 }));
+
+	return { htmlContent: `<h1>${title}</h1><p>${content}</p>`, textContent: `${title} ${content}` };
+};
+
 const generateItem = (userId: string): Omit<Item, 'id'> => ({
 	createdAt: Math.round(faker.date.past().getTime() / 1_000),
 	iconUrl: faker.image.imageUrl(
@@ -39,12 +46,10 @@ const createItemsForUser = async (userId: string, count: number) => {
 };
 
 const generateNote = (userId: string): Omit<Note, 'id'> => ({
-	content: `<h1>${faker.random.words(faker.datatype.number({ max: 5, min: 2 }))}</h1><p>${faker.random.words(
-		faker.datatype.number({ max: 50, min: 25 }),
-	)}</p>`,
 	createdAt: Math.round(faker.date.past().getTime() / 1_000),
 	name: faker.random.word(),
 	userId,
+	...generateHtmlContent(),
 });
 
 const createNotesForUser = async (userId: string, count: number) => {
