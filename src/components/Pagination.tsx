@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { mergeProps, Show } from 'solid-js';
-import { LinkWithIcon } from '~/shared/components/Link';
-import { type Module, type DefaultProps } from '~/shared/types';
+import { LinkWithIcon } from '~/components/Link';
+import { type Module, type DefaultProps } from '~/types';
 
 type PaginationProps = {
 	class?: string;

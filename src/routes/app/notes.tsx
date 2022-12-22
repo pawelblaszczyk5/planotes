@@ -1,5 +1,5 @@
 import { Outlet, Title } from 'solid-start';
-import { AppMainLayout } from '~/shared/components/AppMainLayout';
+import { AppMainLayout } from '~/components/AppMainLayout';
 
 const Notes = () => {
 	return (

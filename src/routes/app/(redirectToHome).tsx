@@ -1,7 +1,7 @@
 import { useRouteData } from 'solid-start';
 import { createServerData$, redirect } from 'solid-start/server';
-import { REDIRECTS } from '~/shared/constants/redirects';
-import { requireUserId } from '~/shared/utils/session';
+import { REDIRECTS } from '~/constants/redirects';
+import { requireUserId } from '~/utils/session';
 
 export const routeData = () =>
 	createServerData$(async (_, { request }) => {

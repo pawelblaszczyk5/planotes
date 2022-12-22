@@ -3,21 +3,21 @@ import { type JSXElement, Show } from 'solid-js';
 import { FormError, redirect } from 'solid-start';
 import { createServerAction$ } from 'solid-start/server';
 import { z } from 'zod';
-import { Button } from '~/shared/components/Button';
-import { Checkbox } from '~/shared/components/Checkbox';
-import { Input } from '~/shared/components/Input';
-import { NumberInput } from '~/shared/components/NumberInput';
-import { REDIRECTS } from '~/shared/constants/redirects';
-import { db } from '~/shared/utils/db';
+import { Button } from '~/components/Button';
+import { Checkbox } from '~/components/Checkbox';
+import { Input } from '~/components/Input';
+import { NumberInput } from '~/components/NumberInput';
+import { REDIRECTS } from '~/constants/redirects';
+import { db } from '~/utils/db';
 import {
 	convertFormDataIntoObject,
 	COMMON_FORM_ERRORS,
 	zodErrorToFieldErrors,
 	type FormErrors,
 	createFormFieldsErrors,
-} from '~/shared/utils/form';
-import { requireUserId } from '~/shared/utils/session';
-import { getCurrentEpochSeconds } from '~/shared/utils/time';
+} from '~/utils/form';
+import { requireUserId } from '~/utils/session';
+import { getCurrentEpochSeconds } from '~/utils/time';
 
 const FORM_ERRORS = {
 	ICON_URL_INVALID: 'Icon URL must be a valid link',

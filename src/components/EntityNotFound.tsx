@@ -1,7 +1,7 @@
 import { Title } from 'solid-start';
 import { HttpStatusCode } from 'solid-start/server';
-import { LinkWithIcon } from '~/shared/components/Link';
-import { type Module } from '~/shared/types';
+import { LinkWithIcon } from '~/components/Link';
+import { type Module } from '~/types';
 
 type EntityNotFoundProps = {
 	module: Module;

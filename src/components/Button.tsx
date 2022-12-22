@@ -1,7 +1,7 @@
 import { Motion } from '@motionone/solid';
 import clsx from 'clsx';
 import { mergeProps, type JSXElement } from 'solid-js';
-import { type DefaultProps } from '~/shared/types';
+import { type DefaultProps } from '~/types';
 
 type ButtonProps = {
 	children: JSXElement;

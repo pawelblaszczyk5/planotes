@@ -1,4 +1,4 @@
-import { type ColorScheme } from '~/shared/utils/colorScheme';
+import { type ColorScheme } from '~/utils/colorScheme';
 
 export const COLOR_SCHEME_ICON = {
 	DARK: 'i-lucide-moon',

@@ -1,18 +1,18 @@
 import { createEffect, For, lazy, Show } from 'solid-js';
 import { Outlet, refetchRouteData, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, json, redirect } from 'solid-start/server';
-import { SideNavImageLink, SideNavButton, SideNavLink } from '~/app/components/Nav';
-import { COLOR_SCHEME_ICON, COLOR_SCHEME_TITLE } from '~/app/constants/colorScheme';
-import { ROUTES } from '~/app/constants/routes';
-import { getRandomGreeting } from '~/app/utils/greeting';
-import logo from '~/shared/assets/logo.webp';
-import { LinkWithIcon } from '~/shared/components/Link';
-import { REDIRECTS } from '~/shared/constants/redirects';
-import { RESOURCE_KEY } from '~/shared/constants/resourceKeys';
-import { getColorScheme, createColorSchemeCookie, getNextColorScheme } from '~/shared/utils/colorScheme';
-import { db } from '~/shared/utils/db';
-import { createSignOutCookie, requireUserId } from '~/shared/utils/session';
-import { isUserOnboarded } from '~/shared/utils/user';
+import logo from '~/assets/logo.webp';
+import { LinkWithIcon } from '~/components/Link';
+import { SideNavImageLink, SideNavButton, SideNavLink } from '~/components/Nav';
+import { COLOR_SCHEME_ICON, COLOR_SCHEME_TITLE } from '~/constants/colorScheme';
+import { REDIRECTS } from '~/constants/redirects';
+import { RESOURCE_KEY } from '~/constants/resourceKeys';
+import { ROUTES } from '~/constants/routes';
+import { getColorScheme, createColorSchemeCookie, getNextColorScheme } from '~/utils/colorScheme';
+import { db } from '~/utils/db';
+import { getRandomGreeting } from '~/utils/greeting';
+import { createSignOutCookie, requireUserId } from '~/utils/session';
+import { isUserOnboarded } from '~/utils/user';
 
 export const routeData = () => {
 	const user = createServerData$(async (_, { request }) => {
@@ -35,7 +35,7 @@ export const routeData = () => {
 	return { colorScheme, user } as const;
 };
 
-const UserSettingsModal = lazy(async () => import('~/app/components/UserSettingsModal'));
+const UserSettingsModal = lazy(async () => import('~/components/UserSettingsModal'));
 
 const App = () => {
 	const { user, colorScheme } = useRouteData<typeof routeData>();

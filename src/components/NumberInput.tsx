@@ -2,7 +2,7 @@ import * as numberInput from '@zag-js/number-input';
 import { normalizeProps, useMachine } from '@zag-js/solid';
 import clsx from 'clsx';
 import { type JSXElement, createUniqueId, Show, mergeProps, createMemo, createEffect, untrack } from 'solid-js';
-import { type DefaultProps } from '~/shared/types';
+import { type DefaultProps } from '~/types';
 
 type NumberInputProps = {
 	children: JSXElement;

@@ -3,20 +3,20 @@ import { Show, type JSXElement } from 'solid-js';
 import { FormError, unstable_clientOnly } from 'solid-start';
 import { createServerAction$, redirect } from 'solid-start/server';
 import { z } from 'zod';
-import { Button } from '~/shared/components/Button';
-import { Input } from '~/shared/components/Input';
-import { REDIRECTS } from '~/shared/constants/redirects';
-import { db } from '~/shared/utils/db';
+import { Button } from '~/components/Button';
+import { Input } from '~/components/Input';
+import { REDIRECTS } from '~/constants/redirects';
+import { db } from '~/utils/db';
 import {
 	type FormErrors,
 	COMMON_FORM_ERRORS,
 	createFormFieldsErrors,
 	convertFormDataIntoObject,
 	zodErrorToFieldErrors,
-} from '~/shared/utils/form';
-import { transformHtml } from '~/shared/utils/html';
-import { requireUserId } from '~/shared/utils/session';
-import { getCurrentEpochSeconds } from '~/shared/utils/time';
+} from '~/utils/form';
+import { transformHtml } from '~/utils/html';
+import { requireUserId } from '~/utils/session';
+import { getCurrentEpochSeconds } from '~/utils/time';
 
 const NOTE_CONTENT_MAX_LENGTH = 500;
 
@@ -34,7 +34,7 @@ type NoteFormProps = {
 };
 
 export const NoteForm = (props: NoteFormProps) => {
-	const TextEditor = unstable_clientOnly(async () => import('~/shared/components/TextEditor'));
+	const TextEditor = unstable_clientOnly(async () => import('~/components/TextEditor'));
 
 	const [upsertNote, upsertNoteTrigger] = createServerAction$(async (formData: FormData, { request }) => {
 		const upsertNoteSchema = z.object({

@@ -1,5 +1,5 @@
 import { Title } from 'solid-start';
-import { ItemForm } from '~/shop/components/ItemForm';
+import { ItemForm } from '~/components/ItemForm';
 
 const AddItem = () => {
 	return (

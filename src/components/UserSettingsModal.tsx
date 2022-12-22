@@ -1,6 +1,6 @@
 import { type User } from '@prisma/client';
-import { RouteDialog } from '~/shared/components/Dialog';
-import { UserSettingsForm } from '~/shared/components/UserSettingsForm';
+import { RouteDialog } from '~/components/Dialog';
+import { UserSettingsForm } from '~/components/UserSettingsForm';
 
 type UserSettingsModalProps = {
 	user: User;

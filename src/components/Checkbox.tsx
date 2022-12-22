@@ -3,7 +3,7 @@ import * as checkbox from '@zag-js/checkbox';
 import { normalizeProps, useMachine } from '@zag-js/solid';
 import clsx from 'clsx';
 import { type JSXElement, createEffect, createMemo, createUniqueId, mergeProps, untrack, Show } from 'solid-js';
-import { type DefaultProps } from '~/shared/types';
+import { type DefaultProps } from '~/types';
 
 type CheckboxProps = {
 	checked?: boolean;

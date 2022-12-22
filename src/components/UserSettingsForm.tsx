@@ -4,21 +4,21 @@ import { Show } from 'solid-js';
 import { FormError, redirect } from 'solid-start';
 import { createServerAction$ } from 'solid-start/server';
 import { z } from 'zod';
-import { Button } from '~/shared/components/Button';
-import { type ComboboxOption, Combobox } from '~/shared/components/Combobox';
-import { Input } from '~/shared/components/Input';
-import { REDIRECTS } from '~/shared/constants/redirects';
-import { IANA_TIMEZONES } from '~/shared/constants/timezones';
-import { createDebouncedSignal } from '~/shared/primitives/debouncedSignal';
-import { db } from '~/shared/utils/db';
+import { Button } from '~/components/Button';
+import { type ComboboxOption, Combobox } from '~/components/Combobox';
+import { Input } from '~/components/Input';
+import { REDIRECTS } from '~/constants/redirects';
+import { IANA_TIMEZONES } from '~/constants/timezones';
+import { createDebouncedSignal } from '~/primitives/debouncedSignal';
+import { db } from '~/utils/db';
 import {
 	type FormErrors,
 	convertFormDataIntoObject,
 	COMMON_FORM_ERRORS,
 	zodErrorToFieldErrors,
 	createFormFieldsErrors,
-} from '~/shared/utils/form';
-import { requireUserId } from '~/shared/utils/session';
+} from '~/utils/form';
+import { requireUserId } from '~/utils/session';
 
 const timezonesComboboxOptions = IANA_TIMEZONES.map<ComboboxOption>(timezone => ({
 	label: timezone.replaceAll('_', ' '),

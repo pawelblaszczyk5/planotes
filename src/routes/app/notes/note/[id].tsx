@@ -1,10 +1,10 @@
 import { Show } from 'solid-js';
 import { Title, useRouteData, type RouteDataFunc } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
-import { NoteForm } from '~/notes/components/NoteForm';
-import { EntityNotFound } from '~/shared/components/EntityNotFound';
-import { db } from '~/shared/utils/db';
-import { requireUserId } from '~/shared/utils/session';
+import { EntityNotFound } from '~/components/EntityNotFound';
+import { NoteForm } from '~/components/NoteForm';
+import { db } from '~/utils/db';
+import { requireUserId } from '~/utils/session';
 
 export const routeData = (({ params }) =>
 	createServerData$(

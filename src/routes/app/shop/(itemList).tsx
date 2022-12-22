@@ -1,8 +1,8 @@
 import { useRouteData } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
-import { requireUserId } from '~/shared/utils/session';
-import { ItemList } from '~/shop/components/ItemList';
-import { getPaginatedItems } from '~/shop/utilts/getPaginatedItems';
+import { ItemList } from '~/components/ItemList';
+import { getPaginatedItems } from '~/utils/pagination';
+import { requireUserId } from '~/utils/session';
 
 export const routeData = () =>
 	createServerData$(async (_, { request }) => {

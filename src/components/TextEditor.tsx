@@ -7,7 +7,7 @@ import { StarterKit } from '@tiptap/starter-kit';
 import clsx from 'clsx';
 import { type JSXElement, createSignal, Show, mergeProps, createUniqueId, createEffect, untrack } from 'solid-js';
 import { createEditorTransaction, createTiptapEditor, useEditorHTML } from 'solid-tiptap';
-import { type DefaultProps } from '~/shared/types';
+import { type DefaultProps } from '~/types';
 
 type ToggleProps = {
 	children: JSXElement;

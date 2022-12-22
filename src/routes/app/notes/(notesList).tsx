@@ -1,8 +1,8 @@
 import { useRouteData } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
-import { NotesList } from '~/notes/components/NotesList';
-import { getPaginatedNotes } from '~/notes/utils/getPaginatedNotes';
-import { requireUserId } from '~/shared/utils/session';
+import { NotesList } from '~/components/NotesList';
+import { getPaginatedNotes } from '~/utils/pagination';
+import { requireUserId } from '~/utils/session';
 
 export const routeData = () =>
 	createServerData$(async (_, { request }) => {

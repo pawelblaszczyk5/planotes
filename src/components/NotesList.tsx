@@ -1,7 +1,7 @@
 import { type Note } from '@prisma/client';
 import { For, Show } from 'solid-js';
-import { ButtonLink } from '~/shared/components/Button';
-import { Pagination } from '~/shared/components/Pagination';
+import { ButtonLink } from '~/components/Button';
+import { Pagination } from '~/components/Pagination';
 
 type NotesListProps = {
 	currentPage: number;

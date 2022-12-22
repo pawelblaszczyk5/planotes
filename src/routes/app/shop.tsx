@@ -1,7 +1,7 @@
 import { type RouteDataFunc, Outlet, Title, useRouteData } from 'solid-start';
+import { AppMainLayout } from '~/components/AppMainLayout';
+import { Badge } from '~/components/Badge';
 import { type routeData as parentRouteData } from '~/routes/app';
-import { AppMainLayout } from '~/shared/components/AppMainLayout';
-import { Badge } from '~/shared/components/Badge';
 
 export const routeData = (({ data }) => {
 	return { user: data.user };

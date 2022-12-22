@@ -1,5 +1,5 @@
 import { Title } from 'solid-start';
-import { NoteForm } from '~/notes/components/NoteForm';
+import { NoteForm } from '~/components/NoteForm';
 
 const AddNote = () => {
 	return (

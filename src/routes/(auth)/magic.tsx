@@ -2,12 +2,12 @@ import { createEffect, createSignal, Show } from 'solid-js';
 import { FormError, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, redirect } from 'solid-start/server';
 import { z } from 'zod';
-import { Button } from '~/shared/components/Button';
-import { REDIRECTS } from '~/shared/constants/redirects';
-import { db } from '~/shared/utils/db';
-import { type FormErrors, convertFormDataIntoObject, createFormFieldsErrors } from '~/shared/utils/form';
-import { createSessionCookie, getMagicIdentifier, isSignedIn } from '~/shared/utils/session';
-import { isDateInPast, convertEpochSecondsToDate } from '~/shared/utils/time';
+import { Button } from '~/components/Button';
+import { REDIRECTS } from '~/constants/redirects';
+import { db } from '~/utils/db';
+import { type FormErrors, convertFormDataIntoObject, createFormFieldsErrors } from '~/utils/form';
+import { createSessionCookie, getMagicIdentifier, isSignedIn } from '~/utils/session';
+import { isDateInPast, convertEpochSecondsToDate } from '~/utils/time';
 
 export const routeData = () =>
 	createServerData$(async (_, { request }) => {
