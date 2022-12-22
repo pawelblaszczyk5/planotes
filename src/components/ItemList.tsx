@@ -89,9 +89,8 @@ export const ItemList = (props: ItemListProps) => {
 
 		if (item?.userId !== userId) throw new FormError(FORM_ERRORS.ITEM_NOT_FOUND);
 
-		// It's kinda soft delete for item history
 		await db.item.update({
-			data: { status: 'UNAVAILABLE' },
+			data: { status: 'ARCHIVED' },
 			where: { id: parsedDeleteItemPayload.data.id },
 		});
 

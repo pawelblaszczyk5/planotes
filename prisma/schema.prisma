@@ -24,6 +24,7 @@ enum ItemType {
 
 enum ItemStatus {
   AVAILABLE
+  ARCHIVED
   UNAVAILABLE
 }
 
@@ -37,6 +38,7 @@ enum TASK_STATUS {
   TO_DO
   IN_PROGRESS
   COMPLETED
+  ARCHIVED
 }
 
 enum Size {

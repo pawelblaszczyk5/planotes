@@ -1,0 +1,5 @@
+-- AlterEnum
+ALTER TYPE "ItemStatus" ADD VALUE 'ARCHIVED';
+
+-- AlterEnum
+ALTER TYPE "TASK_STATUS" ADD VALUE 'ARCHIVED';
