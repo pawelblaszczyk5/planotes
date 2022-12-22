@@ -4,8 +4,10 @@ import { createEffect, createSignal, For, Show } from 'solid-js';
 import { FormError } from 'solid-start';
 import { createServerAction$, redirect } from 'solid-start/server';
 import { z } from 'zod';
-import { Button, ButtonLink } from '~/components/Button';
+import { ButtonLink } from '~/components/Button';
+import { Menu } from '~/components/Menu';
 import { Pagination } from '~/components/Pagination';
+import { TextAlignedIcon } from '~/components/TextIconAligned';
 import { REDIRECTS } from '~/constants/redirects';
 import { db } from '~/utils/db';
 import { type FormErrors, convertFormDataIntoObject, createFormFieldsErrors } from '~/utils/form';
@@ -24,7 +26,8 @@ const FORM_ERRORS = {
 } as const satisfies FormErrors;
 
 export const ItemList = (props: ItemListProps) => {
-	const [errorElement, setErrorElement] = createSignal<HTMLParagraphElement | null>(null);
+	const [buyItemErorElement, setBuyItemErorElement] = createSignal<HTMLParagraphElement>();
+	const [deleteItemErrorElement, setDeleteItemErorElement] = createSignal<HTMLParagraphElement>();
 	const [buyItem, buyItemTrigger] = createServerAction$(async (formData: FormData, { request }) => {
 		const buyItemSchema = z.object({
 			id: z.string().cuid(),
@@ -65,15 +68,54 @@ export const ItemList = (props: ItemListProps) => {
 
 		await Promise.all(promises);
 
-		return redirect(request.headers.get('referer') ?? REDIRECTS.HOME);
+		return redirect(request.headers.get('referer') ?? REDIRECTS.SHOP);
+	});
+
+	const [deleteItem, deleteItemTrigger] = createServerAction$(async (formData: FormData, { request }) => {
+		const deleteItemSchema = z.object({
+			id: z.string().cuid(),
+		});
+		const userId = await requireUserId(request);
+
+		const parsedDeleteItemPayload = deleteItemSchema.safeParse(convertFormDataIntoObject(formData));
+
+		if (!parsedDeleteItemPayload.success) throw new FormError(FORM_ERRORS.ITEM_NOT_FOUND);
+
+		const item = await db.item.findUnique({
+			select: { userId: true },
+			where: { id: parsedDeleteItemPayload.data.id },
+		});
+
+		if (item?.userId !== userId) throw new FormError(FORM_ERRORS.ITEM_NOT_FOUND);
+
+		// It's kinda soft delete for item history
+		await db.item.update({
+			data: { status: 'UNAVAILABLE' },
+			where: { id: parsedDeleteItemPayload.data.id },
+		});
+
+		return redirect(request.headers.get('referer') ?? REDIRECTS.SHOP);
 	});
 
 	const buyItemErrors = createFormFieldsErrors(() => buyItem.error);
+	const deleteItemErrors = createFormFieldsErrors(() => deleteItem.error);
 
 	createEffect(() => {
-		const error = errorElement();
+		const error = buyItemErorElement();
 
 		if (!error || !Object.values(buyItemErrors()).length) return;
+
+		error.scrollIntoView({
+			behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+			block: 'nearest',
+			inline: 'nearest',
+		});
+	});
+
+	createEffect(() => {
+		const error = deleteItemErrorElement();
+
+		if (!error || !Object.values(deleteItemErrors()).length) return;
 
 		error.scrollIntoView({
 			behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
@@ -92,8 +134,13 @@ export const ItemList = (props: ItemListProps) => {
 				<ButtonLink href="/app/shop/item/new">Add</ButtonLink>
 			</div>
 			<Show when={buyItemErrors()['other']}>
-				<p ref={setErrorElement} class="text-destructive mb-6 text-sm">
+				<p ref={setBuyItemErorElement} class="text-destructive mb-6 text-sm">
 					{buyItemErrors()['other']}
+				</p>
+			</Show>
+			<Show when={deleteItemErrors()['other']}>
+				<p ref={setDeleteItemErorElement} class="text-destructive mb-6 text-sm">
+					{deleteItemErrors()['other']}
 				</p>
 			</Show>
 			<p class="text-destructive text-sm" />
@@ -121,7 +168,7 @@ export const ItemList = (props: ItemListProps) => {
 										</span>
 									</p>
 									<p class="text-secondary flex items-center text-sm">
-										Is item recurring?{' '}
+										Recurring:{' '}
 										<span class="text-accent font-500 contents">
 											{item.type === 'RECURRING' ? 'Yes' : 'No'}
 											<i
@@ -140,15 +187,23 @@ export const ItemList = (props: ItemListProps) => {
 									</Show>
 								</div>
 							</div>
-							<div class="flex justify-end gap-6">
+							<Menu.Root class="md:self-end" triggerContent="Actions">
+								<Menu.LinkItem id="edit" href={`/app/shop/item/${item.id}`}>
+									<TextAlignedIcon icon="i-lucide-edit">Edit</TextAlignedIcon>
+								</Menu.LinkItem>
 								<buyItemTrigger.Form>
 									<input type="hidden" value={item.id} name="id" />
-									<Button>Buy</Button>
+									<Menu.ButtonItem id="buy">
+										<TextAlignedIcon icon="i-lucide-shopping-cart">Buy</TextAlignedIcon>
+									</Menu.ButtonItem>
 								</buyItemTrigger.Form>
-								<ButtonLink href={`/app/shop/item/${item.id}`} variant="secondary">
-									Edit
-								</ButtonLink>
-							</div>
+								<deleteItemTrigger.Form>
+									<input type="hidden" value={item.id} name="id" />
+									<Menu.ButtonItem id="delete">
+										<TextAlignedIcon icon="i-lucide-trash-2">Delete</TextAlignedIcon>
+									</Menu.ButtonItem>
+								</deleteItemTrigger.Form>
+							</Menu.Root>
 						</li>
 					)}
 				</For>

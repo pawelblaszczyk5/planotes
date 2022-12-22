@@ -16,6 +16,7 @@ export const getPaginatedItems = async (pageParam: number | string, userId: stri
 		skip: (page - 1) * ITEMS_PER_PAGE,
 		take: ITEMS_PER_PAGE + 1,
 		where: {
+			status: 'AVAILABLE',
 			userId,
 		},
 	});

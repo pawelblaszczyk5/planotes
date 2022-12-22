@@ -1,11 +1,13 @@
 import { type Note } from '@prisma/client';
 import { createEffect, createSignal, For, Show } from 'solid-js';
 import { FormError } from 'solid-start';
-import { createServerAction$ } from 'solid-start/server';
+import { createServerAction$, redirect } from 'solid-start/server';
 import { z } from 'zod';
 import { ButtonLink } from '~/components/Button';
 import { Menu } from '~/components/Menu';
 import { Pagination } from '~/components/Pagination';
+import { TextAlignedIcon } from '~/components/TextIconAligned';
+import { REDIRECTS } from '~/constants/redirects';
 import { db } from '~/utils/db';
 import { convertFormDataIntoObject, createFormFieldsErrors } from '~/utils/form';
 import { requireUserId } from '~/utils/session';
@@ -40,6 +42,8 @@ export const NotesList = (props: NotesListProps) => {
 		if (note?.userId !== userId) throw new FormError(FORM_ERROR);
 
 		await db.note.delete({ where: { id: parsedDeleteNotePayload.data.id } });
+
+		return redirect(request.headers.get('referer') ?? REDIRECTS.NOTES);
 	});
 
 	const deleteNoteErrors = createFormFieldsErrors(() => deleteNote.error);
@@ -80,31 +84,19 @@ export const NotesList = (props: NotesListProps) => {
 							</div>
 							<Menu.Root triggerContent="Actions">
 								<Menu.LinkItem href={`/app/notes/note/${note.id}`} id="edit">
-									<span class="inline-flex items-center gap-1">
-										<i class="i-lucide-edit" />
-										<span>Edit</span>
-									</span>
+									<TextAlignedIcon icon="i-lucide-edit">Edit</TextAlignedIcon>
 								</Menu.LinkItem>
 								<deleteNoteTrigger.Form>
 									<input type="hidden" value={note.id} name="id" />
 									<Menu.ButtonItem id="delete">
-										<span class="inline-flex items-center gap-1">
-											<i class="i-lucide-edit" />
-											<span>Delete</span>
-										</span>
+										<TextAlignedIcon icon="i-lucide-trash-2">Delete</TextAlignedIcon>
 									</Menu.ButtonItem>
 								</deleteNoteTrigger.Form>
 								<Menu.LinkItem href={`/app/tasks/task/new?noteId=${note.id}`} id="task">
-									<span class="inline-flex items-center gap-1">
-										<i class="i-lucide-clipboard-check" />
-										<span>Task conversion</span>
-									</span>
+									<TextAlignedIcon icon="i-lucide-clipboard-check">Task conversion</TextAlignedIcon>
 								</Menu.LinkItem>
 								<Menu.LinkItem href={`/app/goals/goal/new?noteId=${note.id}`} id="goal">
-									<span class="inline-flex items-center gap-1">
-										<i class="i-lucide-compass" />
-										<span>Goal conversion</span>
-									</span>
+									<TextAlignedIcon icon="i-lucide-compass">Goal conversion</TextAlignedIcon>
 								</Menu.LinkItem>
 							</Menu.Root>
 						</li>
