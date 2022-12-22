@@ -51,23 +51,26 @@ const Root = (props: RootProps) => {
 	const api = createMemo(() => menu.connect(state, send, normalizeProps));
 
 	return (
-		<div>
+		<>
 			<button
-				class="ring-primary b-2 b-accent flex items-center rounded py-2 px-6 text-sm outline-offset-2"
+				class={clsx(
+					'ring-primary bg-primary b-2 b-accent flex items-center justify-center gap-1 rounded py-2 px-6 text-sm outline-offset-2',
+					propsWithDefaults.class,
+				)}
 				{...api().triggerProps}
 			>
-				{propsWithDefaults.triggerContent}
-				<i class={clsx('ml-1 text-base', api().isOpen ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down')} />
+				<span>{propsWithDefaults.triggerContent}</span>
+				<i class={clsx('text-base', api().isOpen ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down')} />
 			</button>
 			<div class="z-10" {...api().positionerProps}>
 				<div
-					class="bg-primary [&_*:not(:last-child)]:b-b-1 ring-primary max-h-[calc(41px*6)] flex-col overflow-y-auto text-sm shadow shadow-md shadow-black/50 dark:shadow-black/90"
+					class="bg-primary [&_*:not(:last-child)]:b-b-1 [&_*:not(:last-child)]:b-primary ring-primary max-h-[calc(41px*6)] flex-col overflow-y-auto text-sm shadow shadow-md shadow-black/50 dark:shadow-black/90"
 					{...api().contentProps}
 				>
 					<MenuContext.Provider value={api}>{propsWithDefaults.children}</MenuContext.Provider>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 
@@ -83,7 +86,7 @@ const ButtonItem = (props: ButtonItemProps) => {
 
 	return (
 		<button
-			class="[&[data-focus]]:text-accent b-primary block w-48 truncate py-2 px-4 text-center"
+			class="[&[data-focus]]:text-accent block w-48 truncate py-2 px-4 text-center"
 			{...api().getItemProps({ id: props.id })}
 		>
 			{props.children}
@@ -100,7 +103,7 @@ const LinkItem = (props: LinkItemProps) => {
 
 	return (
 		<A
-			class="[&[data-focus]]:text-accent b-primary block w-48 truncate py-2 px-4 text-center"
+			class="[&[data-focus]]:text-accent block w-48 truncate py-2 px-4 text-center"
 			href={props.href}
 			{...api().getItemProps({ id: props.id })}
 		>

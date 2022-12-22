@@ -36,6 +36,12 @@ export const getPaginatedNotes = async (pageParam: number | string, userId: stri
 		orderBy: {
 			createdAt: 'desc',
 		},
+		select: {
+			createdAt: true,
+			id: true,
+			name: true,
+			textContent: true,
+		},
 		skip: (page - 1) * ITEMS_PER_PAGE,
 		take: ITEMS_PER_PAGE + 1,
 		where: {
@@ -43,7 +49,14 @@ export const getPaginatedNotes = async (pageParam: number | string, userId: stri
 		},
 	});
 
-	const notesPage = notes.slice(0, ITEMS_PER_PAGE);
+	const notesPage = notes.slice(0, ITEMS_PER_PAGE).map(note => {
+		const noteWithSlimmedTextContent = {
+			...note,
+			textContent: note.textContent.slice(0, 200),
+		};
+
+		return noteWithSlimmedTextContent;
+	});
 
 	if (page > 1 && !notesPage.length) throw redirect(REDIRECTS.NOTES);
 
