@@ -15,7 +15,7 @@ import { gentleScroll } from '~/utils/gentleScroll';
 import { requireUserId } from '~/utils/session';
 import { getCurrentEpochSeconds } from '~/utils/time';
 
-type ItemListProps = {
+type ItemsListProps = {
 	currentPage: number;
 	hasNextPage: boolean;
 	items: Array<Item>;
@@ -26,7 +26,7 @@ const FORM_ERRORS = {
 	ITEM_TOO_EXPENSIVE: "You can't afford this item",
 } as const satisfies FormErrors;
 
-export const ItemList = (props: ItemListProps) => {
+export const ItemsList = (props: ItemsListProps) => {
 	const [buyItemErorElement, setBuyItemErorElement] = createSignal<HTMLParagraphElement>();
 	const [deleteItemErrorElement, setDeleteItemErorElement] = createSignal<HTMLParagraphElement>();
 	const [buyItem, buyItemTrigger] = createServerAction$(async (formData: FormData, { request }) => {

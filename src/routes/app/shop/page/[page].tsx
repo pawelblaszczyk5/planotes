@@ -1,6 +1,6 @@
 import { type RouteDataFunc, useRouteData } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
-import { ItemList } from '~/components/ItemList';
+import { ItemsList } from '~/components/ItemsList';
 import { getPaginatedItems } from '~/utils/pagination';
 import { requireUserId } from '~/utils/session';
 
@@ -16,12 +16,12 @@ export const routeData = (({ params }) =>
 		},
 	)) satisfies RouteDataFunc;
 
-const ItemListPage = () => {
+const ItemsListPage = () => {
 	const data = useRouteData<typeof routeData>();
 
 	return (
-		<ItemList items={data()?.items ?? []} hasNextPage={data()?.hasNextPage ?? false} currentPage={data()?.page ?? 1} />
+		<ItemsList items={data()?.items ?? []} hasNextPage={data()?.hasNextPage ?? false} currentPage={data()?.page ?? 1} />
 	);
 };
 
-export default ItemListPage;
+export default ItemsListPage;
