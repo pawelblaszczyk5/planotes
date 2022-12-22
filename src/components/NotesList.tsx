@@ -10,6 +10,7 @@ import { TextAlignedIcon } from '~/components/TextIconAligned';
 import { REDIRECTS } from '~/constants/redirects';
 import { db } from '~/utils/db';
 import { convertFormDataIntoObject, createFormFieldsErrors } from '~/utils/form';
+import { gentleScroll } from '~/utils/gentleScroll';
 import { requireUserId } from '~/utils/session';
 
 type NotesListProps = {
@@ -53,11 +54,7 @@ export const NotesList = (props: NotesListProps) => {
 
 		if (!error || !Object.values(deleteNoteErrors()).length) return;
 
-		error.scrollIntoView({
-			behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-			block: 'nearest',
-			inline: 'nearest',
-		});
+		gentleScroll(error);
 	});
 
 	return (

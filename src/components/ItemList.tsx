@@ -11,6 +11,7 @@ import { TextAlignedIcon } from '~/components/TextIconAligned';
 import { REDIRECTS } from '~/constants/redirects';
 import { db } from '~/utils/db';
 import { type FormErrors, convertFormDataIntoObject, createFormFieldsErrors } from '~/utils/form';
+import { gentleScroll } from '~/utils/gentleScroll';
 import { requireUserId } from '~/utils/session';
 import { getCurrentEpochSeconds } from '~/utils/time';
 
@@ -105,11 +106,7 @@ export const ItemList = (props: ItemListProps) => {
 
 		if (!error || !Object.values(buyItemErrors()).length) return;
 
-		error.scrollIntoView({
-			behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-			block: 'nearest',
-			inline: 'nearest',
-		});
+		gentleScroll(error);
 	});
 
 	createEffect(() => {
@@ -117,11 +114,7 @@ export const ItemList = (props: ItemListProps) => {
 
 		if (!error || !Object.values(deleteItemErrors()).length) return;
 
-		error.scrollIntoView({
-			behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-			block: 'nearest',
-			inline: 'nearest',
-		});
+		gentleScroll(error);
 	});
 
 	return (
