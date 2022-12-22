@@ -80,8 +80,8 @@ export const NotesList = (props: NotesListProps) => {
 								<p class="text-secondary truncate text-sm">{note.textContent}</p>
 							</div>
 							<Menu.Root triggerContent="Actions">
-								<Menu.LinkItem href={`/app/notes/note/${note.id}`} id="edit">
-									<TextAlignedIcon icon="i-lucide-edit">Edit</TextAlignedIcon>
+								<Menu.LinkItem href={`/app/notes/note/${note.id}`} id="view">
+									<TextAlignedIcon icon="i-lucide-edit">View</TextAlignedIcon>
 								</Menu.LinkItem>
 								<deleteNoteTrigger.Form>
 									<input type="hidden" value={note.id} name="id" />
