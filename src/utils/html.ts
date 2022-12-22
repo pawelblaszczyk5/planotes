@@ -12,18 +12,22 @@ const SANITIZE_OPTIONS: sanitize.IOptions = {
 	allowedTags: ['h1', 'h2', 'h3', 'p', 'ul', 'ol', 'li', 'code', 'mark', 'pre', 'blockquote', 'strong', 'em', 's', 'u'],
 };
 
-export const transformHtml = (html: string) => {
-	let charactersCount = 0;
-	let textContent = '';
+const BLOCK_TAGS = ['h1', 'h2', 'h3', 'p', 'ul', 'ol', 'li', 'pre', 'blockquote'];
 
+export const transformHtml = (html: string) => {
+	// TODO: This is kinda nasty, try to make it better later
+	const textContent = sanitize(
+		sanitize(html, {
+			allowedTags: BLOCK_TAGS,
+		}),
+		{
+			allowedTags: [],
+			textFilter: text => ` ${text}`,
+		},
+	).slice(1);
+	const charactersCount = textContent.replaceAll(' ', '').length;
 	const htmlContent = sanitize(html, {
 		...SANITIZE_OPTIONS,
-		textFilter: text => {
-			charactersCount += text.length;
-			textContent += text;
-
-			return text;
-		},
 	});
 
 	return { charactersCount, htmlContent, textContent };
