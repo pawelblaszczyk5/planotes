@@ -54,7 +54,7 @@ const ToggleControl = (props: ToggleControlProps) => {
 const Toolbar = (props: { editor: Editor; hasError: boolean }) => {
 	return (
 		<div
-			class={clsx('bg-secondary b-b-2 b-destructive flex flex-wrap items-center gap-y-1 p-1', {
+			class={clsx('bg-secondary b-b-2 flex flex-wrap items-center gap-y-1 p-1', {
 				'b-destructive': props.hasError,
 				'b-primary': !props.hasError,
 			})}
