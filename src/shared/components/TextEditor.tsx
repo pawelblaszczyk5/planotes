@@ -18,6 +18,7 @@ type ToggleProps = {
 const Toggle = (props: ToggleProps) => {
 	return (
 		<button
+			type="button"
 			class="[[aria-pressed=true]&]:bg-primary [[aria-pressed=true]&]:text-accent ring-primary grid h-10 w-10 place-items-center rounded-sm text-xl"
 			aria-pressed={props.isActive}
 			aria-label={props.label}
