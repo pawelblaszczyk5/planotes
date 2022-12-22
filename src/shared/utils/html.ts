@@ -12,19 +12,19 @@ const SANITIZE_OPTIONS: sanitize.IOptions = {
 	allowedTags: ['h1', 'h2', 'h3', 'p', 'ul', 'ol', 'li', 'code', 'mark', 'pre', 'blockquote', 'strong', 'em', 's'],
 };
 
-export const sanitizeHtml = (html: string) => sanitize(html, SANITIZE_OPTIONS);
+export const transformHtml = (html: string) => {
+	let charactersCount = 0;
+	let textContent = '';
 
-export const countHtmlCharacters = (html: string) => {
-	let count = 0;
-
-	sanitize(html, {
+	const htmlContent = sanitize(html, {
 		...SANITIZE_OPTIONS,
 		textFilter: text => {
-			count += text.length;
+			charactersCount += text.length;
+			textContent += text;
 
 			return text;
 		},
 	});
 
-	return count;
+	return { charactersCount, htmlContent, textContent };
 };

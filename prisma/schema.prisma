@@ -98,7 +98,8 @@ model BalanceEntry {
 model Task {
   id          String      @id @default(cuid())
   title       String
-  description String
+  textContent String
+  htmlContent String
   status      TASK_STATUS @default(TO_DO)
   size        Size
   createdAt   Int
@@ -111,7 +112,8 @@ model Task {
 model Goal {
   id          String @id @default(cuid())
   title       String
-  description String
+  textContent String
+  htmlContent String
   size        Size
   createdAt   Int
   Task        Task[]
@@ -120,10 +122,11 @@ model Goal {
 }
 
 model Note {
-  id        String @id @default(cuid())
-  name      String
-  content   String
-  createdAt Int
-  user      User   @relation(fields: [userId], references: [id])
-  userId    String
+  id          String @id @default(cuid())
+  name        String
+  textContent String
+  htmlContent String
+  createdAt   Int
+  user        User   @relation(fields: [userId], references: [id])
+  userId      String
 }

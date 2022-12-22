@@ -14,7 +14,7 @@ import {
 	convertFormDataIntoObject,
 	zodErrorToFieldErrors,
 } from '~/shared/utils/form';
-import { countHtmlCharacters, sanitizeHtml } from '~/shared/utils/html';
+import { transformHtml } from '~/shared/utils/html';
 import { requireUserId } from '~/shared/utils/session';
 import { getCurrentEpochSeconds } from '~/shared/utils/time';
 
@@ -40,10 +40,8 @@ export const NoteForm = (props: NoteFormProps) => {
 		const upsertNoteSchema = z.object({
 			content: z
 				.string({ invalid_type_error: FORM_ERRORS.CONTENT_REQUIRED, required_error: FORM_ERRORS.CONTENT_REQUIRED })
-				.transform(val => sanitizeHtml(val))
-				.superRefine((val, ctx) => {
-					const charactersCount = countHtmlCharacters(val);
-
+				.transform(val => transformHtml(val))
+				.superRefine(({ charactersCount }, ctx) => {
 					if (charactersCount === 0)
 						ctx.addIssue({
 							code: z.ZodIssueCode.custom,
@@ -80,9 +78,10 @@ export const NoteForm = (props: NoteFormProps) => {
 		if (!parsedUpsertNotePayload.data.id) {
 			await db.note.create({
 				data: {
-					content: parsedUpsertNotePayload.data.content,
 					createdAt: getCurrentEpochSeconds(),
+					htmlContent: parsedUpsertNotePayload.data.content.htmlContent,
 					name: parsedUpsertNotePayload.data.name,
+					textContent: parsedUpsertNotePayload.data.content.textContent,
 					userId,
 				},
 			});
@@ -101,8 +100,9 @@ export const NoteForm = (props: NoteFormProps) => {
 
 		await db.note.update({
 			data: {
-				content: sanitizeHtml(parsedUpsertNotePayload.data.content),
+				htmlContent: parsedUpsertNotePayload.data.content.htmlContent,
 				name: parsedUpsertNotePayload.data.name,
+				textContent: parsedUpsertNotePayload.data.content.textContent,
 			},
 			where: {
 				id: parsedUpsertNotePayload.data.id,
@@ -125,7 +125,7 @@ export const NoteForm = (props: NoteFormProps) => {
 				<TextEditor
 					error={upsertNoteErrors()['content']}
 					name="content"
-					value={props.note?.content ?? ''}
+					value={props.note?.htmlContent ?? ''}
 					maxLength={NOTE_CONTENT_MAX_LENGTH}
 					class="lg:-mr-48"
 				>
