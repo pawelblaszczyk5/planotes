@@ -244,6 +244,7 @@ const TextEditor = (props: TextEditorProps) => {
 			attributes: {
 				class:
 					'px-6 py-3 ring-primary prose max-w-full h-60 b-primary overflow-auto -outline-offset-1 rounded-lg rounded-t-0',
+				id,
 			},
 		},
 		// @ts-expect-error - something off with typings
@@ -271,7 +272,9 @@ const TextEditor = (props: TextEditorProps) => {
 
 	return (
 		<div class={propsWithDefaults.class}>
-			<p class="text-secondary pb-1 text-sm">{propsWithDefaults.children}</p>
+			<a class="text-secondary cursor-default select-none pb-1 text-sm" href={`#${id}`}>
+				{propsWithDefaults.children}
+			</a>
 			<div
 				class={clsx(
 					editor() && {
@@ -289,7 +292,7 @@ const TextEditor = (props: TextEditorProps) => {
 			<Show when={editor()}>
 				<div class="flex items-start justify-between pt-3">
 					<Show when={hasError()}>
-						<p class="text-destructive text-sm" id={`${id}-error`} role="alert">
+						<p class="text-destructive text-sm" role="alert">
 							{propsWithDefaults.error}
 						</p>
 					</Show>
