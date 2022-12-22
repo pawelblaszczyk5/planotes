@@ -21,6 +21,7 @@ specifiers:
   '@tiptap/extension-character-count': 2.0.0-beta.209
   '@tiptap/extension-highlight': 2.0.0-beta.209
   '@tiptap/extension-text-align': 2.0.0-beta.209
+  '@tiptap/extension-underline': 2.0.0-beta.209
   '@tiptap/starter-kit': 2.0.0-beta.209
   '@tsconfig/strictest': ^1.0.2
   '@types/nodemailer': ^6.4.7
@@ -73,6 +74,7 @@ dependencies:
   '@tiptap/extension-character-count': 2.0.0-beta.209_kdf7tbeyuz6zzmi7724b5ghupu
   '@tiptap/extension-highlight': 2.0.0-beta.209_f4ffqkgz5d3wev7su7t7l2rrua
   '@tiptap/extension-text-align': 2.0.0-beta.209_f4ffqkgz5d3wev7su7t7l2rrua
+  '@tiptap/extension-underline': 2.0.0-beta.209_f4ffqkgz5d3wev7su7t7l2rrua
   '@tiptap/starter-kit': 2.0.0-beta.209_jpbjcwtxtditttqwduift4tnzi
   '@unocss/reset': 0.48.0
   '@zag-js/checkbox': 0.2.6
@@ -2180,6 +2182,14 @@ packages:
 
   /@tiptap/extension-text/2.0.0-beta.209_f4ffqkgz5d3wev7su7t7l2rrua:
     resolution: {integrity: sha512-12PTPTQViDR7xDLwxGMPiYaV89E9olH/+4Zfoh6QiOjHqhmgYu3+/c8YZ3eARgXnfpy/EzUD0PBxiAyDZJ1vdw==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0-beta.193
+    dependencies:
+      '@tiptap/core': 2.0.0-beta.209_rd5pjtxohzfgv2zee3iufpqkay
+    dev: false
+
+  /@tiptap/extension-underline/2.0.0-beta.209_f4ffqkgz5d3wev7su7t7l2rrua:
+    resolution: {integrity: sha512-xCW0GvCE883l8+YLvDkj5lNdVpqL15uJFMvWP9v79rqlMVZGIFd49saMyAPQworZqepnhnndFOELZ0pHcCV4vQ==}
     peerDependencies:
       '@tiptap/core': ^2.0.0-beta.193
     dependencies:

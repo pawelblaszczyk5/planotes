@@ -2,6 +2,7 @@ import { type Editor } from '@tiptap/core';
 import { CharacterCount } from '@tiptap/extension-character-count';
 import { Highlight } from '@tiptap/extension-highlight';
 import { TextAlign } from '@tiptap/extension-text-align';
+import { Underline } from '@tiptap/extension-underline';
 import { StarterKit } from '@tiptap/starter-kit';
 import clsx from 'clsx';
 import { type JSXElement, createSignal, Show, mergeProps, createUniqueId, createEffect, untrack } from 'solid-js';
@@ -130,6 +131,14 @@ const Toolbar = (props: { editor: Editor; hasError: boolean }) => {
 					<i class="i-lucide-strikethrough" />
 				</ToggleControl>
 				<ToggleControl
+					key="underline"
+					editor={props.editor}
+					label="Toggle underline"
+					onChange={() => props.editor.chain().focus().toggleUnderline().run()}
+				>
+					<i class="i-lucide-underline" />
+				</ToggleControl>
+				<ToggleControl
 					key="code"
 					editor={props.editor}
 					label="Toggle code"
@@ -247,6 +256,7 @@ const TextEditor = (props: TextEditorProps) => {
 			}),
 			CharacterCount.configure({ limit: propsWithDefaults.maxLength }),
 			Highlight,
+			Underline,
 		],
 	}));
 

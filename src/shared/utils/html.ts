@@ -9,7 +9,7 @@ const SANITIZE_OPTIONS: sanitize.IOptions = {
 			'text-align': [/^left$/u, /^right$/u, /^center$/u],
 		},
 	},
-	allowedTags: ['h1', 'h2', 'h3', 'p', 'ul', 'ol', 'li', 'code', 'mark', 'pre', 'blockquote', 'strong', 'em', 's'],
+	allowedTags: ['h1', 'h2', 'h3', 'p', 'ul', 'ol', 'li', 'code', 'mark', 'pre', 'blockquote', 'strong', 'em', 's', 'u'],
 };
 
 export const transformHtml = (html: string) => {
