@@ -1,10 +1,19 @@
-import { Title } from 'solid-start';
+import { Outlet, Title } from 'solid-start';
+import { AppMainLayout } from '~/components/AppMainLayout';
 
 const Goals = () => {
 	return (
 		<>
 			<Title>Goals | Planotes</Title>
-			<h1>Goals</h1>
+			<AppMainLayout
+				heading={
+					<div class="flex justify-between">
+						<span>Goals</span>
+					</div>
+				}
+			>
+				<Outlet />
+			</AppMainLayout>
 		</>
 	);
 };
