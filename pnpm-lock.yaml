@@ -31,6 +31,7 @@ specifiers:
   '@zag-js/checkbox': ^0.2.6
   '@zag-js/combobox': ^0.2.7
   '@zag-js/dialog': ^0.2.5
+  '@zag-js/menu': ^0.3.2
   '@zag-js/number-input': ^0.2.6
   '@zag-js/radio-group': ^0.1.6
   '@zag-js/solid': ^0.2.3
@@ -80,6 +81,7 @@ dependencies:
   '@zag-js/checkbox': 0.2.6
   '@zag-js/combobox': 0.2.7_meojdp4umm4m2kiaizmc2q4dla
   '@zag-js/dialog': 0.2.5
+  '@zag-js/menu': 0.3.2
   '@zag-js/number-input': 0.2.6
   '@zag-js/radio-group': 0.1.6
   '@zag-js/solid': 0.2.3_solid-js@1.6.6
@@ -2780,6 +2782,16 @@ packages:
 
   /@zag-js/live-region/0.2.0:
     resolution: {integrity: sha512-fhG3YeI7EfXbSm9+mkx6nKLhMjB1NQgqmuoskNidplySaRa+XXCMfZLILbGr9tQYX/73Q+fln0iia6g2xIVeFA==}
+    dev: false
+
+  /@zag-js/menu/0.3.2:
+    resolution: {integrity: sha512-6OTpsSM7Ad5ui8O8wG5tMXWpf/Q5dqpgeDI/Doig6aEwLpEu7QYV5AdiS+Sio10sK5IkVMVpBV35IaQAn0Mw3Q==}
+    dependencies:
+      '@zag-js/anatomy': 0.1.2
+      '@zag-js/core': 0.2.3
+      '@zag-js/dismissable': 0.2.0
+      '@zag-js/popper': 0.2.1
+      '@zag-js/types': 0.3.1
     dev: false
 
   /@zag-js/number-input/0.2.6:

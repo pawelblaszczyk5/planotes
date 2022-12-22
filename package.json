@@ -33,6 +33,7 @@
 		"@zag-js/checkbox": "^0.2.6",
 		"@zag-js/combobox": "^0.2.7",
 		"@zag-js/dialog": "^0.2.5",
+		"@zag-js/menu": "^0.3.2",
 		"@zag-js/number-input": "^0.2.6",
 		"@zag-js/radio-group": "^0.1.6",
 		"@zag-js/solid": "^0.2.3",
