@@ -1,8 +1,14 @@
 import { type Note } from '@prisma/client';
-import { For, Show } from 'solid-js';
+import { createEffect, createSignal, For, Show } from 'solid-js';
+import { FormError } from 'solid-start';
+import { createServerAction$ } from 'solid-start/server';
+import { z } from 'zod';
 import { ButtonLink } from '~/components/Button';
 import { Menu } from '~/components/Menu';
 import { Pagination } from '~/components/Pagination';
+import { db } from '~/utils/db';
+import { convertFormDataIntoObject, createFormFieldsErrors } from '~/utils/form';
+import { requireUserId } from '~/utils/session';
 
 type NotesListProps = {
 	currentPage: number;
@@ -10,7 +16,46 @@ type NotesListProps = {
 	notes: Array<Omit<Note, 'htmlContent' | 'userId'>>;
 };
 
+const FORM_ERROR = "Can't find a note with a given id";
+
 export const NotesList = (props: NotesListProps) => {
+	const [errorElement, setErrorElement] = createSignal<HTMLParagraphElement>();
+
+	const [deleteNote, deleteNoteTrigger] = createServerAction$(async (formData: FormData, { request }) => {
+		const userId = await requireUserId(request);
+
+		const deleteNoteSchema = z.object({
+			id: z.string().cuid(),
+		});
+
+		const parsedDeleteNotePayload = deleteNoteSchema.safeParse(convertFormDataIntoObject(formData));
+
+		if (!parsedDeleteNotePayload.success) throw new FormError(FORM_ERROR);
+
+		const note = await db.note.findUnique({
+			select: { userId: true },
+			where: { id: parsedDeleteNotePayload.data.id },
+		});
+
+		if (note?.userId !== userId) throw new FormError(FORM_ERROR);
+
+		await db.note.delete({ where: { id: parsedDeleteNotePayload.data.id } });
+	});
+
+	const deleteNoteErrors = createFormFieldsErrors(() => deleteNote.error);
+
+	createEffect(() => {
+		const error = errorElement();
+
+		if (!error || !Object.values(deleteNoteErrors()).length) return;
+
+		error.scrollIntoView({
+			behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+			block: 'nearest',
+			inline: 'nearest',
+		});
+	});
+
 	return (
 		<>
 			<div class="mb-6 flex items-center justify-between gap-12">
@@ -20,6 +65,11 @@ export const NotesList = (props: NotesListProps) => {
 				</p>
 				<ButtonLink href="/app/notes/note/new">Add</ButtonLink>
 			</div>
+			<Show when={deleteNoteErrors()['other']}>
+				<p ref={setErrorElement} class="text-destructive mb-6 text-sm">
+					{deleteNoteErrors()['other']}
+				</p>
+			</Show>
 			<ul class="flex flex-col gap-6">
 				<For each={props.notes}>
 					{note => (
@@ -35,12 +85,15 @@ export const NotesList = (props: NotesListProps) => {
 										<span>Edit</span>
 									</span>
 								</Menu.LinkItem>
-								<Menu.ButtonItem id="delete">
-									<span class="inline-flex items-center gap-1">
-										<i class="i-lucide-edit" />
-										<span>Delete</span>
-									</span>
-								</Menu.ButtonItem>
+								<deleteNoteTrigger.Form>
+									<input type="hidden" value={note.id} name="id" />
+									<Menu.ButtonItem id="delete">
+										<span class="inline-flex items-center gap-1">
+											<i class="i-lucide-edit" />
+											<span>Delete</span>
+										</span>
+									</Menu.ButtonItem>
+								</deleteNoteTrigger.Form>
 								<Menu.LinkItem href={`/app/tasks/task/new?noteId=${note.id}`} id="task">
 									<span class="inline-flex items-center gap-1">
 										<i class="i-lucide-clipboard-check" />

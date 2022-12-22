@@ -19,7 +19,6 @@ type ItemListProps = {
 };
 
 const FORM_ERRORS = {
-	ID_INVALID: 'Invalid item ID, there is something off',
 	ITEM_NOT_FOUND: "Can't find a item with a given id",
 	ITEM_TOO_EXPENSIVE: "You can't afford this item",
 } as const satisfies FormErrors;
@@ -34,14 +33,17 @@ export const ItemList = (props: ItemListProps) => {
 
 		const parsedBuyItemPayload = buyItemSchema.safeParse(convertFormDataIntoObject(formData));
 
-		if (!parsedBuyItemPayload.success) throw new FormError(FORM_ERRORS.ID_INVALID);
+		if (!parsedBuyItemPayload.success) throw new FormError(FORM_ERRORS.ITEM_NOT_FOUND);
 
 		const [itemToBuy, user] = await Promise.all([
-			db.item.findUnique({ where: { id: parsedBuyItemPayload.data.id } }),
+			db.item.findUnique({
+				select: { price: true, type: true, userId: true },
+				where: { id: parsedBuyItemPayload.data.id },
+			}),
 			db.user.findFirstOrThrow({ select: { balance: true }, where: { id: userId } }),
 		]);
 
-		if (!itemToBuy) throw new FormError(FORM_ERRORS.ITEM_NOT_FOUND);
+		if (!itemToBuy || itemToBuy.userId !== userId) throw new FormError(FORM_ERRORS.ITEM_NOT_FOUND);
 
 		if (itemToBuy.price > user?.balance) throw new FormError(FORM_ERRORS.ITEM_TOO_EXPENSIVE);
 
@@ -52,14 +54,14 @@ export const ItemList = (props: ItemListProps) => {
 					change: -itemToBuy.price,
 					createdAt: getCurrentEpochSeconds(),
 					entity: 'ITEM',
-					itemId: itemToBuy.id,
+					itemId: parsedBuyItemPayload.data.id,
 					userId,
 				},
 			}),
 		];
 
 		if (itemToBuy.type !== 'RECURRING')
-			promises.push(db.item.update({ data: { status: 'UNAVAILABLE' }, where: { id: itemToBuy.id } }));
+			promises.push(db.item.update({ data: { status: 'UNAVAILABLE' }, where: { id: parsedBuyItemPayload.data.id } }));
 
 		await Promise.all(promises);
 
@@ -71,11 +73,13 @@ export const ItemList = (props: ItemListProps) => {
 	createEffect(() => {
 		const error = errorElement();
 
-		if (error && Object.values(buyItemErrors()).length) {
-			error.scrollIntoView({
-				behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-			});
-		}
+		if (!error || !Object.values(buyItemErrors()).length) return;
+
+		error.scrollIntoView({
+			behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+			block: 'nearest',
+			inline: 'nearest',
+		});
 	});
 
 	return (
