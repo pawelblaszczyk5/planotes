@@ -1,4 +1,3 @@
-import { type Note } from '@prisma/client';
 import { createEffect, createSignal, For, Show } from 'solid-js';
 import { FormError } from 'solid-start';
 import { createServerAction$, redirect } from 'solid-start/server';
@@ -12,12 +11,13 @@ import { REDIRECTS } from '~/constants/redirects';
 import { db } from '~/utils/db';
 import { convertFormDataIntoObject, createFormFieldsErrors } from '~/utils/form';
 import { gentleScroll } from '~/utils/gentleScroll';
+import { type getPaginatedNotes } from '~/utils/pagination';
 import { requireUserId } from '~/utils/session';
 
 type NotesListProps = {
 	currentPage: number;
 	hasNextPage: boolean;
-	notes: Array<Omit<Note, 'htmlContent' | 'userId'>>;
+	notes: Awaited<ReturnType<typeof getPaginatedNotes>>['notes'];
 };
 
 const FORM_ERROR = "Can't find a note with a given id";
@@ -73,7 +73,14 @@ export const NotesList = (props: NotesListProps) => {
 				</p>
 			</Show>
 			<ul class="flex flex-col gap-6">
-				<For each={props.notes}>
+				<For
+					each={props.notes}
+					fallback={
+						<h2 class="text-secondary col-span-full text-center text-sm">
+							You don't have any notes yet. Go add your first one and start writing down your thoughts!
+						</h2>
+					}
+				>
 					{note => (
 						<li class="bg-secondary grid grid-cols-[minmax(0,1fr)_7.5rem] items-center rounded py-3 px-6 shadow shadow-black/50 dark:shadow-black/90">
 							<div class="mr-6 flex flex-col gap-2">

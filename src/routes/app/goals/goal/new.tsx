@@ -33,7 +33,7 @@ const NewGoal = () => {
 
 	return (
 		<GoalForm
-			description="Here you can add a new goal to track your progress. Goals let's you group related tasks and track progress among all of them easily! Priority and size influence the prize and positioning of goals in list."
+			description="Here you can add a new goal to track your progress. Goals let's you group related tasks and track progress among all of them easily! Priority and size influence the prize"
 			title="Add a new goal"
 			noteToConvert={noteToConvert()}
 		/>

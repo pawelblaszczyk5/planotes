@@ -1,20 +1,15 @@
-import { type RouteDataFunc, useRouteData } from 'solid-start';
+import { useRouteData } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
 import { GoalsList } from '~/components/GoalsList';
 import { getPaginatedGoals } from '~/utils/pagination';
 import { requireUserId } from '~/utils/session';
 
-export const routeData = (({ params }) =>
-	createServerData$(
-		async (page, { request }) => {
-			const userId = await requireUserId(request);
+export const routeData = () =>
+	createServerData$(async (_, { request }) => {
+		const userId = await requireUserId(request);
 
-			return getPaginatedGoals(page, userId);
-		},
-		{
-			key: () => params['page'],
-		},
-	)) satisfies RouteDataFunc;
+		return getPaginatedGoals(1, userId);
+	});
 
 const GoalsListPage = () => {
 	const data = useRouteData<typeof routeData>();

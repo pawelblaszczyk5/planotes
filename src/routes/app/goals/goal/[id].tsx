@@ -23,7 +23,7 @@ export const routeData = (({ params }) =>
 					Task: {
 						where: {
 							status: {
-								in: ['COMPLETED', 'IN_PROGRESS', 'TO_DO'],
+								not: 'ARCHIVED',
 							},
 						},
 					},

@@ -55,7 +55,7 @@ const NewTask = () => {
 
 	return (
 		<TaskForm
-			description="Here you can add a new task to track your progress. You can assign the task to some previously created goal (if you created one before) or just let it be standalone. Priority and size influence the prize and positioning of tasks in list."
+			description="Here you can add a new task to track your progress. You can assign the task to some previously created goal (if you created one before) or just let it be standalone. Priority and size influence the prize."
 			title="Add a new task"
 			goals={availableGoals() ?? []}
 			noteToConvert={noteToConvert()}
