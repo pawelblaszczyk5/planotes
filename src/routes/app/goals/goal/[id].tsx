@@ -62,7 +62,7 @@ const ViewGoal = () => {
 							Here you can edit a previously created goal. You can change it status or edit info about it. You can also
 							see a list of assigned tasks and check your progress in detail!
 						</span>
-						<GoalStatusMenu class="min-w-42" id={goal()!.id} currentStatus={goal()!.status} />
+						<GoalStatusMenu class="min-w-48 max-w-48" id={goal()!.id} currentStatus={goal()!.status} />
 					</div>
 				}
 			/>

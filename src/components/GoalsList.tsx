@@ -2,6 +2,8 @@ import { For, Show } from 'solid-js';
 import { ButtonLink } from '~/components/Button';
 import { GoalStatusMenu } from '~/components/GoalStatusMenu';
 import { Pagination } from '~/components/Pagination';
+import { TextAlignedIcon } from '~/components/TextIconAligned';
+import { PRIORITY_ICONS, PRIORITY_TEXT } from '~/constants/priorityDisplay';
 import { type getPaginatedGoals } from '~/utils/pagination';
 
 type GoalsListProps = {
@@ -30,15 +32,26 @@ export const GoalsList = (props: GoalsListProps) => {
 					}
 				>
 					{goal => (
-						<li class="bg-secondary grid grid-cols-[minmax(0,1fr)_10.5rem] items-center rounded py-3 px-6 shadow shadow-black/50 dark:shadow-black/90">
-							<div class="mr-6 flex flex-col gap-2">
-								<h3 class="truncate text-xl">{goal.title}</h3>
-								<p class="text-secondary truncate text-sm">{goal.textContent}</p>
-								<p>{goal.progress}</p>
-								<p>{goal.size}</p>
-								<p>{goal.priority}</p>
+						<li class="bg-secondary grid grid-cols-1 items-center gap-6 rounded py-6 px-6 shadow shadow-black/50 dark:shadow-black/90 md:grid-cols-[minmax(0,1fr)_11rem]">
+							<div class="flex flex-col gap-2">
+								<h3 class="truncate text-xl">
+									<span class="mr-auto ">{goal.title}</span>
+								</h3>
+								<p class="text-secondary mb-2 truncate text-sm">{goal.textContent}</p>
+								<p class="text-secondary flex items-center text-sm">
+									Priority:
+									<span class="text-accent ml-1 flex items-center gap-1">
+										{PRIORITY_TEXT[goal.priority]} <i class={PRIORITY_ICONS[goal.priority]} />
+									</span>
+								</p>
+								<p class="text-secondary flex items-center text-sm">Size: {goal.size}</p>
 							</div>
-							<GoalStatusMenu class="flex justify-end" id={goal.id} currentStatus={goal.status} />
+							<div class="flex flex-col gap-6">
+								<ButtonLink class="w-44" size="small" href={`/app/goals/goal/${goal.id}`}>
+									<TextAlignedIcon icon="i-lucide-eye">View</TextAlignedIcon>
+								</ButtonLink>
+								<GoalStatusMenu class="w-44" id={goal.id} currentStatus={goal.status} />
+							</div>
 						</li>
 					)}
 				</For>

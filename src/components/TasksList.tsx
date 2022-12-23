@@ -2,6 +2,8 @@ import { type JSXElement, For, Show } from 'solid-js';
 import { ButtonLink } from '~/components/Button';
 import { Pagination } from '~/components/Pagination';
 import { TaskStatusMenu } from '~/components/TaskStatusMenu';
+import { TextAlignedIcon } from '~/components/TextIconAligned';
+import { PRIORITY_ICONS, PRIORITY_TEXT } from '~/constants/priorityDisplay';
 import { type getPaginatedTasks } from '~/utils/pagination';
 
 type TasksListProps = {
@@ -23,19 +25,33 @@ export const TasksListWithoutPagination = (props: TasksListWithoutPaginationProp
 			fallback={<h2 class="text-secondary col-span-full text-center text-sm">{props.fallback}</h2>}
 		>
 			{task => (
-				<li class="bg-secondary grid grid-cols-[minmax(0,1fr)_10.5rem] items-center rounded py-3 px-6 shadow shadow-black/50 dark:shadow-black/90">
-					<div class="mr-6 flex flex-col gap-2">
-						<h3 class="truncate text-xl">{task.title}</h3>
-						<p class="text-secondary truncate text-sm">{task.textContent}</p>
-						<p>{task.size}</p>
-						<p>{task.priority}</p>
+				<li class="bg-secondary grid grid-cols-1 items-center gap-6 rounded py-6 px-6 shadow shadow-black/50 dark:shadow-black/90 md:grid-cols-[minmax(0,1fr)_11rem]">
+					<div class="flex flex-col gap-2">
+						<h3 class="truncate text-xl">
+							<span class="mr-auto ">{task.title}</span>
+						</h3>
+						<p class="text-secondary mb-2 truncate text-sm">{task.textContent}</p>
+						<p class="text-secondary flex items-center text-sm">
+							Priority:
+							<span class="text-accent ml-1 flex items-center gap-1">
+								{PRIORITY_TEXT[task.priority]} <i class={PRIORITY_ICONS[task.priority]} />
+							</span>
+						</p>
+						<p class="text-secondary flex items-center text-sm">Size: {task.size}</p>
 					</div>
-					<TaskStatusMenu
-						goalList={props.goalList ?? false}
-						class="flex justify-end"
-						id={task.id}
-						currentStatus={task.status}
-					/>
+					<Show when={task.status !== 'COMPLETED' && task.status !== 'ARCHIVED'}>
+						<div class="flex flex-col gap-6">
+							<ButtonLink class="w-44" size="small" href={`/app/tasks/task/${task.id}`}>
+								<TextAlignedIcon icon="i-lucide-eye">View</TextAlignedIcon>
+							</ButtonLink>
+							<TaskStatusMenu
+								goalList={props.goalList ?? false}
+								class="w-44"
+								id={task.id}
+								currentStatus={task.status}
+							/>
+						</div>
+					</Show>
 				</li>
 			)}
 		</For>

@@ -95,6 +95,7 @@ export const GoalStatusMenu = (props: GoalStatusMenuProps) => {
 						{STATUS_LABEL[propsWithDefaults.currentStatus]}
 					</TextAlignedIcon>
 				}
+				class="w-full"
 			>
 				<changeStatusTrigger.Form>
 					<input type="hidden" name="id" value={propsWithDefaults.id} />
