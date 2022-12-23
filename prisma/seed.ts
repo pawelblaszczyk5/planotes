@@ -23,7 +23,7 @@ const onboardUser = async (id: string) => {
 	await db.user.update({
 		data: {
 			avatarSeed: faker.random.words(),
-			balance: faker.datatype.number({ max: 2_000, min: 500 }),
+			balance: 0,
 			name: faker.name.firstName(),
 			timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 		},
@@ -32,6 +32,7 @@ const onboardUser = async (id: string) => {
 };
 
 const convertDateIntoSeconds = (date: Date) => Math.round(date.getTime() / 1_000);
+const getDateInPastTwoMonths = () => faker.date.between(new Date(5_259_600_000), Date.now());
 
 const generateHtmlContent = () => {
 	const title = faker.random.words(faker.datatype.number({ max: 5, min: 2 }));
@@ -53,7 +54,7 @@ const generateStatusSizePriority = () =>
 	} as const);
 
 const generateItem = (userId: string): Omit<Item, 'id'> => ({
-	createdAt: convertDateIntoSeconds(faker.date.past()),
+	createdAt: convertDateIntoSeconds(getDateInPastTwoMonths()),
 	iconUrl: faker.image.imageUrl(
 		faker.datatype.number({ max: 500, min: 200 }),
 		faker.datatype.number({ max: 500, min: 200 }),
@@ -72,14 +73,14 @@ const createItemsForUser = async (userId: string, count: number) => {
 };
 
 const generateNote = (userId: string): Omit<Note, 'id'> => ({
-	createdAt: convertDateIntoSeconds(faker.date.past()),
+	createdAt: convertDateIntoSeconds(getDateInPastTwoMonths()),
 	name: faker.random.word(),
 	userId,
 	...generateHtmlContent(),
 });
 
 const generateTask = (userId: string): Omit<Task, 'id'> => ({
-	createdAt: convertDateIntoSeconds(faker.date.past()),
+	createdAt: convertDateIntoSeconds(getDateInPastTwoMonths()),
 	title: faker.random.word(),
 	userId,
 	...generateHtmlContent(),
@@ -222,7 +223,7 @@ const asignTasksToGoals = async (userId: string) => {
 };
 
 const buySomeItems = async (userId: string) => {
-	const userBalance = (await db.user.findUniqueOrThrow({ select: { balance: true }, where: { id: userId } })).balance;
+	let userBalance = (await db.user.findUniqueOrThrow({ select: { balance: true }, where: { id: userId } })).balance;
 	const minimumBalanceLeft = faker.datatype.number({ max: userBalance, min: 500 });
 	const items = (
 		await db.item.findMany({
@@ -239,7 +240,9 @@ const buySomeItems = async (userId: string) => {
 	const promises: Array<Promise<unknown>> = [];
 
 	for (const item of items) {
-		if (userBalance - item.price < minimumBalanceLeft) break;
+		if (userBalance - item.price < minimumBalanceLeft) continue;
+
+		userBalance -= item.price;
 
 		promises.push(
 			db.balanceEntry.create({
