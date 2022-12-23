@@ -30,7 +30,7 @@ export const GoalsList = (props: GoalsListProps) => {
 					}
 				>
 					{goal => (
-						<li class="bg-secondary grid grid-cols-[minmax(0,1fr)_7.5rem] items-center rounded py-3 px-6 shadow shadow-black/50 dark:shadow-black/90">
+						<li class="bg-secondary grid grid-cols-[minmax(0,1fr)_10.5rem] items-center rounded py-3 px-6 shadow shadow-black/50 dark:shadow-black/90">
 							<div class="mr-6 flex flex-col gap-2">
 								<h3 class="truncate text-xl">{goal.title}</h3>
 								<p class="text-secondary truncate text-sm">{goal.textContent}</p>
@@ -38,7 +38,7 @@ export const GoalsList = (props: GoalsListProps) => {
 								<p>{goal.size}</p>
 								<p>{goal.priority}</p>
 							</div>
-							<GoalStatusMenu id={goal.id} currentStatus={goal.status} />
+							<GoalStatusMenu class="flex justify-end" id={goal.id} currentStatus={goal.status} />
 						</li>
 					)}
 				</For>

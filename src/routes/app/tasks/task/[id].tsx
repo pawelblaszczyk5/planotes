@@ -68,7 +68,7 @@ const ViewTask = () => {
 							Here you can edit a previously created task. You can change it status or edit info about it. You can also
 							assign it to a fitting goal if you created one from back then!
 						</span>
-						<TaskStatusMenu class="min-w-42" id={task()!.id} currentStatus={task()!.status} />
+						<TaskStatusMenu class="min-w-42 flex justify-end" id={task()!.id} currentStatus={task()!.status} />
 					</div>
 				}
 			/>
