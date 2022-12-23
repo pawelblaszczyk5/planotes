@@ -1,4 +1,4 @@
-import { type Note, type Goal, Size, Priority } from '@prisma/client';
+import { type Task, type Note, type Goal, Size, Priority } from '@prisma/client';
 import { type JSXElement, Show } from 'solid-js';
 import { FormError } from 'solid-start';
 import { createServerAction$, redirect } from 'solid-start/server';
@@ -36,7 +36,7 @@ const FORM_ERRORS = {
 
 type GoalFormProps = {
 	description: JSXElement;
-	goal?: Omit<Goal, 'textContent'>;
+	goal?: Omit<Goal & { Task?: Array<Task> }, 'textContent'>;
 	noteToConvert?: Pick<Note, 'htmlContent' | 'id' | 'name'> | null | undefined;
 	title: JSXElement;
 };
@@ -213,6 +213,9 @@ export const GoalForm = (props: GoalFormProps) => {
 				</Show>
 				<Button class="max-w-48 w-full">{props.goal ? 'Save goal' : 'Add goal'}</Button>
 			</upsertGoalTrigger.Form>
+			<Show when={props.goal?.Task?.length}>
+				<h2 class="mt-6 text-xl">Linked tasks</h2>
+			</Show>
 		</div>
 	);
 };

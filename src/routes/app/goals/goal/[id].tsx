@@ -13,6 +13,23 @@ export const routeData = (({ params }) =>
 			const userId = await requireUserId(request);
 
 			const goalToEdit = await db.goal.findFirst({
+				select: {
+					createdAt: true,
+					htmlContent: true,
+					id: true,
+					priority: true,
+					size: true,
+					status: true,
+					Task: {
+						where: {
+							status: {
+								in: ['COMPLETED', 'IN_PROGRESS', 'TO_DO'],
+							},
+						},
+					},
+					title: true,
+					userId: true,
+				},
 				where: {
 					id,
 					status: {
