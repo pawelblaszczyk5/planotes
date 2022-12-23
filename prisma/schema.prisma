@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -34,7 +35,7 @@ enum Entity {
   GOAL
 }
 
-enum TASK_STATUS {
+enum COMPLETABLE_STATUS {
   TO_DO
   IN_PROGRESS
   COMPLETED
@@ -47,6 +48,12 @@ enum Size {
   M
   L
   XL
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGHH
 }
 
 // Models
@@ -98,28 +105,31 @@ model BalanceEntry {
 }
 
 model Task {
-  id          String      @id @default(cuid())
+  id          String             @id @default(cuid())
   title       String
   textContent String
   htmlContent String
-  status      TASK_STATUS @default(TO_DO)
+  status      COMPLETABLE_STATUS @default(TO_DO)
   size        Size
+  priority    Priority
   createdAt   Int
-  goal        Goal?       @relation(fields: [goalId], references: [id])
+  goal        Goal?              @relation(fields: [goalId], references: [id])
   goalId      String?
-  user        User        @relation(fields: [userId], references: [id])
+  user        User               @relation(fields: [userId], references: [id])
   userId      String
 }
 
 model Goal {
-  id          String @id @default(cuid())
+  id          String             @id @default(cuid())
   title       String
   textContent String
   htmlContent String
   size        Size
+  priority    Priority
+  status      COMPLETABLE_STATUS
   createdAt   Int
   Task        Task[]
-  user        User   @relation(fields: [userId], references: [id])
+  user        User               @relation(fields: [userId], references: [id])
   userId      String
 }
 
