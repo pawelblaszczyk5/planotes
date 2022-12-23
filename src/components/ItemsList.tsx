@@ -12,6 +12,7 @@ import { REDIRECTS } from '~/constants/redirects';
 import { db } from '~/utils/db';
 import { type FormErrors, convertFormDataIntoObject, createFormFieldsErrors } from '~/utils/form';
 import { gentleScroll } from '~/utils/gentleScroll';
+import { sanitizeRefererRedirect } from '~/utils/refererRedirect';
 import { requireUserId } from '~/utils/session';
 import { getCurrentEpochSeconds } from '~/utils/time';
 
@@ -69,7 +70,7 @@ export const ItemsList = (props: ItemsListProps) => {
 
 		await Promise.all(promises);
 
-		return redirect(request.headers.get('referer') ?? REDIRECTS.SHOP);
+		return redirect(sanitizeRefererRedirect(request, REDIRECTS.SHOP));
 	});
 
 	const [deleteItem, deleteItemTrigger] = createServerAction$(async (formData: FormData, { request }) => {
@@ -94,7 +95,7 @@ export const ItemsList = (props: ItemsListProps) => {
 			where: { id: parsedDeleteItemPayload.data.id },
 		});
 
-		return redirect(request.headers.get('referer') ?? REDIRECTS.SHOP);
+		return redirect(sanitizeRefererRedirect(request, REDIRECTS.SHOP));
 	});
 
 	const buyItemErrors = createFormFieldsErrors(() => buyItem.error);

@@ -18,6 +18,7 @@ import {
 	zodErrorToFieldErrors,
 	createFormFieldsErrors,
 } from '~/utils/form';
+import { sanitizeRefererRedirect } from '~/utils/refererRedirect';
 import { requireUserId } from '~/utils/session';
 
 const timezonesComboboxOptions = IANA_TIMEZONES.map<ComboboxOption>(timezone => ({
@@ -76,7 +77,7 @@ export const UserSettingsForm = (props: { isProfileSection?: boolean; user: User
 			where: { id: userId },
 		});
 
-		return redirect(request.headers.get('referer') ?? REDIRECTS.HOME);
+		return redirect(sanitizeRefererRedirect(request, REDIRECTS.HOME));
 	});
 
 	const onboardErrors = createFormFieldsErrors(() => onboard.error);

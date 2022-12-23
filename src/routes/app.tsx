@@ -13,6 +13,7 @@ import { getColorScheme, createColorSchemeCookie, getNextColorScheme } from '~/u
 import { db } from '~/utils/db';
 import { isFormRequestClientSide } from '~/utils/form';
 import { getRandomGreeting } from '~/utils/greeting';
+import { sanitizeRefererRedirect } from '~/utils/refererRedirect';
 import { createSignOutCookie, requireUserId } from '~/utils/session';
 import { isUserOnboarded } from '~/utils/user';
 
@@ -50,7 +51,7 @@ const App = () => {
 
 		if (isFormRequestClientSide(request)) return json({}, { headers: { 'Set-Cookie': cookie } });
 
-		throw redirect(`${request.headers.get('referer')}` ?? REDIRECTS.HOME, { headers: { 'Set-Cookie': cookie } });
+		throw redirect(sanitizeRefererRedirect(request, REDIRECTS.HOME), { headers: { 'Set-Cookie': cookie } });
 	});
 
 	const [, signOutTrigger] = createServerAction$<FormData>(async (_, { request }) => {

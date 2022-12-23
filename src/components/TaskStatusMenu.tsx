@@ -12,6 +12,7 @@ import { type DefaultProps } from '~/types';
 import { calculatePayout } from '~/utils/calculatePayout';
 import { db } from '~/utils/db';
 import { type FormErrors, convertFormDataIntoObject, isFormRequestClientSide } from '~/utils/form';
+import { sanitizeRefererRedirect } from '~/utils/refererRedirect';
 import { requireUserId } from '~/utils/session';
 import { getCurrentEpochSeconds } from '~/utils/time';
 
@@ -132,8 +133,7 @@ export const TaskStatusMenu = (props: TaskStatusMenuProps) => {
 
 		if (isFormRequestClientSide(request)) return json({});
 
-		// TODO: Add valid check for all of these redirects
-		return redirect(request.headers.get('referer') ?? REDIRECTS.TASKS);
+		return redirect(sanitizeRefererRedirect(request, REDIRECTS.TASKS));
 	});
 
 	createEffect(() => {

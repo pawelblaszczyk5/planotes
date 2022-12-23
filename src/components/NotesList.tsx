@@ -12,6 +12,7 @@ import { db } from '~/utils/db';
 import { convertFormDataIntoObject, createFormFieldsErrors } from '~/utils/form';
 import { gentleScroll } from '~/utils/gentleScroll';
 import { type getPaginatedNotes } from '~/utils/pagination';
+import { sanitizeRefererRedirect } from '~/utils/refererRedirect';
 import { requireUserId } from '~/utils/session';
 
 type NotesListProps = {
@@ -45,7 +46,7 @@ export const NotesList = (props: NotesListProps) => {
 
 		await db.note.delete({ where: { id: parsedDeleteNotePayload.data.id } });
 
-		return redirect(request.headers.get('referer') ?? REDIRECTS.NOTES);
+		return redirect(sanitizeRefererRedirect(request, REDIRECTS.NOTES));
 	});
 
 	const deleteNoteErrors = createFormFieldsErrors(() => deleteNote.error);
