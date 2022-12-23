@@ -105,10 +105,11 @@ export const getPaginatedGoals = async (pageParam: number | string, userId: stri
 		const completedTasks = Task.filter(({ status }) => status === 'COMPLETED').length;
 
 		const progressPercent = (completedTasks / Task.length) * 100;
+		const adjustedPercent = progressPercent < 50 ? Math.round(progressPercent) : Math.floor(progressPercent);
 
 		return {
 			...rest,
-			progress: progressPercent < 50 ? Math.round(progressPercent) : Math.floor(progressPercent),
+			progress: Number.isNaN(adjustedPercent) ? '-' : adjustedPercent,
 			textContent: textContent.slice(0, 200),
 		};
 	});
