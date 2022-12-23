@@ -126,7 +126,7 @@ model Goal {
   htmlContent String
   size        Size
   priority    Priority
-  status      COMPLETABLE_STATUS
+  status      COMPLETABLE_STATUS @default(TO_DO)
   createdAt   Int
   Task        Task[]
   user        User               @relation(fields: [userId], references: [id])
