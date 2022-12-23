@@ -1,9 +1,10 @@
-import { createEffect, For, lazy, Show } from 'solid-js';
+import { createEffect, createSignal, For, lazy, Show } from 'solid-js';
 import { Outlet, refetchRouteData, useRouteData } from 'solid-start';
 import { createServerAction$, createServerData$, json, redirect } from 'solid-start/server';
 import logo from '~/assets/logo.webp';
 import { LinkWithIcon } from '~/components/Link';
 import { SideNavImageLink, SideNavButton, SideNavLink } from '~/components/Nav';
+import { SearchModal } from '~/components/SearchModal';
 import { COLOR_SCHEME_ICON, COLOR_SCHEME_TITLE } from '~/constants/colorScheme';
 import { REDIRECTS } from '~/constants/redirects';
 import { RESOURCE_KEY } from '~/constants/resourceKeys';
@@ -40,6 +41,8 @@ const UserSettingsModal = lazy(async () => import('~/components/UserSettingsModa
 
 const App = () => {
 	const { user, colorScheme } = useRouteData<typeof routeData>();
+	const [searchModalOpen, setSearchModalOpen] = createSignal(false);
+
 	const [changeColorScheme, changeColorSchemeTrigger] = createServerAction$(async (_: FormData, { request }) => {
 		const currentColorScheme = await getColorScheme(request);
 		const nextColorScheme = getNextColorScheme(currentColorScheme);
@@ -72,7 +75,13 @@ const App = () => {
 		<>
 			<div class="h-full w-full">
 				<nav class="b-b md:b-r md:b-b-0 b-primary h-18 fixed top-0 left-0 flex w-full items-center px-6 py-2 md:left-0 md:top-0 md:h-full md:w-16 md:flex-col md:px-2 md:py-6">
-					<SideNavImageLink href="/" title="Home" src={logo} />
+					<button
+						onClick={() => setSearchModalOpen(true)}
+						type="button"
+						class="ring-primary [&:focus-visible_*]:i-lucide-search flex h-12 w-12 items-center justify-center rounded-sm p-1 text-4xl"
+					>
+						<img src={logo} alt="Search" />
+					</button>
 					<div class="ml-auto flex items-center gap-2 md:mt-auto md:flex-col md:gap-4">
 						<changeColorSchemeTrigger.Form method="post">
 							<SideNavButton title={getColorSchemeChangeButtonTitle()} icon={getColorSchemeIcon()} />
@@ -114,6 +123,9 @@ const App = () => {
 			</div>
 			<Show when={user() && !isUserOnboarded(user()!)}>
 				<UserSettingsModal user={user()!} />
+			</Show>
+			<Show when={searchModalOpen()}>
+				<SearchModal onClose={() => setSearchModalOpen(false)} />
 			</Show>
 		</>
 	);

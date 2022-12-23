@@ -69,6 +69,7 @@ type InputProps = {
 	class?: string;
 	error?: string | undefined;
 	name: string;
+	onInput?: (newValue: string) => void;
 	type?: 'email' | 'text';
 	value?: string;
 };
@@ -102,6 +103,7 @@ export const Input = (props: InputProps) => {
 				aria-invalid={hasError()}
 				aria-describedby={hasError() ? `${id}-error` : ''}
 				autocomplete={propsWithDefaults.autocomplete}
+				onInput={event => propsWithDefaults.onInput?.(event.currentTarget.value)}
 			/>
 			<Show when={hasError()}>
 				<span class="text-destructive pt-1 text-sm" id={`${id}-error`} role="alert">

@@ -93,26 +93,20 @@ export const UserSettingsForm = (props: { isProfileSection?: boolean; user: User
 		return findTimezoneOption(new Intl.DateTimeFormat().resolvedOptions().timeZone);
 	};
 
-	const handleInputsChange = (
-		event: InputEvent & {
-			currentTarget: HTMLDivElement;
-			target: Element;
-		},
-	) => {
-		if (!(event.target instanceof HTMLInputElement) || event.target.name !== 'avatarSeed') return;
-
-		setAvatarSeed(event.target.value);
-	};
-
 	return (
 		<onboardTrigger.Form class="flex flex-col gap-6">
 			<div class="flex flex w-full flex-col flex-col items-center gap-6 md:flex-row-reverse">
 				<img class="max-w-32 block" src={avatarUrl()} alt="New avatar preview" />
-				<div class="flex w-full flex-col gap-6" onInput={handleInputsChange}>
+				<div class="flex w-full flex-col gap-6">
 					<Input error={onboardErrors()['name']} value={props.user.name ?? ''} name="name">
 						Name
 					</Input>
-					<Input name="avatarSeed" error={onboardErrors()['avatarSeed']} value={props.user.avatarSeed ?? ''}>
+					<Input
+						onInput={setAvatarSeed}
+						name="avatarSeed"
+						error={onboardErrors()['avatarSeed']}
+						value={props.user.avatarSeed ?? ''}
+					>
 						Avatar seed
 					</Input>
 				</div>
