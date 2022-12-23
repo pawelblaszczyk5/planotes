@@ -1,30 +1,22 @@
-import { COMPLETABLE_STATUS } from '@prisma/client';
+import { CompletableStatus } from '@prisma/client';
 
 export const STATUS_LABEL = {
-	[COMPLETABLE_STATUS.COMPLETED]: 'Completed',
-	[COMPLETABLE_STATUS.IN_PROGRESS]: 'In progress',
-	[COMPLETABLE_STATUS.TO_DO]: 'To do',
-	[COMPLETABLE_STATUS.ARCHIVED]: 'Archived',
-} as const;
+	[CompletableStatus.COMPLETED]: 'Completed',
+	[CompletableStatus.IN_PROGRESS]: 'In progress',
+	[CompletableStatus.TO_DO]: 'To do',
+	[CompletableStatus.ARCHIVED]: 'Archived',
+} as const satisfies Record<CompletableStatus, string>;
 
 export const AVAILABLE_TRANSITIONS = {
-	[COMPLETABLE_STATUS.ARCHIVED]: [],
-	[COMPLETABLE_STATUS.COMPLETED]: [],
-	[COMPLETABLE_STATUS.IN_PROGRESS]: [
-		COMPLETABLE_STATUS.COMPLETED,
-		COMPLETABLE_STATUS.TO_DO,
-		COMPLETABLE_STATUS.ARCHIVED,
-	],
-	[COMPLETABLE_STATUS.TO_DO]: [
-		COMPLETABLE_STATUS.IN_PROGRESS,
-		COMPLETABLE_STATUS.COMPLETED,
-		COMPLETABLE_STATUS.ARCHIVED,
-	],
-} as const;
+	[CompletableStatus.ARCHIVED]: [],
+	[CompletableStatus.COMPLETED]: [],
+	[CompletableStatus.IN_PROGRESS]: [CompletableStatus.COMPLETED, CompletableStatus.TO_DO, CompletableStatus.ARCHIVED],
+	[CompletableStatus.TO_DO]: [CompletableStatus.IN_PROGRESS, CompletableStatus.COMPLETED, CompletableStatus.ARCHIVED],
+} as const satisfies Record<CompletableStatus, ReadonlyArray<CompletableStatus>>;
 
 export const STATUS_ICON = {
-	[COMPLETABLE_STATUS.COMPLETED]: 'i-lucide-check-circle',
-	[COMPLETABLE_STATUS.ARCHIVED]: 'i-lucide-archive',
-	[COMPLETABLE_STATUS.TO_DO]: 'i-lucide-bed',
-	[COMPLETABLE_STATUS.IN_PROGRESS]: 'i-lucide-arrow-left-right',
-} as const;
+	[CompletableStatus.COMPLETED]: 'i-lucide-check-circle',
+	[CompletableStatus.ARCHIVED]: 'i-lucide-archive',
+	[CompletableStatus.TO_DO]: 'i-lucide-bed',
+	[CompletableStatus.IN_PROGRESS]: 'i-lucide-arrow-left-right',
+} as const satisfies Record<CompletableStatus, string>;

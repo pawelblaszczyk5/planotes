@@ -1,4 +1,4 @@
-import { COMPLETABLE_STATUS } from '@prisma/client';
+import { CompletableStatus } from '@prisma/client';
 import clsx from 'clsx';
 import { createEffect, For, mergeProps, Show } from 'solid-js';
 import { FormError, refetchRouteData } from 'solid-start';
@@ -17,7 +17,7 @@ import { getCurrentEpochSeconds } from '~/utils/time';
 
 type TaskStatusMenuProps = {
 	class?: string;
-	currentStatus: COMPLETABLE_STATUS;
+	currentStatus: CompletableStatus;
 	goalList?: boolean;
 	id: string;
 };
@@ -38,10 +38,10 @@ export const TaskStatusMenu = (props: TaskStatusMenuProps) => {
 			goalsList: z.coerce.boolean().optional(),
 			id: z.string().cuid(),
 			status: z.enum([
-				COMPLETABLE_STATUS.ARCHIVED,
-				COMPLETABLE_STATUS.COMPLETED,
-				COMPLETABLE_STATUS.TO_DO,
-				COMPLETABLE_STATUS.IN_PROGRESS,
+				CompletableStatus.ARCHIVED,
+				CompletableStatus.COMPLETED,
+				CompletableStatus.TO_DO,
+				CompletableStatus.IN_PROGRESS,
 			]),
 		});
 

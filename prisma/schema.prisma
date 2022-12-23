@@ -35,7 +35,7 @@ enum Entity {
   GOAL
 }
 
-enum COMPLETABLE_STATUS {
+enum CompletableStatus {
   TO_DO
   IN_PROGRESS
   COMPLETED
@@ -105,31 +105,31 @@ model BalanceEntry {
 }
 
 model Task {
-  id          String             @id @default(cuid())
+  id          String            @id @default(cuid())
   title       String
   textContent String
   htmlContent String
-  status      COMPLETABLE_STATUS @default(TO_DO)
+  status      CompletableStatus @default(TO_DO)
   size        Size
   priority    Priority
   createdAt   Int
-  goal        Goal?              @relation(fields: [goalId], references: [id])
+  goal        Goal?             @relation(fields: [goalId], references: [id])
   goalId      String?
-  user        User               @relation(fields: [userId], references: [id])
+  user        User              @relation(fields: [userId], references: [id])
   userId      String
 }
 
 model Goal {
-  id          String             @id @default(cuid())
+  id          String            @id @default(cuid())
   title       String
   textContent String
   htmlContent String
   size        Size
   priority    Priority
-  status      COMPLETABLE_STATUS @default(TO_DO)
+  status      CompletableStatus @default(TO_DO)
   createdAt   Int
   Task        Task[]
-  user        User               @relation(fields: [userId], references: [id])
+  user        User              @relation(fields: [userId], references: [id])
   userId      String
 }
 

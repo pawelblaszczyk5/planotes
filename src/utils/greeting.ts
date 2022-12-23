@@ -11,6 +11,7 @@ const NAMED_GREETINGS = [
 	'Geia {name}',
 	'Nǐ hǎo {name}',
 ] as const;
+
 const ANONYMOUS_GREETINGS = NAMED_GREETINGS.map(greeting => greeting.replace(' {name}', ''));
 
 const getRandomArrayElement = <Item>(array: Array<Item> | ReadonlyArray<Item>) =>

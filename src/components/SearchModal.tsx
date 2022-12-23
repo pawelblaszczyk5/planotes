@@ -1,4 +1,4 @@
-import { type COMPLETABLE_STATUS } from '@prisma/client';
+import { type CompletableStatus } from '@prisma/client';
 import * as dialog from '@zag-js/dialog';
 import { useMachine, normalizeProps } from '@zag-js/solid';
 import { createUniqueId, createMemo, Show, Suspense, For } from 'solid-js';
@@ -74,7 +74,7 @@ export const SearchModal = (props: SearchModalProps) => {
 				contains: term,
 				mode: 'insensitive',
 			} as const;
-			const statusOptions: { notIn: Array<COMPLETABLE_STATUS> } = {
+			const statusOptions: { notIn: Array<CompletableStatus> } = {
 				notIn: ['ARCHIVED', 'COMPLETED'],
 			};
 
