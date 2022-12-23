@@ -1,5 +1,5 @@
 import { type Note, type Goal, Size, Priority } from '@prisma/client';
-import { Show } from 'solid-js';
+import { type JSXElement, Show } from 'solid-js';
 import { FormError } from 'solid-start';
 import { createServerAction$, redirect } from 'solid-start/server';
 import { z } from 'zod';
@@ -35,10 +35,10 @@ const FORM_ERRORS = {
 } satisfies FormErrors;
 
 type GoalFormProps = {
-	description: string;
+	description: JSXElement;
 	goal?: Omit<Goal, 'textContent'>;
 	noteToConvert?: Pick<Note, 'htmlContent' | 'id' | 'name'> | null | undefined;
-	title: string;
+	title: JSXElement;
 };
 
 export const GoalForm = (props: GoalFormProps) => {
@@ -154,7 +154,7 @@ export const GoalForm = (props: GoalFormProps) => {
 	return (
 		<div class="flex max-w-3xl flex-col gap-6">
 			<h2 class="text-xl">{props.title}</h2>
-			<p class="text-secondary text-sm">{props.description}</p>
+			<div class="text-secondary text-sm">{props.description}</div>
 			<upsertGoalTrigger.Form class="flex max-w-xl flex-col gap-6">
 				<Input
 					error={upsertGoalErrors()['title']}

@@ -3,6 +3,7 @@ import { type RouteDataFunc, useRouteData, Title } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
 import { EntityNotFound } from '~/components/EntityNotFound';
 import { GoalForm } from '~/components/GoalForm';
+import { GoalStatusMenu } from '~/components/GoalStatusMenu';
 import { db } from '~/utils/db';
 import { requireUserId } from '~/utils/session';
 
@@ -38,7 +39,15 @@ const ViewGoal = () => {
 			<GoalForm
 				title="Edit goal"
 				goal={goal()!}
-				description="Here you can edit a previously created goal. You can change it status or edit info about it. You can also see a list of assigned tasks and check your progress in detail!"
+				description={
+					<div class="flex flex-col justify-between gap-6 md:flex-row md:items-center">
+						<span>
+							Here you can edit a previously created goal. You can change it status or edit info about it. You can also
+							see a list of assigned tasks and check your progress in detail!
+						</span>
+						<GoalStatusMenu class="min-w-42" id={goal()!.id} currentStatus={goal()!.status} />
+					</div>
+				}
 			/>
 		</Show>
 	);
