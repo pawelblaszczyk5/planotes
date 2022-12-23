@@ -5,6 +5,7 @@ import { createServerAction$, redirect } from 'solid-start/server';
 import { z } from 'zod';
 import { Button } from '~/components/Button';
 import { Input } from '~/components/Input';
+import { CONTENT_MAX_LENGTH } from '~/constants/contentMaxLength';
 import { REDIRECTS } from '~/constants/redirects';
 import { db } from '~/utils/db';
 import {
@@ -18,11 +19,9 @@ import { transformHtml } from '~/utils/html';
 import { requireUserId } from '~/utils/session';
 import { getCurrentEpochSeconds } from '~/utils/time';
 
-const NOTE_CONTENT_MAX_LENGTH = 500;
-
 const FORM_ERRORS = {
 	CONTENT_REQUIRED: 'Content is required',
-	CONTENT_TOO_LONG: `Content mustn't be longer than ${NOTE_CONTENT_MAX_LENGTH} characters`,
+	CONTENT_TOO_LONG: `Content mustn't be longer than ${CONTENT_MAX_LENGTH} characters`,
 	NAME_REQUIRED: 'Name is required',
 	NAME_TOO_SHORT: 'Name must have at least 3 characters',
 } as const satisfies FormErrors;
@@ -48,7 +47,7 @@ export const NoteForm = (props: NoteFormProps) => {
 							message: FORM_ERRORS.CONTENT_REQUIRED,
 						});
 
-					if (charactersCount > NOTE_CONTENT_MAX_LENGTH)
+					if (charactersCount > CONTENT_MAX_LENGTH)
 						ctx.addIssue({
 							code: z.ZodIssueCode.custom,
 							message: FORM_ERRORS.CONTENT_TOO_LONG,
@@ -129,7 +128,7 @@ export const NoteForm = (props: NoteFormProps) => {
 					error={upsertNoteErrors()['content']}
 					name="content"
 					value={props.note?.htmlContent ?? ''}
-					maxLength={NOTE_CONTENT_MAX_LENGTH}
+					maxLength={CONTENT_MAX_LENGTH}
 					class="lg:-mr-48"
 				>
 					Content

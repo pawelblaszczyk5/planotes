@@ -8,6 +8,7 @@ import { Input } from '~/components/Input';
 import { RadioGroup } from '~/components/Radio';
 import { TasksListWithoutPagination } from '~/components/TasksList';
 import TextEditor from '~/components/TextEditor';
+import { CONTENT_MAX_LENGTH } from '~/constants/contentMaxLength';
 import { REDIRECTS } from '~/constants/redirects';
 import { calculateAdjustedPercent } from '~/utils/adjustedPercent';
 import { db } from '~/utils/db';
@@ -22,11 +23,9 @@ import { transformHtml } from '~/utils/html';
 import { requireUserId } from '~/utils/session';
 import { getCurrentEpochSeconds } from '~/utils/time';
 
-const GOAL_CONTENT_MAX_LENGTH = 1_000;
-
 const FORM_ERRORS = {
 	CONTENT_REQUIRED: 'Content is required',
-	CONTENT_TOO_LONG: `Content mustn't be longer than ${GOAL_CONTENT_MAX_LENGTH} characters`,
+	CONTENT_TOO_LONG: `Content mustn't be longer than ${CONTENT_MAX_LENGTH} characters`,
 	NOTE_NOT_FOUND: "Note with given ID to convert  can't be found",
 	PRIORITY_INVALID: 'Make sure to properly select priority from the list',
 	PRIORITY_REQUIRED: 'Priority is required',
@@ -58,7 +57,7 @@ export const GoalForm = (props: GoalFormProps) => {
 							message: FORM_ERRORS.CONTENT_REQUIRED,
 						});
 
-					if (charactersCount > GOAL_CONTENT_MAX_LENGTH)
+					if (charactersCount > CONTENT_MAX_LENGTH)
 						ctx.addIssue({
 							code: z.ZodIssueCode.custom,
 							message: FORM_ERRORS.CONTENT_TOO_LONG,
@@ -184,7 +183,7 @@ export const GoalForm = (props: GoalFormProps) => {
 						error={upsertGoalErrors()['content']}
 						name="content"
 						value={props.goal?.htmlContent ?? props.noteToConvert?.htmlContent ?? ''}
-						maxLength={GOAL_CONTENT_MAX_LENGTH}
+						maxLength={CONTENT_MAX_LENGTH}
 						class="lg:-mr-48"
 					>
 						Content

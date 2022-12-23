@@ -8,6 +8,7 @@ import { type ComboboxOption, Combobox } from '~/components/Combobox';
 import { Input } from '~/components/Input';
 import { RadioGroup } from '~/components/Radio';
 import TextEditor from '~/components/TextEditor';
+import { CONTENT_MAX_LENGTH } from '~/constants/contentMaxLength';
 import { REDIRECTS } from '~/constants/redirects';
 import { db } from '~/utils/db';
 import {
@@ -21,11 +22,9 @@ import { transformHtml } from '~/utils/html';
 import { requireUserId } from '~/utils/session';
 import { getCurrentEpochSeconds } from '~/utils/time';
 
-const TASK_CONTENT_MAX_LENGTH = 1_000;
-
 const FORM_ERRORS = {
 	CONTENT_REQUIRED: 'Content is required',
-	CONTENT_TOO_LONG: `Content mustn't be longer than ${TASK_CONTENT_MAX_LENGTH} characters`,
+	CONTENT_TOO_LONG: `Content mustn't be longer than ${CONTENT_MAX_LENGTH} characters`,
 	GOAL_ID_INVALID: 'Make sure to properly select goal from the list',
 	NOTE_NOT_FOUND: "Note with given ID to convert  can't be found",
 	PRIORITY_INVALID: 'Make sure to properly select priority from the list',
@@ -59,7 +58,7 @@ export const TaskForm = (props: TaskFormProps) => {
 							message: FORM_ERRORS.CONTENT_REQUIRED,
 						});
 
-					if (charactersCount > TASK_CONTENT_MAX_LENGTH)
+					if (charactersCount > CONTENT_MAX_LENGTH)
 						ctx.addIssue({
 							code: z.ZodIssueCode.custom,
 							message: FORM_ERRORS.CONTENT_TOO_LONG,
@@ -185,7 +184,7 @@ export const TaskForm = (props: TaskFormProps) => {
 					error={upsertTaskErrors()['content']}
 					name="content"
 					value={props.task?.htmlContent ?? props.noteToConvert?.htmlContent ?? ''}
-					maxLength={TASK_CONTENT_MAX_LENGTH}
+					maxLength={CONTENT_MAX_LENGTH}
 					class="lg:-mr-48"
 				>
 					Content
