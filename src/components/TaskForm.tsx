@@ -1,4 +1,4 @@
-import { type Task, type Goal, Size, Priority } from '@prisma/client';
+import { type Note, type Task, type Goal, Size, Priority } from '@prisma/client';
 import { Show, type Accessor } from 'solid-js';
 import { FormError } from 'solid-start';
 import { createServerAction$, redirect } from 'solid-start/server';
@@ -21,19 +21,13 @@ import { transformHtml } from '~/utils/html';
 import { requireUserId } from '~/utils/session';
 import { getCurrentEpochSeconds } from '~/utils/time';
 
-type TaskFormProps = {
-	description: string;
-	goals: Array<Pick<Goal, 'id' | 'title'>>;
-	task?: Omit<Task, 'textContent'>;
-	title: string;
-};
-
 const TASK_CONTENT_MAX_LENGTH = 1_000;
 
 const FORM_ERRORS = {
 	CONTENT_REQUIRED: 'Content is required',
 	CONTENT_TOO_LONG: `Content mustn't be longer than ${TASK_CONTENT_MAX_LENGTH} characters`,
 	GOAL_ID_INVALID: 'Make sure to properly select goal from the list',
+	NOTE_NOT_FOUND: "Note with given ID to convert  can't be found",
 	PRIORITY_INVALID: 'Make sure to properly select priority from the list',
 	PRIORITY_REQUIRED: 'Priority is required',
 	SIZE_INVALID: 'Make sure to properly select size from the list',
@@ -41,6 +35,14 @@ const FORM_ERRORS = {
 	TITLE_REQUIRED: 'Name is required',
 	TITLE_TOO_SHORT: 'Name must have at least 3 characters',
 } satisfies FormErrors;
+
+type TaskFormProps = {
+	description: string;
+	goals: Array<Pick<Goal, 'id' | 'title'>>;
+	noteToConvert?: Pick<Note, 'htmlContent' | 'id' | 'name'> | null | undefined;
+	task?: Omit<Task, 'textContent'>;
+	title: string;
+};
 
 export const TaskForm = (props: TaskFormProps) => {
 	const [upsertTask, upsertTaskTrigger] = createServerAction$(async (formData: FormData, { request }) => {
@@ -71,6 +73,13 @@ export const TaskForm = (props: TaskFormProps) => {
 				.string({ invalid_type_error: COMMON_FORM_ERRORS.ID_INVALID, required_error: COMMON_FORM_ERRORS.ID_INVALID })
 				.cuid(COMMON_FORM_ERRORS.ID_INVALID)
 				.optional(),
+			noteId: z
+				.string({
+					invalid_type_error: FORM_ERRORS.NOTE_NOT_FOUND,
+					required_error: FORM_ERRORS.NOTE_NOT_FOUND,
+				})
+				.cuid(FORM_ERRORS.NOTE_NOT_FOUND)
+				.optional(),
 			priority: z.enum([Priority.LOW, Priority.MEDIUM, Priority.HIGH], {
 				invalid_type_error: FORM_ERRORS.PRIORITY_INVALID,
 				required_error: FORM_ERRORS.PRIORITY_REQUIRED,
@@ -96,6 +105,14 @@ export const TaskForm = (props: TaskFormProps) => {
 		}
 
 		if (!parsedUpsertTaskPayload.data.id) {
+			if (parsedUpsertTaskPayload.data.noteId) {
+				try {
+					await db.note.delete({ where: { id: parsedUpsertTaskPayload.data.noteId } });
+				} catch {
+					throw new FormError(FORM_ERRORS.NOTE_NOT_FOUND);
+				}
+			}
+
 			await db.task.create({
 				data: {
 					createdAt: getCurrentEpochSeconds(),
@@ -157,13 +174,17 @@ export const TaskForm = (props: TaskFormProps) => {
 			<h2 class="text-xl">{props.title}</h2>
 			<p class="text-secondary text-sm">{props.description}</p>
 			<upsertTaskTrigger.Form class="flex max-w-xl flex-col gap-6">
-				<Input error={upsertTaskErrors()['title']} name="title" value={props.task?.title ?? ''}>
+				<Input
+					error={upsertTaskErrors()['title']}
+					name="title"
+					value={props.task?.title ?? props.noteToConvert?.name ?? ''}
+				>
 					Title
 				</Input>
 				<TextEditor
 					error={upsertTaskErrors()['content']}
 					name="content"
-					value={props.task?.htmlContent ?? ''}
+					value={props.task?.htmlContent ?? props.noteToConvert?.htmlContent ?? ''}
 					maxLength={TASK_CONTENT_MAX_LENGTH}
 					class="lg:-mr-48"
 				>
@@ -209,6 +230,12 @@ export const TaskForm = (props: TaskFormProps) => {
 				</Show>
 				<Show when={upsertTaskErrors()['id']}>
 					<p class="text-destructive text-sm">{upsertTaskErrors()['id']}</p>
+				</Show>
+				<Show when={props.noteToConvert}>
+					<input name="noteId" type="hidden" value={props.noteToConvert!.id} />
+				</Show>
+				<Show when={upsertTaskErrors()['noteId']}>
+					<p class="text-destructive text-sm">{upsertTaskErrors()['noteId']}</p>
 				</Show>
 				<Show when={upsertTaskErrors()['other']}>
 					<p class="text-destructive text-sm">{upsertTaskErrors()['other']}</p>
