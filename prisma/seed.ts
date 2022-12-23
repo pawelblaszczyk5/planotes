@@ -15,7 +15,7 @@ const db = new PrismaClient();
 
 const ITEMS_IN_SHOP_COUNT = 48;
 const NOTES_COUNT = 48;
-const GOALS_COUNT = 128;
+const GOALS_COUNT = 24;
 const TASKS_COUNT = 128;
 const USER_EMAIL = 'test@example.com';
 
@@ -196,16 +196,14 @@ const asignTasksToGoals = async (userId: string) => {
 	});
 
 	const goalsForTaskByStatus = {
-		[CompletableStatus.COMPLETED]: goals.filter(goal => goal.status === 'COMPLETED' || goal.status === 'ARCHIVED'),
-		[CompletableStatus.IN_PROGRESS]: goals.filter(goal => goal.status === 'IN_PROGRESS' || goal.status === 'ARCHIVED'),
-		[CompletableStatus.TO_DO]: goals.filter(
-			goal => goal.status === 'ARCHIVED' || goal.status === 'TO_DO' || goal.status === 'IN_PROGRESS',
-		),
+		[CompletableStatus.COMPLETED]: goals.filter(goal => goal.status === 'COMPLETED' || goal.status === 'IN_PROGRESS'),
+		[CompletableStatus.IN_PROGRESS]: goals.filter(goal => goal.status === 'IN_PROGRESS'),
+		[CompletableStatus.TO_DO]: goals.filter(goal => goal.status === 'TO_DO'),
 		[CompletableStatus.ARCHIVED]: goals,
 	} as const;
 
 	const promises = tasks.flatMap(task => {
-		if (Math.random() < 0.15) return [];
+		if (Math.random() < 0.1) return [];
 
 		const goalId = faker.helpers.arrayElement(goalsForTaskByStatus[task.status]).id;
 
