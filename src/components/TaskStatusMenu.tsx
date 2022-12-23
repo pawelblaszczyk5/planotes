@@ -46,6 +46,7 @@ export const TaskStatusMenu = (props: TaskStatusMenuProps) => {
 
 		const currentlyEditingTask = await db.task.findUnique({
 			select: {
+				goal: true,
 				status: true,
 				userId: true,
 			},
@@ -64,12 +65,29 @@ export const TaskStatusMenu = (props: TaskStatusMenuProps) => {
 
 		if (!isTransitionValid) throw new FormError(FORM_ERRORS.TRANSITION_ERROR);
 
-		await db.task.update({
-			data: {
-				status: parsedChangeStatusPayload.data.status,
-			},
-			where: { id: parsedChangeStatusPayload.data.id },
-		});
+		const promises: Array<Promise<unknown>> = [
+			db.task.update({
+				data: {
+					status: parsedChangeStatusPayload.data.status,
+				},
+				where: { id: parsedChangeStatusPayload.data.id },
+			}),
+		];
+
+		if (currentlyEditingTask.goal?.status === 'TO_DO' && parsedChangeStatusPayload.data.status === 'IN_PROGRESS') {
+			promises.push(
+				db.goal.update({
+					data: {
+						status: 'IN_PROGRESS',
+					},
+					where: {
+						id: currentlyEditingTask.goal.id,
+					},
+				}),
+			);
+		}
+
+		await Promise.all(promises);
 
 		if (parsedChangeStatusPayload.data.status === 'ARCHIVED' || parsedChangeStatusPayload.data.status === 'COMPLETED')
 			return redirect(REDIRECTS.TASKS);

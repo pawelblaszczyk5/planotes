@@ -51,7 +51,7 @@ export const ItemsList = (props: ItemsListProps) => {
 
 		if (itemToBuy.price > user?.balance) throw new FormError(FORM_ERRORS.ITEM_TOO_EXPENSIVE);
 
-		const promises: Array<Promise<any>> = [
+		const promises: Array<Promise<unknown>> = [
 			db.user.update({ data: { balance: user.balance - itemToBuy.price }, where: { id: userId } }),
 			db.balanceEntry.create({
 				data: {
