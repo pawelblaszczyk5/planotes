@@ -11,9 +11,12 @@ export const routeData = (({ params }) =>
 		async (id, { request }) => {
 			const userId = await requireUserId(request);
 
-			const goalToEdit = await db.goal.findUnique({
+			const goalToEdit = await db.goal.findFirst({
 				where: {
 					id,
+					status: {
+						in: ['IN_PROGRESS', 'TO_DO'],
+					},
 				},
 			});
 

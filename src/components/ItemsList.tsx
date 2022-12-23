@@ -184,14 +184,12 @@ export const ItemsList = (props: ItemsListProps) => {
 									<TextAlignedIcon icon="i-lucide-edit">Edit</TextAlignedIcon>
 								</Menu.LinkItem>
 								<buyItemTrigger.Form>
-									<input type="hidden" value={item.id} name="id" />
-									<Menu.ButtonItem id="buy">
+									<Menu.ButtonItem name="id" value={item.id} id="buy">
 										<TextAlignedIcon icon="i-lucide-shopping-cart">Buy</TextAlignedIcon>
 									</Menu.ButtonItem>
 								</buyItemTrigger.Form>
 								<deleteItemTrigger.Form>
-									<input type="hidden" value={item.id} name="id" />
-									<Menu.ButtonItem id="delete">
+									<Menu.ButtonItem name="id" value={item.id} id="delete">
 										<TextAlignedIcon icon="i-lucide-trash-2">Delete</TextAlignedIcon>
 									</Menu.ButtonItem>
 								</deleteItemTrigger.Form>

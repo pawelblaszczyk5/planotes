@@ -85,8 +85,7 @@ export const NotesList = (props: NotesListProps) => {
 									<TextAlignedIcon icon="i-lucide-edit">View</TextAlignedIcon>
 								</Menu.LinkItem>
 								<deleteNoteTrigger.Form>
-									<input type="hidden" value={note.id} name="id" />
-									<Menu.ButtonItem id="delete">
+									<Menu.ButtonItem value={note.id} name="id" id="delete">
 										<TextAlignedIcon icon="i-lucide-trash-2">Delete</TextAlignedIcon>
 									</Menu.ButtonItem>
 								</deleteNoteTrigger.Form>

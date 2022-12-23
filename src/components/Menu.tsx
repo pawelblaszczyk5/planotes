@@ -79,7 +79,10 @@ type SharedItemProps = {
 	id: string;
 };
 
-type ButtonItemProps = SharedItemProps;
+type ButtonItemProps = SharedItemProps & {
+	name: string;
+	value: string;
+};
 
 const ButtonItem = (props: ButtonItemProps) => {
 	const api = useApi();
@@ -87,6 +90,8 @@ const ButtonItem = (props: ButtonItemProps) => {
 	return (
 		<button
 			class="[&[data-focus]]:text-accent block w-48 truncate py-2 px-4 text-center"
+			name={props.name}
+			value={props.value}
 			{...api().getItemProps({ id: props.id })}
 		>
 			{props.children}

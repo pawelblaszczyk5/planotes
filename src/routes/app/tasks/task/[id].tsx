@@ -3,6 +3,7 @@ import { type RouteDataFunc, useRouteData, Title } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
 import { EntityNotFound } from '~/components/EntityNotFound';
 import { TaskForm } from '~/components/TaskForm';
+import { TaskStatusMenu } from '~/components/TaskStatusMenu';
 import { db } from '~/utils/db';
 import { requireUserId } from '~/utils/session';
 
@@ -30,9 +31,12 @@ export const routeData = (({ params }) => {
 		async (id, { request }) => {
 			const userId = await requireUserId(request);
 
-			const taskToEdit = await db.task.findUnique({
+			const taskToEdit = await db.task.findFirst({
 				where: {
 					id,
+					status: {
+						in: ['IN_PROGRESS', 'TO_DO'],
+					},
 				},
 			});
 
@@ -58,7 +62,15 @@ const ViewTask = () => {
 				title="Edit task"
 				task={task()!}
 				goals={goals() ?? []}
-				description="Here you can edit a previously created task. You can change it status or edit info about it. You can also assign it to a fitting goal if you created one from back then!"
+				description={
+					<div class="flex flex-col justify-between gap-6 md:flex-row md:items-center">
+						<span>
+							Here you can edit a previously created task. You can change it status or edit info about it. You can also
+							assign it to a fitting goal if you created one from back then!
+						</span>{' '}
+						<TaskStatusMenu class="min-w-42" id={task()!.id} currentStatus={task()!.status} />
+					</div>
+				}
 			/>
 		</Show>
 	);

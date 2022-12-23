@@ -1,5 +1,5 @@
 import { type Note, type Task, type Goal, Size, Priority } from '@prisma/client';
-import { Show, type Accessor } from 'solid-js';
+import { type JSXElement, Show, type Accessor } from 'solid-js';
 import { FormError } from 'solid-start';
 import { createServerAction$, redirect } from 'solid-start/server';
 import { z } from 'zod';
@@ -37,11 +37,11 @@ const FORM_ERRORS = {
 } satisfies FormErrors;
 
 type TaskFormProps = {
-	description: string;
+	description: JSXElement;
 	goals: Array<Pick<Goal, 'id' | 'title'>>;
 	noteToConvert?: Pick<Note, 'htmlContent' | 'id' | 'name'> | null | undefined;
 	task?: Omit<Task, 'textContent'>;
-	title: string;
+	title: JSXElement;
 };
 
 export const TaskForm = (props: TaskFormProps) => {
@@ -172,7 +172,7 @@ export const TaskForm = (props: TaskFormProps) => {
 	return (
 		<div class="flex max-w-3xl flex-col gap-6">
 			<h2 class="text-xl">{props.title}</h2>
-			<p class="text-secondary text-sm">{props.description}</p>
+			<div class="text-secondary text-sm">{props.description}</div>
 			<upsertTaskTrigger.Form class="flex max-w-xl flex-col gap-6">
 				<Input
 					error={upsertTaskErrors()['title']}
