@@ -150,9 +150,9 @@ export const ItemsList = (props: ItemsListProps) => {
 							role="listitem"
 							class="bg-secondary flex flex-col justify-between gap-9 rounded p-6 shadow shadow-black/50 dark:shadow-black/90"
 						>
-							<div class="flex justify-between gap-6">
-								<div class="flex-1">
-									<h3 class="font-500 mb-3 w-full text-lg">{item.name}</h3>
+							<div class="grid grid-cols-[minmax(0,1fr)_5rem] justify-between gap-6">
+								<div>
+									<h3 class="font-500 mb-3 w-full truncate text-lg">{item.name}</h3>
 									<p class="text-secondary mb-1 flex items-center gap-1 text-sm">
 										Price:{' '}
 										<span class="text-accent font-500 contents">

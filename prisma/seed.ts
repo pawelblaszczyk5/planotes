@@ -35,8 +35,8 @@ const convertDateIntoSeconds = (date: Date) => Math.round(date.getTime() / 1_000
 const getDateInPastTwoMonths = () => faker.date.between(new Date(5_259_600_000), Date.now());
 
 const generateHtmlContent = () => {
-	const title = faker.random.words(faker.datatype.number({ max: 5, min: 2 }));
-	const content = faker.random.words(faker.datatype.number({ max: 50, min: 25 }));
+	const title = faker.random.words(faker.datatype.number({ max: 20, min: 4 }));
+	const content = faker.random.words(faker.datatype.number({ max: 200, min: 50 }));
 
 	return { htmlContent: `<h1>${title}</h1><p>${content}</p>`, textContent: `${title} ${content}` };
 };
@@ -74,14 +74,14 @@ const createItemsForUser = async (userId: string, count: number) => {
 
 const generateNote = (userId: string): Omit<Note, 'id'> => ({
 	createdAt: convertDateIntoSeconds(getDateInPastTwoMonths()),
-	name: faker.random.word(),
+	name: faker.random.words(faker.datatype.number({ max: 5, min: 2 })),
 	userId,
 	...generateHtmlContent(),
 });
 
 const generateTask = (userId: string): Omit<Task, 'id'> => ({
 	createdAt: convertDateIntoSeconds(getDateInPastTwoMonths()),
-	title: faker.random.word(),
+	title: faker.random.words(faker.datatype.number({ max: 5, min: 2 })),
 	userId,
 	...generateHtmlContent(),
 	...generateStatusSizePriority(),
@@ -90,7 +90,7 @@ const generateTask = (userId: string): Omit<Task, 'id'> => ({
 
 const generateGoal = (userId: string): Omit<Goal, 'id'> => ({
 	createdAt: convertDateIntoSeconds(faker.date.past()),
-	title: faker.random.word(),
+	title: faker.random.words(faker.datatype.number({ max: 5, min: 2 })),
 	userId,
 	...generateHtmlContent(),
 	...generateStatusSizePriority(),
