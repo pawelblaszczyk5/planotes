@@ -152,7 +152,7 @@ export const GoalForm = (props: GoalFormProps) => {
 	});
 
 	const goalCompletionStats = createMemo(() => {
-		if (!props.goal?.Task) return;
+		if (!props.goal?.Task?.length) return;
 
 		const completedTasks = props.goal.Task.filter(task => task.status === 'COMPLETED').length;
 		const allTasks = props.goal.Task.length;
@@ -244,14 +244,13 @@ export const GoalForm = (props: GoalFormProps) => {
 							aria-valuetext={`${goalCompletionStats()!.percent}%`}
 						>
 							<div
-								class="bg-accent text-contrast flex h-full items-center justify-center text-sm"
+								class="bg-accent text-contrast min-w-6 flex h-full items-center justify-center text-sm"
 								style={{ width: `${goalCompletionStats()!.percent}%` }}
 							>
 								<span aria-hidden>{goalCompletionStats()!.percent}%</span>
 							</div>
 						</div>
 					</Show>
-
 					<TasksListWithoutPagination
 						goalList
 						fallback="You don't have any tasks assigned to this goal yet. You can always group them for more readable and simpler view"
