@@ -240,7 +240,7 @@ export const TaskForm = (props: TaskFormProps) => {
 				<Show when={upsertTaskErrors()['other']}>
 					<p class="text-destructive text-sm">{upsertTaskErrors()['other']}</p>
 				</Show>
-				<Button class="max-w-48 w-full">{props.task ? 'Save note' : 'Add note'}</Button>
+				<Button class="max-w-48 w-full">{props.task ? 'Save task' : 'Add task'}</Button>
 			</upsertTaskTrigger.Form>
 		</div>
 	);
