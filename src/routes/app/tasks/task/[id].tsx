@@ -55,10 +55,10 @@ const ViewTask = () => {
 		<Show when={task()} fallback={<EntityNotFound module="tasks" />}>
 			<Title>{task()!.title} | Planotes</Title>
 			<TaskForm
-				title="Edit note"
+				title="Edit task"
 				task={task()!}
 				goals={goals() ?? []}
-				description="Here you can edit a previously created note. You can further polish your plans or just straight up rework some stuff!"
+				description="Here you can edit a previously created task. You can change it status or edit info about it. You can also assign it to a fitting goal if you created one from back then!"
 			/>
 		</Show>
 	);
