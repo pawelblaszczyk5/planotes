@@ -53,7 +53,7 @@ enum Size {
 enum Priority {
   LOW
   MEDIUM
-  HIGHH
+  HIGH
 }
 
 // Models
