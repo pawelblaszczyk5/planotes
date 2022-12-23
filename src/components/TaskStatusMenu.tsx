@@ -1,6 +1,6 @@
 import { COMPLETABLE_STATUS } from '@prisma/client';
 import clsx from 'clsx';
-import { createEffect, For, mergeProps } from 'solid-js';
+import { createEffect, For, mergeProps, Show } from 'solid-js';
 import { FormError, refetchRouteData } from 'solid-start';
 import { createServerAction$, json, redirect } from 'solid-start/server';
 import { z } from 'zod';
@@ -16,6 +16,7 @@ import { requireUserId } from '~/utils/session';
 type TaskStatusMenuProps = {
 	class?: string;
 	currentStatus: COMPLETABLE_STATUS;
+	goalList?: boolean;
 	id: string;
 };
 
@@ -32,6 +33,7 @@ export const TaskStatusMenu = (props: TaskStatusMenuProps) => {
 	const [changeStatus, changeStatusTrigger] = createServerAction$(async (formData: FormData, { request }) => {
 		const userId = await requireUserId(request);
 		const changeStatusSchema = z.object({
+			goalsList: z.coerce.boolean().optional(),
 			id: z.string().cuid(),
 			status: z.enum([
 				COMPLETABLE_STATUS.ARCHIVED,
@@ -90,7 +92,10 @@ export const TaskStatusMenu = (props: TaskStatusMenuProps) => {
 
 		await Promise.all(promises);
 
-		if (parsedChangeStatusPayload.data.status === 'ARCHIVED' || parsedChangeStatusPayload.data.status === 'COMPLETED')
+		if (
+			!parsedChangeStatusPayload.data.goalsList &&
+			(parsedChangeStatusPayload.data.status === 'ARCHIVED' || parsedChangeStatusPayload.data.status === 'COMPLETED')
+		)
 			return redirect(REDIRECTS.TASKS);
 
 		if (isFormRequestClientSide(request)) return json({});
@@ -106,7 +111,7 @@ export const TaskStatusMenu = (props: TaskStatusMenuProps) => {
 	});
 
 	return (
-		<div class={clsx('relative', propsWithDefaults.class)}>
+		<div class={clsx('text-primary relative text-base', propsWithDefaults.class)}>
 			<Menu.Root
 				triggerContent={
 					<TextAlignedIcon icon={STATUS_ICON[propsWithDefaults.currentStatus]}>
@@ -116,6 +121,9 @@ export const TaskStatusMenu = (props: TaskStatusMenuProps) => {
 			>
 				<changeStatusTrigger.Form>
 					<input type="hidden" name="id" value={propsWithDefaults.id} />
+					<Show when={propsWithDefaults.goalList}>
+						<input type="hidden" name="goalsList" value="true" />
+					</Show>
 					<For each={AVAILABLE_TRANSITIONS[propsWithDefaults.currentStatus]}>
 						{status => (
 							<Menu.ButtonItem name="status" value={status} id={status}>

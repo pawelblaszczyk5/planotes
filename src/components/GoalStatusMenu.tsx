@@ -88,7 +88,7 @@ export const GoalStatusMenu = (props: GoalStatusMenuProps) => {
 	});
 
 	return (
-		<div class={clsx('relative', propsWithDefaults.class)}>
+		<div class={clsx('text-primary relative text-base', propsWithDefaults.class)}>
 			<Menu.Root
 				triggerContent={
 					<TextAlignedIcon icon={STATUS_ICON[propsWithDefaults.currentStatus]}>

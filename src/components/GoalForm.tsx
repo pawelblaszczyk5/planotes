@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { Button } from '~/components/Button';
 import { Input } from '~/components/Input';
 import { RadioGroup } from '~/components/Radio';
+import { TasksListWithoutPagination } from '~/components/TasksList';
 import TextEditor from '~/components/TextEditor';
 import { REDIRECTS } from '~/constants/redirects';
 import { db } from '~/utils/db';
@@ -152,70 +153,79 @@ export const GoalForm = (props: GoalFormProps) => {
 	const upsertGoalErrors = createFormFieldsErrors(() => upsertGoal.error);
 
 	return (
-		<div class="flex max-w-3xl flex-col gap-6">
-			<h2 class="text-xl">{props.title}</h2>
-			<div class="text-secondary text-sm">{props.description}</div>
-			<upsertGoalTrigger.Form class="flex max-w-xl flex-col gap-6">
-				<Input
-					error={upsertGoalErrors()['title']}
-					name="title"
-					value={props.goal?.title ?? props.noteToConvert?.name ?? ''}
-				>
-					Title
-				</Input>
-				<TextEditor
-					error={upsertGoalErrors()['content']}
-					name="content"
-					value={props.goal?.htmlContent ?? props.noteToConvert?.htmlContent ?? ''}
-					maxLength={GOAL_CONTENT_MAX_LENGTH}
-					class="lg:-mr-48"
-				>
-					Content
-				</TextEditor>
-				<RadioGroup.Root value={props.goal?.size ?? ''} name="size">
-					<RadioGroup.Label>Size</RadioGroup.Label>
-					<div class="flex flex-wrap gap-3">
-						<RadioGroup.Item value={Size.XS}>XS</RadioGroup.Item>
-						<RadioGroup.Item value={Size.S}>S</RadioGroup.Item>
-						<RadioGroup.Item value={Size.M}>M</RadioGroup.Item>
-						<RadioGroup.Item value={Size.L}>L</RadioGroup.Item>
-						<RadioGroup.Item value={Size.XL}>XL</RadioGroup.Item>
-					</div>
-					<Show when={upsertGoalErrors()['size']}>
-						<p class="text-destructive pt-2 text-sm">{upsertGoalErrors()['size']}</p>
+		<>
+			<div class="flex max-w-3xl flex-col gap-6">
+				<h2 class="text-xl">{props.title}</h2>
+				<div class="text-secondary text-sm">{props.description}</div>
+				<upsertGoalTrigger.Form class="flex max-w-xl flex-col gap-6">
+					<Input
+						error={upsertGoalErrors()['title']}
+						name="title"
+						value={props.goal?.title ?? props.noteToConvert?.name ?? ''}
+					>
+						Title
+					</Input>
+					<TextEditor
+						error={upsertGoalErrors()['content']}
+						name="content"
+						value={props.goal?.htmlContent ?? props.noteToConvert?.htmlContent ?? ''}
+						maxLength={GOAL_CONTENT_MAX_LENGTH}
+						class="lg:-mr-48"
+					>
+						Content
+					</TextEditor>
+					<RadioGroup.Root value={props.goal?.size ?? ''} name="size">
+						<RadioGroup.Label>Size</RadioGroup.Label>
+						<div class="flex flex-wrap gap-3">
+							<RadioGroup.Item value={Size.XS}>XS</RadioGroup.Item>
+							<RadioGroup.Item value={Size.S}>S</RadioGroup.Item>
+							<RadioGroup.Item value={Size.M}>M</RadioGroup.Item>
+							<RadioGroup.Item value={Size.L}>L</RadioGroup.Item>
+							<RadioGroup.Item value={Size.XL}>XL</RadioGroup.Item>
+						</div>
+						<Show when={upsertGoalErrors()['size']}>
+							<p class="text-destructive pt-2 text-sm">{upsertGoalErrors()['size']}</p>
+						</Show>
+					</RadioGroup.Root>
+					<RadioGroup.Root value={props.goal?.priority ?? ''} name="priority">
+						<RadioGroup.Label>Priority</RadioGroup.Label>
+						<div class="flex flex-wrap gap-3">
+							<RadioGroup.Item value={Priority.LOW}>Low</RadioGroup.Item>
+							<RadioGroup.Item value={Priority.MEDIUM}>Medium</RadioGroup.Item>
+							<RadioGroup.Item value={Priority.HIGH}>High</RadioGroup.Item>
+						</div>
+						<Show when={upsertGoalErrors()['priority']}>
+							<p class="text-destructive pt-2 text-sm">{upsertGoalErrors()['priority']}</p>
+						</Show>
+					</RadioGroup.Root>
+					<Show when={props.goal}>
+						<input name="id" type="hidden" value={props.goal!.id} />
 					</Show>
-				</RadioGroup.Root>
-				<RadioGroup.Root value={props.goal?.priority ?? ''} name="priority">
-					<RadioGroup.Label>Priority</RadioGroup.Label>
-					<div class="flex flex-wrap gap-3">
-						<RadioGroup.Item value={Priority.LOW}>Low</RadioGroup.Item>
-						<RadioGroup.Item value={Priority.MEDIUM}>Medium</RadioGroup.Item>
-						<RadioGroup.Item value={Priority.HIGH}>High</RadioGroup.Item>
-					</div>
-					<Show when={upsertGoalErrors()['priority']}>
-						<p class="text-destructive pt-2 text-sm">{upsertGoalErrors()['priority']}</p>
+					<Show when={upsertGoalErrors()['id']}>
+						<p class="text-destructive text-sm">{upsertGoalErrors()['id']}</p>
 					</Show>
-				</RadioGroup.Root>
-				<Show when={props.goal}>
-					<input name="id" type="hidden" value={props.goal!.id} />
-				</Show>
-				<Show when={upsertGoalErrors()['id']}>
-					<p class="text-destructive text-sm">{upsertGoalErrors()['id']}</p>
-				</Show>
-				<Show when={props.noteToConvert}>
-					<input name="noteId" type="hidden" value={props.noteToConvert!.id} />
-				</Show>
-				<Show when={upsertGoalErrors()['noteId']}>
-					<p class="text-destructive text-sm">{upsertGoalErrors()['noteId']}</p>
-				</Show>
-				<Show when={upsertGoalErrors()['other']}>
-					<p class="text-destructive text-sm">{upsertGoalErrors()['other']}</p>
-				</Show>
-				<Button class="max-w-48 w-full">{props.goal ? 'Save goal' : 'Add goal'}</Button>
-			</upsertGoalTrigger.Form>
-			<Show when={props.goal?.Task?.length}>
-				<h2 class="mt-6 text-xl">Linked tasks</h2>
+					<Show when={props.noteToConvert}>
+						<input name="noteId" type="hidden" value={props.noteToConvert!.id} />
+					</Show>
+					<Show when={upsertGoalErrors()['noteId']}>
+						<p class="text-destructive text-sm">{upsertGoalErrors()['noteId']}</p>
+					</Show>
+					<Show when={upsertGoalErrors()['other']}>
+						<p class="text-destructive text-sm">{upsertGoalErrors()['other']}</p>
+					</Show>
+					<Button class="max-w-48 w-full">{props.goal ? 'Save goal' : 'Add goal'}</Button>
+				</upsertGoalTrigger.Form>
+			</div>
+			<Show when={props.goal}>
+				<div class="my-12 flex flex-col gap-6">
+					<h2 class="text-xl">Assigned tasks</h2>
+					<TasksListWithoutPagination
+						goalList
+						fallback="You don't have any tasks assigned to this goal yet. You can always group them for more readable and simpler view"
+						tasks={props.goal!.Task ?? []}
+					/>
+				</div>
 			</Show>
-		</div>
+		</>
 	);
 };
