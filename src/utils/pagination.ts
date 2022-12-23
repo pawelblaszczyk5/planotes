@@ -1,5 +1,6 @@
 import { redirect } from 'solid-start';
 import { REDIRECTS } from '~/constants/redirects';
+import { calculateAdjustedPercent } from '~/utils/adjustedPercent';
 import { db } from '~/utils/db';
 
 export const ITEMS_PER_PAGE = 12;
@@ -104,8 +105,7 @@ export const getPaginatedGoals = async (pageParam: number | string, userId: stri
 		const { Task, textContent, ...rest } = goal;
 		const completedTasks = Task.filter(({ status }) => status === 'COMPLETED').length;
 
-		const progressPercent = (completedTasks / Task.length) * 100;
-		const adjustedPercent = progressPercent < 50 ? Math.round(progressPercent) : Math.floor(progressPercent);
+		const adjustedPercent = calculateAdjustedPercent(completedTasks, Task.length);
 
 		return {
 			...rest,

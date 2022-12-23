@@ -1,5 +1,5 @@
 import { type Task, type Note, type Goal, Size, Priority } from '@prisma/client';
-import { type JSXElement, Show } from 'solid-js';
+import { type JSXElement, Show, createMemo } from 'solid-js';
 import { FormError } from 'solid-start';
 import { createServerAction$, redirect } from 'solid-start/server';
 import { z } from 'zod';
@@ -9,6 +9,7 @@ import { RadioGroup } from '~/components/Radio';
 import { TasksListWithoutPagination } from '~/components/TasksList';
 import TextEditor from '~/components/TextEditor';
 import { REDIRECTS } from '~/constants/redirects';
+import { calculateAdjustedPercent } from '~/utils/adjustedPercent';
 import { db } from '~/utils/db';
 import {
 	type FormErrors,
@@ -150,6 +151,20 @@ export const GoalForm = (props: GoalFormProps) => {
 		return redirect(REDIRECTS.GOALS);
 	});
 
+	const goalCompletionStats = createMemo(() => {
+		if (!props.goal?.Task) return;
+
+		const completedTasks = props.goal.Task.filter(task => task.status === 'COMPLETED').length;
+		const allTasks = props.goal.Task.length;
+
+		return {
+			max: allTasks,
+			min: 0,
+			now: completedTasks,
+			percent: calculateAdjustedPercent(completedTasks, allTasks),
+		};
+	});
+
 	const upsertGoalErrors = createFormFieldsErrors(() => upsertGoal.error);
 
 	return (
@@ -219,6 +234,24 @@ export const GoalForm = (props: GoalFormProps) => {
 			<Show when={props.goal}>
 				<div class="my-12 flex flex-col gap-6">
 					<h2 class="text-xl">Assigned tasks</h2>
+					<Show when={goalCompletionStats()}>
+						<div
+							class="h-6 w-full overflow-hidden rounded-md shadow shadow-black/50 dark:shadow-black/90"
+							role="progressbar"
+							aria-valuemin={goalCompletionStats()!.min}
+							aria-valuemax={goalCompletionStats()!.max}
+							aria-valuenow={goalCompletionStats()!.now}
+							aria-valuetext={`${goalCompletionStats()!.percent}%`}
+						>
+							<div
+								class="bg-accent text-contrast flex h-full items-center justify-center text-sm"
+								style={{ width: `${goalCompletionStats()!.percent}%` }}
+							>
+								<span aria-hidden>{goalCompletionStats()!.percent}%</span>
+							</div>
+						</div>
+					</Show>
+
 					<TasksListWithoutPagination
 						goalList
 						fallback="You don't have any tasks assigned to this goal yet. You can always group them for more readable and simpler view"
