@@ -175,11 +175,11 @@ export const GoalForm = (props: GoalFormProps) => {
 				<RadioGroup.Root value={props.goal?.size ?? ''} name="size">
 					<RadioGroup.Label>Size</RadioGroup.Label>
 					<div class="flex flex-wrap gap-3">
-						<RadioGroup.Item value="XS">XS</RadioGroup.Item>
-						<RadioGroup.Item value="S">S</RadioGroup.Item>
-						<RadioGroup.Item value="M">M</RadioGroup.Item>
-						<RadioGroup.Item value="L">L</RadioGroup.Item>
-						<RadioGroup.Item value="XL">XL</RadioGroup.Item>
+						<RadioGroup.Item value={Size.XS}>XS</RadioGroup.Item>
+						<RadioGroup.Item value={Size.S}>S</RadioGroup.Item>
+						<RadioGroup.Item value={Size.M}>M</RadioGroup.Item>
+						<RadioGroup.Item value={Size.L}>L</RadioGroup.Item>
+						<RadioGroup.Item value={Size.XL}>XL</RadioGroup.Item>
 					</div>
 					<Show when={upsertGoalErrors()['size']}>
 						<p class="text-destructive pt-2 text-sm">{upsertGoalErrors()['size']}</p>
@@ -188,9 +188,9 @@ export const GoalForm = (props: GoalFormProps) => {
 				<RadioGroup.Root value={props.goal?.priority ?? ''} name="priority">
 					<RadioGroup.Label>Priority</RadioGroup.Label>
 					<div class="flex flex-wrap gap-3">
-						<RadioGroup.Item value="LOW">Low</RadioGroup.Item>
-						<RadioGroup.Item value="MEDIUM">Medium</RadioGroup.Item>
-						<RadioGroup.Item value="HIGH">High</RadioGroup.Item>
+						<RadioGroup.Item value={Priority.LOW}>Low</RadioGroup.Item>
+						<RadioGroup.Item value={Priority.MEDIUM}>Medium</RadioGroup.Item>
+						<RadioGroup.Item value={Priority.HIGH}>High</RadioGroup.Item>
 					</div>
 					<Show when={upsertGoalErrors()['priority']}>
 						<p class="text-destructive pt-2 text-sm">{upsertGoalErrors()['priority']}</p>
