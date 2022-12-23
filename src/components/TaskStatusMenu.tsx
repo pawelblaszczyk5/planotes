@@ -9,9 +9,11 @@ import { TextAlignedIcon } from '~/components/TextIconAligned';
 import { AVAILABLE_TRANSITIONS, STATUS_ICON, STATUS_LABEL } from '~/constants/completableStatus';
 import { REDIRECTS } from '~/constants/redirects';
 import { type DefaultProps } from '~/types';
+import { calculatePayout } from '~/utils/calculatePayout';
 import { db } from '~/utils/db';
 import { type FormErrors, convertFormDataIntoObject, isFormRequestClientSide } from '~/utils/form';
 import { requireUserId } from '~/utils/session';
+import { getCurrentEpochSeconds } from '~/utils/time';
 
 type TaskStatusMenuProps = {
 	class?: string;
@@ -50,6 +52,7 @@ export const TaskStatusMenu = (props: TaskStatusMenuProps) => {
 		const currentlyEditingTask = await db.task.findUnique({
 			select: {
 				goal: true,
+				size: true,
 				status: true,
 				userId: true,
 			},
@@ -85,6 +88,35 @@ export const TaskStatusMenu = (props: TaskStatusMenuProps) => {
 					},
 					where: {
 						id: currentlyEditingTask.goal.id,
+					},
+				}),
+			);
+		}
+
+		if (parsedChangeStatusPayload.data.status === 'COMPLETED') {
+			const payout = calculatePayout('task', currentlyEditingTask.size);
+
+			promises.push(
+				db.balanceEntry.create({
+					data: {
+						change: payout,
+						createdAt: getCurrentEpochSeconds(),
+						entity: 'TASK',
+						itemId: parsedChangeStatusPayload.data.id,
+						userId,
+					},
+				}),
+			);
+
+			promises.push(
+				db.user.update({
+					data: {
+						balance: {
+							increment: payout,
+						},
+					},
+					where: {
+						id: userId,
 					},
 				}),
 			);

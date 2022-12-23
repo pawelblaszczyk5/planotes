@@ -9,9 +9,11 @@ import { TextAlignedIcon } from '~/components/TextIconAligned';
 import { AVAILABLE_TRANSITIONS, STATUS_ICON, STATUS_LABEL } from '~/constants/completableStatus';
 import { REDIRECTS } from '~/constants/redirects';
 import { type DefaultProps } from '~/types';
+import { calculatePayout } from '~/utils/calculatePayout';
 import { db } from '~/utils/db';
 import { type FormErrors, convertFormDataIntoObject, isFormRequestClientSide } from '~/utils/form';
 import { requireUserId } from '~/utils/session';
+import { getCurrentEpochSeconds } from '~/utils/time';
 
 type GoalStatusMenuProps = {
 	class?: string;
@@ -47,6 +49,7 @@ export const GoalStatusMenu = (props: GoalStatusMenuProps) => {
 
 		const currentlyEditingGoal = await db.goal.findUnique({
 			select: {
+				size: true,
 				status: true,
 				userId: true,
 			},
@@ -65,12 +68,43 @@ export const GoalStatusMenu = (props: GoalStatusMenuProps) => {
 
 		if (!isTransitionValid) throw new FormError(FORM_ERRORS.TRANSITION_ERROR);
 
-		await db.goal.update({
-			data: {
-				status: parsedChangeStatusPayload.data.status,
-			},
-			where: { id: parsedChangeStatusPayload.data.id },
-		});
+		const promises: Array<Promise<unknown>> = [
+			db.goal.update({
+				data: {
+					status: parsedChangeStatusPayload.data.status,
+				},
+				where: { id: parsedChangeStatusPayload.data.id },
+			}),
+		];
+
+		if (parsedChangeStatusPayload.data.status === 'COMPLETED') {
+			const payout = calculatePayout('task', currentlyEditingGoal.size);
+
+			promises.push(
+				db.balanceEntry.create({
+					data: {
+						change: payout,
+						createdAt: getCurrentEpochSeconds(),
+						entity: 'TASK',
+						itemId: parsedChangeStatusPayload.data.id,
+						userId,
+					},
+				}),
+			);
+
+			promises.push(
+				db.user.update({
+					data: {
+						balance: {
+							increment: payout,
+						},
+					},
+					where: {
+						id: userId,
+					},
+				}),
+			);
+		}
 
 		if (parsedChangeStatusPayload.data.status === 'ARCHIVED' || parsedChangeStatusPayload.data.status === 'COMPLETED')
 			return redirect(REDIRECTS.GOALS);
