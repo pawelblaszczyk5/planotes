@@ -1,7 +1,9 @@
+import { MODULE_ICONS } from '~/constants/moduleIcons';
+
 export const ROUTES = [
-	{ href: '/app/home', icon: 'i-lucide-home', title: 'Home' },
-	{ href: '/app/goals', icon: 'i-lucide-compass', title: 'Goals' },
-	{ href: '/app/tasks', icon: 'i-lucide-clipboard-check', title: 'Tasks' },
-	{ href: '/app/notes', icon: 'i-lucide-sticky-note', title: 'Notes' },
-	{ href: '/app/shop', icon: 'i-lucide-coins', title: 'Shop' },
+	{ href: '/app/home', icon: MODULE_ICONS.home, title: 'Home' },
+	{ href: '/app/goals', icon: MODULE_ICONS.goals, title: 'Goals' },
+	{ href: '/app/tasks', icon: MODULE_ICONS.tasks, title: 'Tasks' },
+	{ href: '/app/notes', icon: MODULE_ICONS.notes, title: 'Notes' },
+	{ href: '/app/shop', icon: MODULE_ICONS.shop, title: 'Shop' },
 ] as const satisfies ReadonlyArray<Readonly<{ href: string; icon: string; title: string }>>;

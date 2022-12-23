@@ -9,4 +9,4 @@ type GetOptional<ObjectToRetrieveOptional extends Record<string, unknown>> = {
 
 export type DefaultProps<Props extends Record<string, unknown>> = GetOptional<Props>;
 
-export type Module = 'goals' | 'notes' | 'shop' | 'tasks';
+export type Module = 'goals' | 'home' | 'notes' | 'shop' | 'tasks';

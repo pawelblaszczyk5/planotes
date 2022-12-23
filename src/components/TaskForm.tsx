@@ -182,7 +182,7 @@ export const TaskForm = (props: TaskFormProps) => {
 						<p class="text-destructive pt-2 text-sm">{upsertTaskErrors()['size']}</p>
 					</Show>
 				</RadioGroup.Root>
-				<RadioGroup.Root value={props.task?.size ?? ''} name="priority">
+				<RadioGroup.Root value={props.task?.priority ?? ''} name="priority">
 					<RadioGroup.Label>Priority</RadioGroup.Label>
 					<div class="flex flex-wrap gap-3">
 						<RadioGroup.Item value="LOW">Low</RadioGroup.Item>

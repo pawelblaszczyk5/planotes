@@ -7,6 +7,7 @@ import { ButtonLink } from '~/components/Button';
 import { Menu } from '~/components/Menu';
 import { Pagination } from '~/components/Pagination';
 import { TextAlignedIcon } from '~/components/TextIconAligned';
+import { MODULE_ICONS } from '~/constants/moduleIcons';
 import { REDIRECTS } from '~/constants/redirects';
 import { db } from '~/utils/db';
 import { convertFormDataIntoObject, createFormFieldsErrors } from '~/utils/form';
@@ -90,10 +91,10 @@ export const NotesList = (props: NotesListProps) => {
 									</Menu.ButtonItem>
 								</deleteNoteTrigger.Form>
 								<Menu.LinkItem href={`/app/tasks/task/new?noteId=${note.id}`} id="task">
-									<TextAlignedIcon icon="i-lucide-clipboard-check">Task conversion</TextAlignedIcon>
+									<TextAlignedIcon icon={MODULE_ICONS.tasks}>Task conversion</TextAlignedIcon>
 								</Menu.LinkItem>
 								<Menu.LinkItem href={`/app/goals/goal/new?noteId=${note.id}`} id="goal">
-									<TextAlignedIcon icon="i-lucide-compass">Goal conversion</TextAlignedIcon>
+									<TextAlignedIcon icon={MODULE_ICONS.goals}>Goal conversion</TextAlignedIcon>
 								</Menu.LinkItem>
 							</Menu.Root>
 						</li>
