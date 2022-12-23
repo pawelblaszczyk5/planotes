@@ -5,7 +5,8 @@ import { FormError, refetchRouteData } from 'solid-start';
 import { createServerAction$, json, redirect } from 'solid-start/server';
 import { z } from 'zod';
 import { Menu } from '~/components/Menu';
-import { AVAILABLE_TRANSITIONS, STATUS_LABEL } from '~/constants/completableStatus';
+import { TextAlignedIcon } from '~/components/TextIconAligned';
+import { AVAILABLE_TRANSITIONS, STATUS_ICON, STATUS_LABEL } from '~/constants/completableStatus';
 import { REDIRECTS } from '~/constants/redirects';
 import { type DefaultProps } from '~/types';
 import { db } from '~/utils/db';
@@ -88,13 +89,19 @@ export const GoalStatusMenu = (props: GoalStatusMenuProps) => {
 
 	return (
 		<div class={clsx('relative', propsWithDefaults.class)}>
-			<Menu.Root triggerContent={STATUS_LABEL[propsWithDefaults.currentStatus]}>
+			<Menu.Root
+				triggerContent={
+					<TextAlignedIcon icon={STATUS_ICON[propsWithDefaults.currentStatus]}>
+						{STATUS_LABEL[propsWithDefaults.currentStatus]}
+					</TextAlignedIcon>
+				}
+			>
 				<changeStatusTrigger.Form>
 					<input type="hidden" name="id" value={propsWithDefaults.id} />
 					<For each={AVAILABLE_TRANSITIONS[propsWithDefaults.currentStatus]}>
 						{status => (
 							<Menu.ButtonItem name="status" value={status} id={status}>
-								{STATUS_LABEL[status]}
+								<TextAlignedIcon icon={STATUS_ICON[status]}>{STATUS_LABEL[status]}</TextAlignedIcon>
 							</Menu.ButtonItem>
 						)}
 					</For>

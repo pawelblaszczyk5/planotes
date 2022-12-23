@@ -21,3 +21,10 @@ export const AVAILABLE_TRANSITIONS = {
 		COMPLETABLE_STATUS.ARCHIVED,
 	],
 } as const;
+
+export const STATUS_ICON = {
+	[COMPLETABLE_STATUS.COMPLETED]: 'i-lucide-check-circle',
+	[COMPLETABLE_STATUS.ARCHIVED]: 'i-lucide-archive',
+	[COMPLETABLE_STATUS.TO_DO]: 'i-lucide-bed',
+	[COMPLETABLE_STATUS.IN_PROGRESS]: 'i-lucide-arrow-left-right',
+} as const;
