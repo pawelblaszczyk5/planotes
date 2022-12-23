@@ -10,6 +10,7 @@ import { RESOURCE_KEY } from '~/constants/resourceKeys';
 import { ROUTES } from '~/constants/routes';
 import { getColorScheme, createColorSchemeCookie, getNextColorScheme } from '~/utils/colorScheme';
 import { db } from '~/utils/db';
+import { isFormRequestClientSide } from '~/utils/form';
 import { getRandomGreeting } from '~/utils/greeting';
 import { createSignOutCookie, requireUserId } from '~/utils/session';
 import { isUserOnboarded } from '~/utils/user';
@@ -44,7 +45,7 @@ const App = () => {
 		const nextColorScheme = getNextColorScheme(currentColorScheme);
 		const cookie = await createColorSchemeCookie(nextColorScheme);
 
-		if (request.headers.get('x-solidstart-origin') === 'client') return json({}, { headers: { 'Set-Cookie': cookie } });
+		if (isFormRequestClientSide(request)) return json({}, { headers: { 'Set-Cookie': cookie } });
 
 		throw redirect(`${request.headers.get('referer')}` ?? REDIRECTS.HOME, { headers: { 'Set-Cookie': cookie } });
 	});

@@ -66,3 +66,5 @@ export const convertFormDataIntoObject = (formData: FormData) =>
 		result[key] = [currentKeyValue, value];
 		return result;
 	}, {});
+
+export const isFormRequestClientSide = (request: Request) => request.headers.get('x-solidstart-origin') === 'client';
