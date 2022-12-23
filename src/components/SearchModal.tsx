@@ -16,6 +16,8 @@ type SearchModalProps = {
 
 const MAX_ITEMS_FROM_CATEGORY = 3;
 
+const TEXT_CONTENT_SLICE_SIZE = 75;
+
 const SearchFallback = () => <p class="text-secondary text-sm">Write something in above input to conduct a search</p>;
 const CategoryFallback = (props: { category: string }) => (
 	<p class="text-secondary text-sm">We can't find items with a given term among {props.category}</p>
@@ -40,8 +42,11 @@ const Item = (props: ItemProps) => (
 );
 
 const sliceTextContent = (textContent: string, term: string) => {
-	const sliceStartIndex = textContent.indexOf(term) - 50;
-	const sliceEndIndex = textContent.indexOf(term) + term.length + 50;
+	const indexOfTerm = textContent.indexOf(term);
+
+	if (indexOfTerm === -1) return textContent.slice(0, TEXT_CONTENT_SLICE_SIZE * 2);
+	const sliceStartIndex = textContent.indexOf(term) - TEXT_CONTENT_SLICE_SIZE;
+	const sliceEndIndex = textContent.indexOf(term) + term.length + TEXT_CONTENT_SLICE_SIZE;
 
 	const adjustedTermIndex = Math.max(0, sliceStartIndex);
 	const adjustedTermEndIndex = Math.min(textContent.length, sliceEndIndex);
