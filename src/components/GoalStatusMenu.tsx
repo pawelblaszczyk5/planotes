@@ -106,6 +106,8 @@ export const GoalStatusMenu = (props: GoalStatusMenuProps) => {
 			);
 		}
 
+		await Promise.all(promises);
+
 		if (parsedChangeStatusPayload.data.status === 'ARCHIVED' || parsedChangeStatusPayload.data.status === 'COMPLETED')
 			return redirect(REDIRECTS.GOALS);
 
