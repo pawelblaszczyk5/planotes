@@ -5,7 +5,7 @@ type PayoutType = 'goal' | 'task';
 const BASE_PRIZE = 100;
 
 const TYPE_MULTIPLIER = {
-	goal: 2.5,
+	goal: 10,
 	task: 1,
 } as const satisfies Record<PayoutType, number>;
 
