@@ -90,6 +90,9 @@ export const NoteForm = (props: NoteFormProps) => {
 		}
 
 		const currentlyEditingNote = await db.note.findUnique({
+			select: {
+				userId: true,
+			},
 			where: {
 				id: parsedUpsertNotePayload.data.id,
 			},
