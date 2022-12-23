@@ -109,7 +109,7 @@ export const getPaginatedGoals = async (pageParam: number | string, userId: stri
 
 		return {
 			...rest,
-			progress: Number.isNaN(adjustedPercent) ? '-' : adjustedPercent,
+			progress: Number.isNaN(adjustedPercent) ? '-' : `${adjustedPercent}%`,
 			textContent: textContent.slice(0, 200),
 		};
 	});

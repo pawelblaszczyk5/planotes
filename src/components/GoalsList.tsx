@@ -44,6 +44,7 @@ export const GoalsList = (props: GoalsListProps) => {
 										{PRIORITY_TEXT[goal.priority]} <i class={PRIORITY_ICONS[goal.priority]} />
 									</span>
 								</p>
+								<p class="text-secondary flex items-center text-sm">Progress: {goal.progress}</p>
 								<p class="text-secondary flex items-center text-sm">Size: {goal.size}</p>
 							</div>
 							<div class="flex flex-col gap-6">
