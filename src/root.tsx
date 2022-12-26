@@ -65,6 +65,10 @@ const Root = () => {
 					<Head>
 						<Meta charset="utf-8" />
 						<Meta name="viewport" content="width=device-width, initial-scale=1" />
+						<Meta
+							name="description"
+							content="Planotes is a full-blown application for planning and managing everyday life. The key feature is the gamification of the whole process. Collect points and exchange them for prizes that you set up for yourself."
+						/>
 						<Link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 						<Link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
 						<Link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
