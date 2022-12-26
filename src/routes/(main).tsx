@@ -99,6 +99,7 @@ const Index = () => {
 					/>
 					<p class="text-secondary text-center">Don't waste time, start using Planotes right now!</p>
 				</main>
+				<footer class="text-secondary pb-6 text-center text-xs">Made by Paweł Błaszczyk</footer>
 			</div>
 		</>
 	);
