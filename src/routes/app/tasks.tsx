@@ -5,13 +5,7 @@ const Tasks = () => {
 	return (
 		<>
 			<Title>Tasks | Planotes</Title>
-			<AppMainLayout
-				heading={
-					<div class="flex justify-between">
-						<span>Tasks</span>
-					</div>
-				}
-			>
+			<AppMainLayout heading="Tasks">
 				<Outlet />
 			</AppMainLayout>
 		</>

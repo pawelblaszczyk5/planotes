@@ -5,13 +5,7 @@ const Goals = () => {
 	return (
 		<>
 			<Title>Goals | Planotes</Title>
-			<AppMainLayout
-				heading={
-					<div class="flex justify-between">
-						<span>Goals</span>
-					</div>
-				}
-			>
+			<AppMainLayout heading="Goals">
 				<Outlet />
 			</AppMainLayout>
 		</>
