@@ -3,6 +3,7 @@
 [![Planotes dashboard screenshoot](public/example.png)](https://planotes.xyz/)
 
 Planotes is a full-blown application for planning and managing everyday life. The key feature is the gamification of the whole process. Collect points and exchange them for prizes that you set up for yourself.
+
 Keep track of your progress and try to achieve your with small steps at a time. Take notes that you can transform into action items or search through them.
 
 ## Live version
