@@ -38,8 +38,9 @@ const Index = () => {
 					</div>
 					<img
 						class="bg-secondary b-primary b-2 rounded shadow shadow-black/50 dark:shadow-black/90"
-						src="/example.png"
-						alt=""
+						src="/example.webp"
+						alt="Screenshot of Planotes dashboard"
+						width="1600"
 					/>
 					<Tabs
 						class="w-full max-w-2xl overflow-x-scroll"
