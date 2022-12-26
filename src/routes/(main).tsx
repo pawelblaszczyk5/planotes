@@ -27,10 +27,7 @@ const Index = () => {
 			<Title>Planotes</Title>
 			<div class="w-full">
 				<header class="b-b-2 b-primary bg-primary sticky top-0 flex flex items-center justify-between p-6">
-					<picture>
-						<source srcset={example} media="(min-width: 800px)" />
-						<img src={exampleSmall} alt="Planotes" class="h-12 w-12 object-contain" />
-					</picture>
+					<img src={logo} alt="Planotes" class="h-12 w-12 object-contain" />
 					<ButtonLink href={data() ? '/app/home' : '/sign-in'}>{data() ? 'Dashboard' : 'Sign in'}</ButtonLink>
 				</header>
 				<main class="flex h-full flex-col items-center gap-12 p-12">
@@ -41,12 +38,10 @@ const Index = () => {
 							your progress. Easily track your path towards the sucesss!
 						</p>
 					</div>
-					<img
-						class="bg-secondary b-primary b-2 rounded shadow shadow-black/50 dark:shadow-black/90"
-						src="/example.webp"
-						alt="Screenshot of Planotes dashboard"
-						width="1600"
-					/>
+					<picture class="bg-secondary b-primary b-2 rounded shadow shadow-black/50 dark:shadow-black/90">
+						<source srcset={example} media="(min-width: 800px)" />
+						<img src={exampleSmall} alt="Planotes" />
+					</picture>
 					<Tabs
 						class="w-full max-w-2xl overflow-x-scroll"
 						items={[
