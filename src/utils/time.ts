@@ -13,3 +13,5 @@ export const convertEpochSecondsToDate = (seconds: number) =>
 export const getDateWithOffset = (offset: Temporal.Duration | Temporal.DurationLike) => getCurrentDate().add(offset);
 
 export const getCurrentEpochSeconds = () => getCurrentDate().epochSeconds;
+
+export const getEpochSeconds7DaysAgo = () => getDateWithOffset({ days: -7 }).withTimeZone('UTC').epochSeconds;
