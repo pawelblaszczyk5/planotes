@@ -1,6 +1,8 @@
 import { type JSXElement } from 'solid-js';
 import { Title, useRouteData } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
+import exampleSmall from '~/assets/example-small.webp';
+import example from '~/assets/example.webp';
 import logo from '~/assets/logo.webp';
 import { ButtonLink } from '~/components/Button';
 import { Tabs } from '~/components/Tabs';
@@ -25,7 +27,10 @@ const Index = () => {
 			<Title>Planotes</Title>
 			<div class="w-full">
 				<header class="b-b-2 b-primary bg-primary sticky top-0 flex flex items-center justify-between p-6">
-					<img src={logo} alt="Planotes" class="h-12 w-12 object-contain" />
+					<picture>
+						<source srcset={example} media="(min-width: 800px)" />
+						<img src={exampleSmall} alt="Planotes" class="h-12 w-12 object-contain" />
+					</picture>
 					<ButtonLink href={data() ? '/app/home' : '/sign-in'}>{data() ? 'Dashboard' : 'Sign in'}</ButtonLink>
 				</header>
 				<main class="flex h-full flex-col items-center gap-12 p-12">
