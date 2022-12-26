@@ -40,7 +40,7 @@ const Index = () => {
 					</div>
 					<picture class="bg-secondary b-primary b-2 rounded shadow shadow-black/50 dark:shadow-black/90">
 						<source srcset={example} media="(min-width: 800px)" />
-						<img src={exampleSmall} alt="Planotes" />
+						<img src={exampleSmall} alt="Planotes" width={1_600} height={944} />
 					</picture>
 					<Tabs
 						class="w-full max-w-2xl overflow-x-scroll"
