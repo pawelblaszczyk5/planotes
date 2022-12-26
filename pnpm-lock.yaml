@@ -11,7 +11,7 @@ patchedDependencies:
 specifiers:
   '@digitak/esrun': ^3.2.15
   '@faker-js/faker': ^7.6.0
-  '@iconify/json': ^2.1.155
+  '@iconify/json': ^2.1.157
   '@js-temporal/polyfill': ^0.4.3
   '@motionone/solid': ^10.15.4
   '@prisma/client': ^4.8.0
@@ -107,7 +107,7 @@ dependencies:
 devDependencies:
   '@digitak/esrun': 3.2.15
   '@faker-js/faker': 7.6.0
-  '@iconify/json': 2.1.155
+  '@iconify/json': 2.1.157
   '@tsconfig/strictest': 1.0.2
   '@types/nodemailer': 6.4.7
   '@types/sanitize-html': 2.8.0
@@ -1648,8 +1648,8 @@ packages:
     resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}
     dev: true
 
-  /@iconify/json/2.1.155:
-    resolution: {integrity: sha512-Zr0809RkIKB/0pX3jFfLX4TI8fv1aW6+FHXlfRiDhFKQSmhcs2x5xYhtxI5GUzl+9o6Le544uUCljmHBYJUFrA==}
+  /@iconify/json/2.1.157:
+    resolution: {integrity: sha512-hMfejLLvAtivI1PSKVbBvTGtIeX/II6DPLcGxJFTIzDA/HhJ/uZxS+Y6XeZPeH7rl+Vjm2X5gNnrYyiosroonw==}
     dependencies:
       '@iconify/types': 2.0.0
       pathe: 0.3.9

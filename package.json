@@ -59,7 +59,7 @@
 	"devDependencies": {
 		"@digitak/esrun": "^3.2.15",
 		"@faker-js/faker": "^7.6.0",
-		"@iconify/json": "^2.1.155",
+		"@iconify/json": "^2.1.157",
 		"@tsconfig/strictest": "^1.0.2",
 		"@types/nodemailer": "^6.4.7",
 		"@types/sanitize-html": "^2.8.0",
