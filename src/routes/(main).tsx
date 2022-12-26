@@ -10,7 +10,7 @@ import { isSignedIn } from '~/utils/session';
 
 const FeatureDescription = (props: { children: JSXElement; title: string }) => (
 	<div class="flex flex-col gap-6">
-		<h3 class="font-500 text-2xl">{props.title}</h3>
+		<h2 class="font-500 text-2xl">{props.title}</h2>
 		<p class="text-secondary">{props.children}</p>
 	</div>
 );
