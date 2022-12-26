@@ -1,4 +1,5 @@
-import { Size } from '@prisma/client';
+/* eslint-disable id-length */
+import { type Size } from '@prisma/client';
 
 type PayoutType = 'goal' | 'task';
 
@@ -10,11 +11,11 @@ const TYPE_MULTIPLIER = {
 } as const satisfies Record<PayoutType, number>;
 
 const SIZE_MULTIPLIER = {
-	[Size.XS]: 0.25,
-	[Size.S]: 0.5,
-	[Size.M]: 1,
-	[Size.L]: 1.5,
-	[Size.XL]: 1.75,
+	L: 1.5,
+	M: 1,
+	S: 0.5,
+	XL: 1.75,
+	XS: 0.25,
 } as const satisfies Record<Size, number>;
 
 export const calculatePayout = (type: PayoutType, size: Size) =>

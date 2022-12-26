@@ -1,13 +1,13 @@
-import { Priority } from '@prisma/client';
+import { type Priority } from '@prisma/client';
 
 export const PRIORITY_ICONS = {
-	[Priority.LOW]: 'i-lucide-signal-medium',
-	[Priority.MEDIUM]: 'i-lucide-signal-high',
-	[Priority.HIGH]: 'i-lucide-signal',
+	HIGH: 'i-lucide-signal',
+	LOW: 'i-lucide-signal-medium',
+	MEDIUM: 'i-lucide-signal-high',
 } as const satisfies Record<Priority, string>;
 
 export const PRIORITY_TEXT = {
-	[Priority.LOW]: 'Low',
-	[Priority.MEDIUM]: 'Medium',
-	[Priority.HIGH]: 'High',
+	HIGH: 'High',
+	LOW: 'Low',
+	MEDIUM: 'Medium',
 } as const satisfies Record<Priority, string>;
