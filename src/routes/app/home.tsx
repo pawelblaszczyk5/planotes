@@ -1,6 +1,10 @@
+import { type Item } from '@prisma/client';
+import { For, Show, type JSXElement } from 'solid-js';
 import { Title, useRouteData } from 'solid-start';
 import { createServerData$ } from 'solid-start/server';
 import { AppMainLayout } from '~/components/AppMainLayout';
+import { TextAlignedIcon } from '~/components/TextIconAligned';
+import { MODULE_ICONS } from '~/constants/moduleIcons';
 import { db } from '~/utils/db';
 import { requireUserId } from '~/utils/session';
 import { getEpochSeconds7DaysAgo } from '~/utils/time';
@@ -45,6 +49,29 @@ export const routeData = () => {
 				userId,
 			},
 		});
+
+		return count;
+	});
+
+	const coinsEarned = createServerData$(async (_, { request }) => {
+		const userId = await requireUserId(request);
+
+		const count = (
+			await db.balanceEntry.findMany({
+				select: {
+					change: true,
+				},
+				where: {
+					createdAt: {
+						gte: getEpochSeconds7DaysAgo(),
+					},
+					entity: {
+						in: ['TASK', 'GOAL'],
+					},
+					userId,
+				},
+			})
+		).reduce((sum, { change }) => sum + change, 0);
 
 		return count;
 	});
@@ -100,9 +127,10 @@ export const routeData = () => {
 				name: true,
 				price: true,
 			},
+			take: 10,
 			where: {
 				price: {
-					lte: user.balance * 1.2,
+					lte: Math.round(user.balance * 1.2),
 				},
 				status: 'AVAILABLE',
 				userId,
@@ -137,17 +165,94 @@ export const routeData = () => {
 		});
 	});
 
-	return { balanceHistory, goalsTasksClosed, goalsTasksCreated, itemsToBuy, recentlyBoughtItems };
+	const notesAdded = createServerData$(async (_, { request }) => {
+		const userId = await requireUserId(request);
+
+		return db.note.count({
+			where: {
+				createdAt: {
+					gte: getEpochSeconds7DaysAgo(),
+				},
+				userId,
+			},
+		});
+	});
+
+	return {
+		balanceHistory,
+		coinsEarned,
+		goalsTasksClosed,
+		goalsTasksCreated,
+		itemsToBuy,
+		notesAdded,
+		recentlyBoughtItems,
+	};
 };
 
+const AnalyticTile = (props: { title: JSXElement; value: JSXElement }) => (
+	<div class="bg-secondary flex flex-col items-center justify-between gap-3 rounded p-6 text-center shadow shadow-black/50 dark:shadow-black/90">
+		<span class="text-xl">{props.title}</span>
+		<span class="text-accent font-500 text-xl">{props.value}</span>
+	</div>
+);
+
+const ItemsCarousel = (props: { items: Array<Pick<Item, 'iconUrl' | 'name' | 'price'>>; title: JSXElement }) => (
+	<div>
+		<h2 class="text-2xl">{props.title}</h2>
+		<div class="h-110 flex snap-x snap-mandatory items-center gap-6 overflow-y-auto py-6">
+			<For
+				each={props.items}
+				fallback={<p class="text-secondary text-center text-sm">You don't have anything here yet</p>}
+			>
+				{item => (
+					<div class="bg-secondary min-w-1/4 max-w-1/4 flex h-full flex-col items-start justify-between gap-3 rounded p-6 text-center shadow shadow-black/50 dark:shadow-black/90">
+						<Show when={item.iconUrl} fallback={<i class="i-lucide-box aspect-square h-full w-full" aria-hidden />}>
+							<img alt="" src={item.iconUrl!} class="aspect-square h-full object-contain" />
+						</Show>
+						<span class="mt-3 text-xl">{item.name}</span>
+						<span class="text-accent font-500 text-xl">
+							<TextAlignedIcon icon={MODULE_ICONS.shop}>{item.price}</TextAlignedIcon>
+						</span>
+					</div>
+				)}
+			</For>
+		</div>
+	</div>
+);
+
 const Home = () => {
-	const { goalsTasksCreated, goalsTasksClosed, balanceHistory, itemsToBuy, recentlyBoughtItems } =
-		useRouteData<typeof routeData>();
+	const {
+		goalsTasksCreated,
+		goalsTasksClosed,
+		balanceHistory,
+		itemsToBuy,
+		recentlyBoughtItems,
+		coinsEarned,
+		notesAdded,
+	} = useRouteData<typeof routeData>();
 
 	return (
 		<>
 			<Title>Home | Planotes</Title>
-			<AppMainLayout heading="Home">Lorem Ipsum</AppMainLayout>
+			<AppMainLayout heading="Home">
+				<p class="text-secondary mb-6 max-w-3xl text-sm">
+					Here you can find some stats from a last week of your Planotes usage. You can quickly check out your progress
+					or find out the prizes that you're close to or bought already.
+				</p>
+				<div class="my-6 flex flex-col gap-12">
+					<div>
+						<h2 class="mb-6 text-2xl">Quick numbers</h2>
+						<div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+							<AnalyticTile title="Goals and tasks created" value={goalsTasksCreated()} />
+							<AnalyticTile title="Goals and tasks closed" value={goalsTasksClosed()} />
+							<AnalyticTile title="Coins earned" value={coinsEarned()} />
+							<AnalyticTile title="Notes added" value={notesAdded()} />
+						</div>
+					</div>
+					<ItemsCarousel title="Items to buy soon" items={itemsToBuy() ?? []} />
+					<ItemsCarousel title="Recently bought items" items={recentlyBoughtItems() ?? []} />
+				</div>
+			</AppMainLayout>
 		</>
 	);
 };
