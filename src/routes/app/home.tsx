@@ -76,44 +76,6 @@ export const routeData = () => {
 		return count;
 	});
 
-	const balanceHistory = createServerData$(async (_, { request }) => {
-		const userId = await requireUserId(request);
-
-		const [history, user] = await Promise.all([
-			db.balanceEntry.findMany({
-				select: {
-					change: true,
-					createdAt: true,
-				},
-				where: {
-					createdAt: {
-						gte: getEpochSeconds7DaysAgo(),
-					},
-					userId,
-				},
-			}),
-			db.user.findUniqueOrThrow({ select: { balance: true }, where: { id: userId } }),
-		]);
-
-		let currentBalance = user.balance;
-
-		const mappedHistory = history
-			.reverse()
-			.map(({ change, createdAt }) => {
-				const entry = {
-					balance: currentBalance,
-					createdAt,
-				};
-
-				currentBalance -= change;
-
-				return entry;
-			})
-			.reverse();
-
-		return mappedHistory;
-	});
-
 	const itemsToBuy = createServerData$(async (_, { request }) => {
 		const userId = await requireUserId(request);
 		const user = await db.user.findUniqueOrThrow({ select: { balance: true }, where: { id: userId } });
@@ -179,7 +141,6 @@ export const routeData = () => {
 	});
 
 	return {
-		balanceHistory,
 		coinsEarned,
 		goalsTasksClosed,
 		goalsTasksCreated,
@@ -199,15 +160,15 @@ const AnalyticTile = (props: { title: JSXElement; value: JSXElement }) => (
 const ItemsCarousel = (props: { items: Array<Pick<Item, 'iconUrl' | 'name' | 'price'>>; title: JSXElement }) => (
 	<div>
 		<h2 class="text-2xl">{props.title}</h2>
-		<div class="h-110 flex snap-x snap-mandatory items-center gap-6 overflow-y-auto py-6">
+		<div class="-mx-6 flex snap-x snap-mandatory items-center gap-6 overflow-y-auto overflow-x-visible p-6">
 			<For
 				each={props.items}
 				fallback={<p class="text-secondary text-center text-sm">You don't have anything here yet</p>}
 			>
 				{item => (
-					<div class="bg-secondary min-w-1/4 max-w-1/4 flex h-full flex-col items-start justify-between gap-3 rounded p-6 text-center shadow shadow-black/50 dark:shadow-black/90">
-						<Show when={item.iconUrl} fallback={<i class="i-lucide-box aspect-square h-full w-full" aria-hidden />}>
-							<img alt="" src={item.iconUrl!} class="aspect-square h-full object-contain" />
+					<div class="bg-secondary min-w-72 max-w-72 flex h-full snap-center flex-col items-start justify-between gap-3 rounded p-6 text-center shadow shadow-black/50 dark:shadow-black/90">
+						<Show when={item.iconUrl} fallback={<i class="i-lucide-box aspect-square h-auto w-full" aria-hidden />}>
+							<img alt="" src={item.iconUrl!} class="aspect-square w-full object-contain" />
 						</Show>
 						<span class="mt-3 text-xl">{item.name}</span>
 						<span class="text-accent font-500 text-xl">
@@ -221,15 +182,8 @@ const ItemsCarousel = (props: { items: Array<Pick<Item, 'iconUrl' | 'name' | 'pr
 );
 
 const Home = () => {
-	const {
-		goalsTasksCreated,
-		goalsTasksClosed,
-		balanceHistory,
-		itemsToBuy,
-		recentlyBoughtItems,
-		coinsEarned,
-		notesAdded,
-	} = useRouteData<typeof routeData>();
+	const { goalsTasksCreated, goalsTasksClosed, itemsToBuy, recentlyBoughtItems, coinsEarned, notesAdded } =
+		useRouteData<typeof routeData>();
 
 	return (
 		<>
