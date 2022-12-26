@@ -1,0 +1,42 @@
+<mjml>
+	<mj-head>
+		<mj-title>Planotes - your magic link</mj-title>
+	</mj-head>
+	<mj-body background-color="rgb(23,23,23)">
+		<mj-section padding="32px 8px 0">
+			<mj-column width="30%" vertical-align="middle">
+				<mj-image width="60px" src="https://planotes.xyz/android-chrome-256x256.png"></mj-image>
+			</mj-column>
+			<mj-column width="70%" vertical-align="middle">
+				<mj-text align="left" font-size="42px" color="rgb(229,229,229)">Planotes</mj-text>
+			</mj-column>
+		</mj-section>
+		<mj-section padding="0">
+			<mj-column>
+				<mj-divider padding="16px 16px 32px" border-color="rgb(232,121,249)"></mj-divider>
+				<mj-text padding="16px 16px" font-size="28px" color="rgb(229,229,229)">Hello 👋!</mj-text>
+				<mj-text line-height="150%" padding="16px 16px 16px" font-size="18px" color="rgb(229,229,229)"
+					>I'm glad to see you singing in into Planotes. I hope you'll have a blast using it. Good luck with your
+					planning and noting 😁</mj-text
+				>
+				<mj-text line-height="150%" padding="8px 16px 32px" font-size="18px" color="rgb(229,229,229)"
+					>Use below link to complete the sign in process!</mj-text
+				>
+				<mj-button
+					href="${magicLink}"
+					background-color="rgb(23,23,23)"
+					border="2px solid rgb(232,121,249)"
+					border-radius="6"
+					font-size="18px"
+					align="left"
+					padding="8px 16px 16px"
+					>Click here</mj-button
+				>
+				<mj-text line-height="150%" padding="48px 16px 32px" font-size="14px" color="rgb(163,163,163)"
+					>In case you didn't ask for a mail with magic link it's safe to ignore this mail. No one can access your
+					account without above link.
+				</mj-text>
+			</mj-column>
+		</mj-section>
+	</mj-body>
+</mjml>
