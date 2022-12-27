@@ -191,7 +191,7 @@ export const SearchModal = (props: SearchModalProps) => {
 									)}
 								</For>
 								<h4 class="text-500 text-xl">Tasks</h4>
-								<For each={results()!.goals} fallback={<CategoryFallback category="tasks" />}>
+								<For each={results()!.tasks} fallback={<CategoryFallback category="tasks" />}>
 									{task => (
 										<Item
 											title={task.title}
