@@ -23,7 +23,7 @@ You can check it out [here](https://planotes.xyz/).
 
 - SolidJS + Solid Start
 - UnoCSS (Tailwind preset)
-- Primsa
+- Prisma
 - TypeScript
 - Zag
 - Zod
