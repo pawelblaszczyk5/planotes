@@ -1,0 +1,42 @@
+diff --git a/dist/chunk-3UCWZ72T.mjs b/dist/chunk-3UCWZ72T.mjs
+index 2d65c76e28264e6955325ad97b361fd098339ab1..0b2a4e76ed06030b6f9bfa85d0f216ab549c949c 100644
+--- a/dist/chunk-3UCWZ72T.mjs
++++ b/dist/chunk-3UCWZ72T.mjs
+@@ -167,9 +167,6 @@ function connect(state, send, normalize) {
+         send("BLUR");
+       },
+       onChange(event) {
+-        const evt = getNativeEvent(event);
+-        if (evt.isComposing)
+-          return;
+         send({ type: "CHANGE", value: event.currentTarget.value });
+       },
+       onKeyDown(event) {
+diff --git a/dist/combobox.connect.js b/dist/combobox.connect.js
+index 6439ccadfe4cb15458e2fe3de0a0849c7745ab72..38a433333fcee1cd404c6b11be9be1feb874f440 100644
+--- a/dist/combobox.connect.js
++++ b/dist/combobox.connect.js
+@@ -369,9 +369,6 @@ function connect(state, send, normalize) {
+         send("BLUR");
+       },
+       onChange(event) {
+-        const evt = getNativeEvent(event);
+-        if (evt.isComposing)
+-          return;
+         send({ type: "CHANGE", value: event.currentTarget.value });
+       },
+       onKeyDown(event) {
+diff --git a/dist/index.js b/dist/index.js
+index a922bbc7ca56cdc67084af149b5f8d6546b6dfbe..7e01e89b37252501fb240bd310102c46b40c15d8 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -425,9 +425,6 @@ function connect(state, send, normalize) {
+         send("BLUR");
+       },
+       onChange(event) {
+-        const evt = getNativeEvent(event);
+-        if (evt.isComposing)
+-          return;
+         send({ type: "CHANGE", value: event.currentTarget.value });
+       },
+       onKeyDown(event) {

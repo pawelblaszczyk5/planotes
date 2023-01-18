@@ -6,7 +6,7 @@ const withDevelopmentDefault = <ZodType extends z.ZodTypeAny>(schema: ZodType, d
 	isDevelopmentEnvironment ? schema.default(defaultValue) : schema;
 
 const environmentSchema = z.object({
-	APP_URL: withDevelopmentDefault(z.string().url(), 'http://localhost:3000'),
+	APP_URL: withDevelopmentDefault(z.string().url(), 'http://localhost:5173'),
 	DATABASE_URL: withDevelopmentDefault(z.string().url(), 'postgresql://postgres:postgres@localhost:5432/planotes'),
 	DKIM_PRIVATE_KEY: withDevelopmentDefault(z.string(), 'dkim_key'),
 	DKIM_SELECTOR: withDevelopmentDefault(z.string(), 'dkim_selector'),

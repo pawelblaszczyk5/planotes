@@ -19,8 +19,8 @@
 	},
 	"dependencies": {
 		"@js-temporal/polyfill": "^0.4.3",
-		"@motionone/solid": "^10.15.4",
-		"@prisma/client": "^4.8.0",
+		"@motionone/solid": "^10.15.5",
+		"@prisma/client": "^4.9.0",
 		"@solidjs/meta": "^0.28.2",
 		"@solidjs/router": "^0.6.0",
 		"@tiptap/core": "2.0.0-beta.209",
@@ -29,61 +29,53 @@
 		"@tiptap/extension-text-align": "2.0.0-beta.209",
 		"@tiptap/extension-underline": "2.0.0-beta.209",
 		"@tiptap/starter-kit": "2.0.0-beta.209",
-		"@unocss/reset": "^0.48.0",
-		"@zag-js/checkbox": "^0.2.6",
-		"@zag-js/combobox": "^0.2.7",
-		"@zag-js/dialog": "^0.2.5",
-		"@zag-js/menu": "^0.3.2",
-		"@zag-js/number-input": "^0.2.6",
-		"@zag-js/radio-group": "^0.1.6",
-		"@zag-js/solid": "^0.2.3",
-		"@zag-js/tabs": "^0.2.5",
+		"@unocss/reset": "^0.48.4",
+		"@zag-js/checkbox": "^0.2.8",
+		"@zag-js/combobox": "^0.2.9",
+		"@zag-js/dialog": "^0.2.7",
+		"@zag-js/menu": "^0.3.4",
+		"@zag-js/number-input": "^0.2.8",
+		"@zag-js/radio-group": "^0.1.8",
+		"@zag-js/solid": "^0.2.5",
+		"@zag-js/tabs": "^0.2.7",
 		"clsx": "^1.2.1",
-		"nodemailer": "^6.8.0",
+		"nodemailer": "^6.9.0",
 		"prosemirror-commands": "^1.5.0",
 		"prosemirror-dropcursor": "^1.6.1",
 		"prosemirror-gapcursor": "^1.3.1",
 		"prosemirror-history": "^1.3.0",
 		"prosemirror-keymap": "^1.2.0",
-		"prosemirror-model": "^1.18.3",
+		"prosemirror-model": "^1.19.0",
 		"prosemirror-schema-list": "^1.2.2",
 		"prosemirror-state": "^1.4.2",
 		"prosemirror-transform": "^1.7.0",
-		"prosemirror-view": "^1.29.1",
+		"prosemirror-view": "^1.29.2",
 		"sanitize-html": "^2.8.1",
-		"solid-js": "^1.6.6",
-		"solid-start": "^0.2.8",
+		"solid-js": "^1.6.9",
+		"solid-start": "^0.2.14",
 		"solid-tiptap": "^0.4.0",
-		"undici": "^5.14.0",
+		"undici": "^5.15.0",
 		"zod": "^3.20.2"
 	},
 	"devDependencies": {
-		"@digitak/esrun": "^3.2.15",
+		"@digitak/esrun": "^3.2.16",
 		"@faker-js/faker": "^7.6.0",
-		"@iconify/json": "^2.1.157",
+		"@iconify/json": "^2.2.8",
 		"@tsconfig/strictest": "^1.0.2",
 		"@types/nodemailer": "^6.4.7",
 		"@types/sanitize-html": "^2.8.0",
-		"@unocss/preset-mini": "^0.48.0",
-		"eslint": "^8.30.0",
-		"eslint-config-canonical": "^37.0.3",
+		"@unocss/preset-mini": "^0.48.4",
+		"eslint": "^8.32.0",
+		"eslint-config-canonical": "^39.1.4",
 		"eslint-plugin-prettier": "^4.2.1",
-		"eslint-plugin-solid": "^0.9.1",
-		"prettier": "^2.8.1",
+		"eslint-plugin-solid": "^0.9.3",
+		"prettier": "2.8.1",
 		"prettier-plugin-tailwindcss": "^0.2.1",
-		"prisma": "^4.8.0",
-		"solid-start-node": "^0.2.8",
+		"prisma": "^4.9.0",
+		"solid-start-node": "^0.2.14",
 		"typescript": "^4.9.4",
-		"unocss": "^0.48.0",
-		"vite": "^4.0.3"
-	},
-	"pnpm": {
-		"overrides": {
-			"esbuild": "0.15.13"
-		},
-		"patchedDependencies": {
-			"@zag-js/combobox@0.2.7": "patches/@zag-js__combobox@0.2.7.patch"
-		}
+		"unocss": "^0.48.4",
+		"vite": "^4.0.4"
 	},
 	"engines": {
 		"node": ">=18 <19",
@@ -91,5 +83,13 @@
 	},
 	"prisma": {
 		"seed": "esrun prisma/seed.ts"
+	},
+	"pnpm": {
+		"patchedDependencies": {
+			"@zag-js/combobox@0.2.9": "patches/@zag-js__combobox@0.2.9.patch"
+		},
+		"overrides": {
+			"esbuild": "0.16"
+		}
 	}
 }

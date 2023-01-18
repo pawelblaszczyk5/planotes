@@ -10,7 +10,7 @@ module.exports = {
 				'canonical/jsx-a11y',
 				'canonical/typescript',
 				'plugin:solid/typescript',
-				'canonical/prettier',
+				'plugin:prettier/recommended',
 			],
 			files: ['*.ts', '*.tsx'],
 			parserOptions: {
@@ -68,6 +68,8 @@ module.exports = {
 				'@typescript-eslint/array-type': ['error', { default: 'generic' }],
 				'@typescript-eslint/no-explicit-any': 'off',
 				'@typescript-eslint/no-unnecessary-type-constraint': 'off',
+				'canonical/import-specifier-newline': 'off',
+				'canonical/destructuring-property-newline': 'off',
 			},
 		},
 	],
