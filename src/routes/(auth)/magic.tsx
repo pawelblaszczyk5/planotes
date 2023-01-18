@@ -6,7 +6,12 @@ import { Button } from '~/components/Button';
 import { REDIRECTS } from '~/constants/redirects';
 import { db } from '~/utils/db';
 import { type FormErrors, convertFormDataIntoObject, createFormFieldsErrors } from '~/utils/form';
-import { createSessionCookie, getMagicIdentifier, isSignedIn } from '~/utils/session';
+import {
+	createRemoveMagicIdentifierCookie,
+	createSessionCookie,
+	getMagicIdentifier,
+	isSignedIn,
+} from '~/utils/session';
 import { isDateInPast, convertEpochSecondsToDate } from '~/utils/time';
 
 export const routeData = () =>
@@ -59,11 +64,18 @@ const Magic = () => {
 		if (isDateInPast(convertEpochSecondsToDate(validUntil)) || userProvidedToken !== token)
 			throw new FormError(FORM_ERRORS.TOKEN_EXPIRED);
 
-		const cookie = await createSessionCookie({ request, sessionDuration, userId });
+		const [sessionCookie, magicTokenCookie] = await Promise.all([
+			await createSessionCookie({ request, sessionDuration, userId }),
+			await createRemoveMagicIdentifierCookie(),
+			db.magicLink.delete({ where: { id } }),
+		]);
 
-		await db.magicLink.delete({ where: { id } });
+		const headers = new Headers();
 
-		return redirect(REDIRECTS.HOME, { headers: { 'Set-Cookie': cookie } });
+		headers.append('Set-Cookie', magicTokenCookie);
+		headers.append('Set-Cookie', sessionCookie);
+
+		return redirect(REDIRECTS.HOME, { headers });
 	});
 
 	const redeemMagicTokenErrors = createFormFieldsErrors(() => redeemMagicToken.error);

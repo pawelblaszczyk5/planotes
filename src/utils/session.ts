@@ -49,6 +49,7 @@ const magicIdentifier = createCookie('magid', {
 
 export const createMagicIdentifierCookie = async (magicLinkId: string) => magicIdentifier.serialize(magicLinkId);
 export const getMagicIdentifier = async (request: Request) => magicIdentifier.parse(request.headers.get('cookie'));
+export const createRemoveMagicIdentifierCookie = async () => magicIdentifier.serialize(null, { maxAge: 0 });
 
 export const createSessionCookie = async ({
 	userId,
