@@ -1,13 +1,12 @@
 import { type Note, type Task, type Goal, Size, Priority } from '@prisma/client';
 import { type JSXElement, Show, type Accessor } from 'solid-js';
-import { FormError } from 'solid-start';
+import { FormError, unstable_clientOnly } from 'solid-start';
 import { createServerAction$, redirect } from 'solid-start/server';
 import { z } from 'zod';
 import { Button } from '~/components/Button';
 import { type ComboboxOption, Combobox } from '~/components/Combobox';
 import { Input } from '~/components/Input';
 import { RadioGroup } from '~/components/Radio';
-import TextEditor from '~/components/TextEditor';
 import { CONTENT_MAX_LENGTH } from '~/constants/contentMaxLength';
 import { REDIRECTS } from '~/constants/redirects';
 import { db } from '~/utils/db';
@@ -42,6 +41,8 @@ type TaskFormProps = {
 	task?: Omit<Task, 'textContent'>;
 	title: JSXElement;
 };
+
+const TextEditor = unstable_clientOnly(async () => import('~/components/TextEditor'));
 
 export const TaskForm = (props: TaskFormProps) => {
 	const [upsertTask, upsertTaskTrigger] = createServerAction$(async (formData: FormData, { request }) => {

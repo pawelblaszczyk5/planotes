@@ -1,13 +1,12 @@
 import { type Task, type Note, type Goal, Size, Priority } from '@prisma/client';
 import { type JSXElement, Show, createMemo } from 'solid-js';
-import { FormError } from 'solid-start';
+import { FormError, unstable_clientOnly } from 'solid-start';
 import { createServerAction$, redirect } from 'solid-start/server';
 import { z } from 'zod';
 import { Button } from '~/components/Button';
 import { Input } from '~/components/Input';
 import { RadioGroup } from '~/components/Radio';
 import { TasksListWithoutPagination } from '~/components/TasksList';
-import TextEditor from '~/components/TextEditor';
 import { CONTENT_MAX_LENGTH } from '~/constants/contentMaxLength';
 import { REDIRECTS } from '~/constants/redirects';
 import { calculateAdjustedPercent } from '~/utils/adjustedPercent';
@@ -41,6 +40,8 @@ type GoalFormProps = {
 	noteToConvert?: Pick<Note, 'htmlContent' | 'id' | 'name'> | null | undefined;
 	title: JSXElement;
 };
+
+const TextEditor = unstable_clientOnly(async () => import('~/components/TextEditor'));
 
 export const GoalForm = (props: GoalFormProps) => {
 	const [upsertGoal, upsertGoalTrigger] = createServerAction$(async (formData: FormData, { request }) => {

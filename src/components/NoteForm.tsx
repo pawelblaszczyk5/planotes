@@ -32,9 +32,9 @@ type NoteFormProps = {
 	title: JSXElement;
 };
 
-export const NoteForm = (props: NoteFormProps) => {
-	const TextEditor = unstable_clientOnly(async () => import('~/components/TextEditor'));
+const TextEditor = unstable_clientOnly(async () => import('~/components/TextEditor'));
 
+export const NoteForm = (props: NoteFormProps) => {
 	const [upsertNote, upsertNoteTrigger] = createServerAction$(async (formData: FormData, { request }) => {
 		const upsertNoteSchema = z.object({
 			content: z
