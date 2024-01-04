@@ -1,7 +1,5 @@
 import { $ } from 'execa';
 
-process.env['DATABASE_URL'] = 'postgresql://postgres:postgres@localhost:5432/planotes';
-
 const MAX_RETRIES = 5;
 
 const BASE_DELAY = 1_000;
