@@ -7,6 +7,20 @@ const MAX_RETRIES = 5;
 
 const BASE_DELAY = 1_000;
 
+const DATABASE_PUBLIC_URL = process.env['DATABASE_PUBLIC_URL'];
+
+if (!DATABASE_PUBLIC_URL) {
+	throw new Error('DATABASE_PUBLIC_URL must be defined for waking up db');
+}
+
+const tryWakingUpDatabase = async () => {
+	try {
+		await new PrismaClient({ datasources: { db: { url: DATABASE_PUBLIC_URL } } }).$connect();
+	} catch (error_) {
+		console.log(error_);
+	}
+};
+
 const deployPrismaMigrationsWithRetrying = () => {
 	let currentRetry = 0;
 
@@ -22,11 +36,7 @@ const deployPrismaMigrationsWithRetrying = () => {
 
 			if (!isDatabaseUnavailable) throw error;
 
-			try {
-				await new PrismaClient().$connect();
-			} catch (error_) {
-				console.log(error_);
-			}
+			await tryWakingUpDatabase();
 
 			const delayMs = BASE_DELAY * 2 ** currentRetry;
 			currentRetry += 1;
