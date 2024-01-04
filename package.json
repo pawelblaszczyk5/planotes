@@ -81,8 +81,9 @@
 	},
 	"engines": {
 		"node": ">=18 <19",
-		"pnpm": ">=7"
+		"pnpm": ">=8"
 	},
+	"packageManager": "pnpm@8.14.0",
 	"prisma": {
 		"seed": "esrun prisma/seed.ts"
 	},
