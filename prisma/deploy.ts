@@ -1,3 +1,6 @@
+/* eslint-disable no-console -- These logs are for debugging */
+
+import { PrismaClient } from '@prisma/client';
 import { $ } from 'execa';
 
 const MAX_RETRIES = 5;
@@ -11,7 +14,6 @@ const deployPrismaMigrationsWithRetrying = () => {
 		try {
 			const { stdout } = await $`pnpm prisma migrate deploy`;
 
-			// eslint-disable-next-line no-console -- this is for debugging in deployment logs
 			console.log(stdout);
 		} catch (error) {
 			if (currentRetry >= MAX_RETRIES) throw error;
@@ -20,10 +22,15 @@ const deployPrismaMigrationsWithRetrying = () => {
 
 			if (!isDatabaseUnavailable) throw error;
 
+			try {
+				await new PrismaClient().$connect();
+			} catch (error_) {
+				console.log(error_);
+			}
+
 			const delayMs = BASE_DELAY * 2 ** currentRetry;
 			currentRetry += 1;
 
-			// eslint-disable-next-line no-console -- this is for debugging in deployment logs
 			console.log(`Retrying migrations #${currentRetry} after ${delayMs}ms`);
 
 			await new Promise(resolve => {
