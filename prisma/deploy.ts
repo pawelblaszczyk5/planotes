@@ -11,7 +11,10 @@ const deployPrismaMigrationsWithRetrying = () => {
 
 	const execute = async () => {
 		try {
-			await $`pnpm prisma migrate deploy`;
+			const { stdout } = await $`pnpm prisma migrate deploy`;
+
+			// eslint-disable-next-line no-console -- this is for debugging in deployment logs
+			console.log(stdout);
 		} catch (error) {
 			if (currentRetry >= MAX_RETRIES) throw error;
 
