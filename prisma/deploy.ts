@@ -18,8 +18,8 @@ const tryWakingUpDatabase = async () => {
 
 	try {
 		await new PrismaClient({ datasources: { db: { url: DATABASE_PUBLIC_URL } } }).$connect();
-	} catch (error_) {
-		console.log(error_);
+	} catch {
+		/* empty */
 	}
 };
 
