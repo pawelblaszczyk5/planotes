@@ -5,7 +5,7 @@ import { $ } from 'execa';
 
 const MAX_RETRIES = 5;
 
-const BASE_DELAY = 1_000;
+const BASE_DELAY = 200;
 
 const DATABASE_PUBLIC_URL = process.env['DATABASE_PUBLIC_URL'];
 
