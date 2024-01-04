@@ -21,6 +21,7 @@ const deployPrismaMigrationsWithRetrying = () => {
 			if (!isDatabaseUnavailable) throw error;
 
 			const delayMs = BASE_DELAY * 2 ** currentRetry;
+			currentRetry += 1;
 
 			// eslint-disable-next-line no-console -- this is for debugging in deployment logs
 			console.log(`Retrying migrations #${currentRetry} after ${delayMs}ms`);
@@ -28,8 +29,6 @@ const deployPrismaMigrationsWithRetrying = () => {
 			await new Promise(resolve => {
 				setTimeout(resolve, delayMs);
 			});
-
-			currentRetry += 1;
 
 			execute();
 		}
