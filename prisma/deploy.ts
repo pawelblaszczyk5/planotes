@@ -14,6 +14,8 @@ if (!DATABASE_PUBLIC_URL) {
 }
 
 const tryWakingUpDatabase = async () => {
+	console.log('Trying to wake up database via public URL');
+
 	try {
 		await new PrismaClient({ datasources: { db: { url: DATABASE_PUBLIC_URL } } }).$connect();
 	} catch (error_) {
