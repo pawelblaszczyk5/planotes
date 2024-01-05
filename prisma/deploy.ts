@@ -13,11 +13,11 @@ if (!DATABASE_PUBLIC_URL) {
 	throw new Error('DATABASE_PUBLIC_URL must be defined for waking up db');
 }
 
-const tryWakingUpDatabase = async () => {
+const tryWakingUpDatabase = () => {
 	console.log('Trying to wake up database via public URL');
 
 	try {
-		await new PrismaClient({ datasources: { db: { url: DATABASE_PUBLIC_URL } } }).$connect();
+		new PrismaClient({ datasources: { db: { url: DATABASE_PUBLIC_URL } } }).$connect();
 	} catch {
 		/* empty */
 	}
@@ -38,8 +38,6 @@ const deployPrismaMigrationsWithRetrying = () => {
 
 			if (!isDatabaseUnavailable) throw error;
 
-			await tryWakingUpDatabase();
-
 			const delayMs = BASE_DELAY * 2 ** currentRetry;
 			currentRetry += 1;
 
@@ -56,4 +54,5 @@ const deployPrismaMigrationsWithRetrying = () => {
 	return execute();
 };
 
+tryWakingUpDatabase();
 await deployPrismaMigrationsWithRetrying();
