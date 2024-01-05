@@ -38,6 +38,8 @@ const deployPrismaMigrationsWithRetrying = () => {
 
 			if (!isDatabaseUnavailable) throw error;
 
+			await tryWakingUpDatabase();
+
 			const delayMs = BASE_DELAY * 2 ** currentRetry;
 			currentRetry += 1;
 
@@ -54,5 +56,4 @@ const deployPrismaMigrationsWithRetrying = () => {
 	return execute();
 };
 
-await tryWakingUpDatabase();
 await deployPrismaMigrationsWithRetrying();
